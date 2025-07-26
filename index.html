@@ -14,19 +14,18 @@
     }
     body {
       min-height: 100vh;
-      background: linear-gradient(135deg, #e4ecf4 0%, #f7f5ef 100%);
+      background: #f7f3ed;
       font-family: 'Lora', serif;
-      color: #2d2320;
+      color: #3b2c24;
       display: flex;
       align-items: center;
       justify-content: center;
       transition: background 0.7s;
-      cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" height="32" width="32"><path d="M10,30 Q13,29 15,23 Q20,10 28,4 Q29,3 28,2 Q27,1 24,4 Q17,12 14,22 Q12,28 10,30 Z" fill="black"/></svg>') 0 32, auto;
     }
     .header-logo {
       width: 130px;
       max-width: 38vw;
-      margin: 0 auto -30px auto;
+      margin: 0 auto -32px auto;
       display: block;
       z-index: 10;
       background: none;
@@ -40,11 +39,11 @@
       }
     }
     .center-rect {
-      background: #faf8f3;
+      background: #f9f7f2;
       border-radius: 2.6rem;
-      box-shadow: 0 6px 44px rgba(65,65,87,0.12), 0 1px 1px #e1ded6;
+      box-shadow: 0 6px 32px rgba(110, 90, 60, 0.11), 0 1px 1px #ede7e2;
       margin: 0 auto;
-      max-width: 450px;
+      max-width: 460px;
       min-width: 300px;
       width: 98vw;
       min-height: 530px;
@@ -55,10 +54,10 @@
       padding: 50px 18px 30px 18px;
       position: relative;
       z-index: 1;
-      border: 1.8px solid #e6e2d9;
+      border: 1.3px solid #ede7e2;
     }
     @media (max-width: 600px) {
-      .center-rect { padding: 35px 4vw 25px 4vw; width: 99vw;}
+      .center-rect { padding: 36px 4vw 25px 4vw; width: 99vw;}
     }
     .sketch-underline {
       width: 110px;
@@ -98,18 +97,17 @@
       font-weight: 700;
       margin: 0 0 0.65em 0;
       letter-spacing: -0.2px;
-      color: #221e1c;
+      color: #3b2c24;
       background: transparent;
     }
     h1 { font-size: 1.39rem; margin-top: 0.2em; }
     h2 { font-size: 1.14rem; margin-bottom: 0.50em; }
-
     p {
       font-family: 'Lora', serif;
       font-size: 1.05rem;
       margin: 0 0 1.25em 0;
       line-height: 1.7;
-      color: #2d2320;
+      color: #3b2c24;
       background: transparent;
     }
     .list-icons {
@@ -127,7 +125,7 @@
       width: 100%;
       max-width: 310px;
       background: none;
-      border-left: 3px solid #b2b7ca;
+      border-left: 3px solid #a6978a;
       border-radius: 1.4em 1.4em 1.4em 2.1em;
       padding: 0.35em 1em;
       font-size: 1em;
@@ -161,14 +159,12 @@
       box-shadow: none;
       transition: filter 0.13s;
       outline: none;
-      padding: 0;
     }
     .nav-arrows button:active,
     .nav-arrows button:hover {
-      filter: brightness(1.2) drop-shadow(0 2px 5px #c1c8da77);
+      filter: brightness(1.14) drop-shadow(0 2px 6px #e4dace90);
       outline: none;
     }
-    /* Hand-drawn imperfect circle as button background */
     .handdrawn-btn {
       width: 44px;
       height: 44px;
@@ -195,12 +191,11 @@
       width: 22px; height: 22px;
     }
     .handdrawn-btn:hover .btn-arrow {
-      filter: drop-shadow(0 0 1.5px #adb1c5);
+      filter: drop-shadow(0 0 1.5px #a6978a);
     }
-
     .cta-btn {
       font-family: inherit;
-      background: #b2b7ca;
+      background: #a6978a;
       color: #fff;
       border: none;
       border-radius: 2em;
@@ -209,7 +204,7 @@
       cursor: pointer;
       margin: 1.9em 0 0.5em 0;
       letter-spacing: 0.03em;
-      box-shadow: 0 1px 8px 0 rgba(130, 90, 70, 0.11);
+      box-shadow: 0 1px 8px 0 rgba(110, 90, 60, 0.11);
       transition: background 0.2s, color 0.2s;
       position: relative;
       z-index: 4;
@@ -217,24 +212,24 @@
     }
     .cta-btn:active,
     .cta-btn:hover {
-      background: #8896b3;
+      background: #3b2c24;
       color: #fff;
       outline: none;
     }
     .placeholder-form {
       margin: 1.2em 0 0 0;
       font-size: 1em;
-      color: #888;
+      color: #aaa;
       font-style: italic;
-      background: #f7f9fa;
+      background: #f4efea;
       border-radius: 1em;
       padding: 16px;
-      border: 1.1px dashed #b2b7ca;
+      border: 1.1px dashed #a6978a;
     }
     .footer {
       margin-top: 1em;
       font-size: 0.95em;
-      color: #99a4b6;
+      color: #a6978a;
       opacity: 0.82;
       text-align: center;
       background: transparent;
@@ -242,7 +237,7 @@
     .rodo {
       display: block;
       font-size: 0.91em;
-      color: #b4b6be;
+      color: #a6978a;
       margin-top: 0.4em;
       background: transparent;
     }
@@ -256,7 +251,7 @@
          class="header-logo" />
     <div class="center-rect">
       <!-- Optional: Hand-drawn underline under logo -->
-      <svg class="sketch-underline" viewBox="0 0 110 18"><path d="M8 12 Q35 17 105 9 Q85 8 80 16 Q60 4 35 9 Q18 12 8 12Z" stroke="#b2b7ca" stroke-width="2.3" fill="none" /></svg>
+      <svg class="sketch-underline" viewBox="0 0 110 18"><path d="M8 12 Q35 17 105 9 Q85 8 80 16 Q60 4 35 9 Q18 12 8 12Z" stroke="#a6978a" stroke-width="2.3" fill="none" /></svg>
       <!-- Slides -->
       <div class="slide active" id="slide0">
         <h1>Cześć! Poznajmy się.</h1>
@@ -270,25 +265,25 @@
         <div class="list-icons">
           <div class="list-item">
             <span class="drawn-icon">
-              <svg width="25" height="25" fill="none"><ellipse cx="13" cy="10" rx="8" ry="7" stroke="#b2b7ca" stroke-width="2.2" /><path d="M13,17 Q15,21 10,23" stroke="#b2b7ca" stroke-width="2" fill="none"/></svg>
+              <svg width="25" height="25" fill="none"><ellipse cx="13" cy="10" rx="8" ry="7" stroke="#a6978a" stroke-width="2.2" /><path d="M13,17 Q15,21 10,23" stroke="#a6978a" stroke-width="2" fill="none"/></svg>
             </span>
             <span><b>Swobodnie i po swojemu</b><br>Nie udajemy nikogo – możesz być sobą, naprawdę.</span>
           </div>
           <div class="list-item">
             <span class="drawn-icon">
-              <svg width="25" height="25" fill="none"><circle cx="8" cy="14" r="5" stroke="#b2b7ca" stroke-width="2"/><circle cx="19" cy="14" r="5" stroke="#b2b7ca" stroke-width="2"/><ellipse cx="13.5" cy="21" rx="8" ry="3.5" stroke="#b2b7ca" stroke-width="2"/></svg>
+              <svg width="25" height="25" fill="none"><circle cx="8" cy="14" r="5" stroke="#a6978a" stroke-width="2"/><circle cx="19" cy="14" r="5" stroke="#a6978a" stroke-width="2"/><ellipse cx="13.5" cy="21" rx="8" ry="3.5" stroke="#a6978a" stroke-width="2"/></svg>
             </span>
             <span><b>Nowe znajomości</b><br>Ludzie, którzy też mają ochotę pogadać o czymś więcej niż pogoda.</span>
           </div>
           <div class="list-item">
             <span class="drawn-icon">
-              <svg width="25" height="25" fill="none"><ellipse cx="13.5" cy="13.5" rx="10" ry="10" stroke="#b2b7ca" stroke-width="2"/><path d="M9,15 Q13.5,20 18,15 Q13.5,9 9,15 Z" stroke="#b2b7ca" fill="none" stroke-width="2"/></svg>
+              <svg width="25" height="25" fill="none"><ellipse cx="13.5" cy="13.5" rx="10" ry="10" stroke="#a6978a" stroke-width="2"/><path d="M9,15 Q13.5,20 18,15 Q13.5,9 9,15 Z" stroke="#a6978a" fill="none" stroke-width="2"/></svg>
             </span>
             <span><b>Zero oceniania</b><br>Pełen komfort – tu liczy się dobra energia i szacunek.</span>
           </div>
           <div class="list-item">
             <span class="drawn-icon">
-              <svg width="25" height="25" fill="none"><ellipse cx="13.5" cy="8" rx="6" ry="6" stroke="#b2b7ca" stroke-width="2"/><path d="M13.5,14 L13.5,20" stroke="#b2b7ca" stroke-width="2"/><ellipse cx="13.5" cy="23" rx="2.5" ry="1.5" stroke="#b2b7ca" stroke-width="1.3"/></svg>
+              <svg width="25" height="25" fill="none"><ellipse cx="13.5" cy="8" rx="6" ry="6" stroke="#a6978a" stroke-width="2"/><path d="M13.5,14 L13.5,20" stroke="#a6978a" stroke-width="2"/><ellipse cx="13.5" cy="23" rx="2.5" ry="1.5" stroke="#a6978a" stroke-width="1.3"/></svg>
             </span>
             <span><b>Zaskoczenie!</b><br>Ćwiczenia, które naprawdę otwierają głowę.</span>
           </div>
@@ -299,19 +294,19 @@
         <div class="list-icons">
           <div class="list-item">
             <span class="drawn-icon">
-              <svg width="25" height="25" fill="none"><circle cx="6.5" cy="12" r="3.7" stroke="#b2b7ca" stroke-width="2"/><circle cx="19.5" cy="12" r="3.7" stroke="#b2b7ca" stroke-width="2"/><circle cx="13" cy="6" r="3.7" stroke="#b2b7ca" stroke-width="2"/><rect x="6.5" y="17" width="13" height="2.5" rx="1.1" stroke="#b2b7ca" stroke-width="2" fill="none"/></svg>
+              <svg width="25" height="25" fill="none"><circle cx="6.5" cy="12" r="3.7" stroke="#a6978a" stroke-width="2"/><circle cx="19.5" cy="12" r="3.7" stroke="#a6978a" stroke-width="2"/><circle cx="13" cy="6" r="3.7" stroke="#a6978a" stroke-width="2"/><rect x="6.5" y="17" width="13" height="2.5" rx="1.1" stroke="#a6978a" stroke-width="2" fill="none"/></svg>
             </span>
             <span><b>Kameralne grupy</b><br>Mniej osób, więcej czasu na prawdziwą rozmowę.</span>
           </div>
           <div class="list-item">
             <span class="drawn-icon">
-              <svg width="25" height="25" fill="none"><ellipse cx="13.5" cy="8" rx="8" ry="4" stroke="#b2b7ca" stroke-width="2"/><text x="11" y="14" font-size="13" fill="#b2b7ca" font-family="Playfair Display, Times New Roman">?</text></svg>
+              <svg width="25" height="25" fill="none"><ellipse cx="13.5" cy="8" rx="8" ry="4" stroke="#a6978a" stroke-width="2"/><text x="11" y="14" font-size="13" fill="#a6978a" font-family="Playfair Display, Times New Roman">?</text></svg>
             </span>
             <span><b>Pytania & zadania</b><br>Przełamują lody, pomagają zacząć na luzie.</span>
           </div>
           <div class="list-item">
             <span class="drawn-icon">
-              <svg width="25" height="25" fill="none"><ellipse cx="13.5" cy="13.5" rx="10" ry="10" stroke="#b2b7ca" stroke-width="2"/><path d="M13.5,13.5 L13.5,5" stroke="#b2b7ca" stroke-width="2"/><path d="M13.5,13.5 L18,16" stroke="#b2b7ca" stroke-width="2"/></svg>
+              <svg width="25" height="25" fill="none"><ellipse cx="13.5" cy="13.5" rx="10" ry="10" stroke="#a6978a" stroke-width="2"/><path d="M13.5,13.5 L13.5,5" stroke="#a6978a" stroke-width="2"/><path d="M13.5,13.5 L18,16" stroke="#a6978a" stroke-width="2"/></svg>
             </span>
             <span><b>Spontanicznie!</b><br>Nie musisz nic planować – klimat tworzy się sam.</span>
           </div>
@@ -330,7 +325,7 @@
           Dołącz
         </button>
         <div class="footer">
-          Masz pytania? Napisz: <a href="mailto:kontakt@twojprojekt.pl" style="color:#b2b7ca;">kontakt@twojprojekt.pl</a>
+          Masz pytania? Napisz: <a href="mailto:kontakt@twojprojekt.pl" style="color:#a6978a;">kontakt@twojprojekt.pl</a>
           <span class="rodo">Twoje dane są bezpieczne — służą tylko do kontaktu w sprawie spotkań.</span>
           <br>© 2025 intouch: collectiv
         </div>
@@ -338,12 +333,12 @@
       <!-- Nav arrows, now "hand-drawn" SVGs and custom cursor -->
       <div class="nav-arrows">
         <button class="handdrawn-btn" id="prevBtn" onclick="goPrev()" aria-label="Poprzedni" disabled>
-          <svg class="handdrawn-circle" viewBox="0 0 44 44"><path d="M7,21 Q12,2 35,7 Q42,18 29,39 Q22,43 8,32 Q2,21 7,21 Z" stroke="#b2b7ca" stroke-width="2.5" fill="none"/></svg>
-          <svg class="btn-arrow" viewBox="0 0 24 24"><path d="M15 5L8 12L15 19" stroke="#647195" stroke-width="2.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <svg class="handdrawn-circle" viewBox="0 0 44 44"><path d="M7,21 Q12,2 35,7 Q42,18 29,39 Q22,43 8,32 Q2,21 7,21 Z" stroke="#a6978a" stroke-width="2.5" fill="none"/></svg>
+          <svg class="btn-arrow" viewBox="0 0 24 24"><path d="M15 5L8 12L15 19" stroke="#3b2c24" stroke-width="2.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </button>
         <button class="handdrawn-btn" id="nextBtn" onclick="goNext()" aria-label="Następny">
-          <svg class="handdrawn-circle" viewBox="0 0 44 44"><path d="M37,21 Q32,2 9,7 Q2,18 15,39 Q22,43 36,32 Q42,21 37,21 Z" stroke="#b2b7ca" stroke-width="2.5" fill="none"/></svg>
-          <svg class="btn-arrow" viewBox="0 0 24 24"><path d="M9 5L16 12L9 19" stroke="#647195" stroke-width="2.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <svg class="handdrawn-circle" viewBox="0 0 44 44"><path d="M37,21 Q32,2 9,7 Q2,18 15,39 Q22,43 36,32 Q42,21 37,21 Z" stroke="#a6978a" stroke-width="2.5" fill="none"/></svg>
+          <svg class="btn-arrow" viewBox="0 0 24 24"><path d="M9 5L16 12L9 19" stroke="#3b2c24" stroke-width="2.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </button>
       </div>
     </div>

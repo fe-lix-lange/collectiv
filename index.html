@@ -224,24 +224,50 @@
     }
     /* Nav arrows as before */
     .nav-arrows {
-      width: calc(100% - 44px); max-width: 440px;
-      display: flex; justify-content: space-between;
-      position: absolute; left: 22px; right: 22px; bottom: 18px;
-      z-index: 12; pointer-events: none;
-      padding: 0;
-    }
-    .handdrawn-btn {
-      width: 46px; height: 46px; border: none; background: transparent; padding: 0;
-      position: relative; display: flex; align-items: center; justify-content: center;
-      outline: none; pointer-events: all;
-      transition: transform 0.13s;
-    }
-    .handdrawn-circle {
-      position: absolute; top: 0; left: 0; width: 46px; height: 46px;
-      pointer-events: none; z-index: 1;
-      stroke-dasharray: 125 80; stroke-dashoffset: 0;
-      animation: drawCircle 2.2s infinite linear alternate;
-    }
+  pointer-events: none;
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  width: 100%;
+  height: 0;
+  z-index: 9;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.handdrawn-btn {
+  pointer-events: all;
+  background: transparent;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  margin: 0;
+  padding: 0;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  position: relative;
+  bottom: -30px;
+  /* Makes the arrow's tip touch the card's edge */
+  transition: filter 0.15s;
+}
+
+.handdrawn-btn:active svg { filter: brightness(0.7);}
+.handdrawn-circle,
+.btn-arrow {
+  width: 48px;
+  height: 48px;
+  display: block;
+}
+
+@media (max-width: 600px) {
+  .handdrawn-btn { width: 42px; height: 42px; bottom: -18px; }
+  .handdrawn-circle, .btn-arrow { width: 32px; height: 32px;}
+}
+
     @keyframes drawCircle {
       0% {stroke-dashoffset: 125;}
       48% {stroke-dashoffset: 18;}
@@ -312,17 +338,21 @@
         <svg class="signature-scribble" viewBox="0 0 32 12"><path d="M2,6 Q11,11 25,2 Q26,6 31,6" stroke="#a6978a" stroke-width="2.2" fill="none" stroke-dasharray="68" stroke-dashoffset="68"/></svg>
       </button>
     </div>
-    <div class="nav-arrows">
-      <button class="handdrawn-btn" id="prevBtn" onclick="goPrev()" aria-label="Poprzedni" disabled>
-        <svg class="handdrawn-circle" viewBox="0 0 46 46"><path d="M7,21 Q12,2 35,7 Q42,18 29,39 Q22,43 8,32 Q2,21 7,21 Z" stroke="#a6978a" stroke-width="2.4" fill="none"/></svg>
-        <svg class="btn-arrow" viewBox="0 0 28 28"><path d="M18 7L9 14L18 21" stroke="#b8a28e" stroke-width="2.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </button>
-      <button class="handdrawn-btn" id="nextBtn" onclick="goNext()" aria-label="Następny">
-        <svg class="handdrawn-circle" viewBox="0 0 46 46"><path d="M37,21 Q32,2 9,7 Q2,18 15,39 Q22,43 36,32 Q42,21 37,21 Z" stroke="#a6978a" stroke-width="2.4" fill="none"/></svg>
-        <svg class="btn-arrow" viewBox="0 0 28 28"><path d="M10 7L19 14L10 21" stroke="#b8a28e" stroke-width="2.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </button>
-    </div>
-  </div>
+   <div class="nav-arrows">
+  <button class="handdrawn-btn" id="prevBtn" onclick="goPrev()" aria-label="Poprzedni">
+    <svg class="handdrawn-circle" viewBox="0 0 50 50">
+      <path d="M14,25 Q12,30 18,35 Q25,41 36,32 Q38,25 36,18 Q25,9 18,15 Q12,20 14,25Z" stroke="#b8a28e" stroke-width="2.8" fill="none"/>
+      <polygon points="21,25 31,19 31,31" fill="#3b2c24"/>
+    </svg>
+  </button>
+  <button class="handdrawn-btn" id="nextBtn" onclick="goNext()" aria-label="Następny">
+    <svg class="handdrawn-circle" viewBox="0 0 50 50">
+      <path d="M36,25 Q38,30 32,35 Q25,41 14,32 Q12,25 14,18 Q25,9 32,15 Q38,20 36,25Z" stroke="#b8a28e" stroke-width="2.8" fill="none"/>
+      <polygon points="29,25 19,19 19,31" fill="#3b2c24"/>
+    </svg>
+  </button>
+</div>
+
   <script>
     // -- Slide logic
     const slides = Array.from(document.querySelectorAll('.slide'));

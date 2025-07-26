@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Poznaj nowych ludzi – poznaj siebie</title>
+  <!-- Rubik font -->
+  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --mint: #a4d4b4;
+      --pink: #ca054d;
+      --deep: #3b1c32;
+      --white: #fff;
+      --black: #1a1a1a;
+      --radius: 2.2rem;
+      --shadow: 0 6px 24px rgba(58,32,59,0.07);
+    }
+
+    body {
+      font-family: 'Rubik', Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(120deg, #a4d4b4 90%, #fff 100%);
+      color: var(--black);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    .app-container {
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      background: transparent;
+    }
+
+    .section {
+      flex: 0 0 100vw;
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      scroll-snap-align: start;
+      position: relative;
+      padding: 32px 12vw 32px 12vw;
+      box-sizing: border-box;
+      min-width: 320px;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    @media (max-width: 600px) {
+      .section {
+        padding: 18px 6vw 18px 6vw;
+        max-width: 100vw;
+      }
+    }
+
+    h1, h2 {
+      font-weight: 700;
+      margin: 0 0 0.7em 0;
+      color: var(--deep);
+      text-align: center;
+      letter-spacing: -1px;
+    }
+
+    h1 {
+      font-size: 2.1rem;
+      margin-top: 1em;
+    }
+
+    h2 {
+      font-size: 1.4rem;
+      margin-bottom: 0.7em;
+    }
+
+    p {
+      font-size: 1.12rem;
+      margin: 0 0 1.1em 0;
+      text-align: center;
+      line-height: 1.7;
+    }
+
+    .hero-gif {
+      margin: 2em 0 1em 0;
+      width: 250px;
+      height: 170px;
+      border-radius: var(--radius);
+      background: #eaf6ef;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+    .hero-gif img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: var(--radius);
+    }
+
+    .swipe-arrow {
+      position: absolute;
+      right: 24px;
+      bottom: 30px;
+      font-size: 2.2em;
+      color: var(--pink);
+      opacity: 0.7;
+      animation: bounce-arrow 1.2s infinite alternate;
+      z-index: 10;
+      cursor: pointer;
+      user-select: none;
+    }
+    @keyframes bounce-arrow {
+      from { transform: translateX(0); }
+      to { transform: translateX(20px);}
+    }
+
+    .nav-arrows {
+      position: fixed;
+      bottom: 26px;
+      left: 0;
+      width: 100vw;
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      z-index: 15;
+      pointer-events: none;
+    }
+    .nav-arrows button {
+      background: var(--pink);
+      color: var(--white);
+      border: none;
+      border-radius: 50%;
+      width: 48px;
+      height: 48px;
+      box-shadow: var(--shadow);
+      font-size: 2em;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      pointer-events: auto;
+      transition: background 0.2s;
+      cursor: pointer;
+      opacity: 0.88;
+    }
+    .nav-arrows button:active { background: var(--deep); }
+
+    .list-icons {
+      margin: 0 0 1.5em 0;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1em;
+    }
+    @media (min-width: 500px) {
+      .list-icons {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    .list-item {
+      background: var(--white);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 1.1em 1em 1em 1em;
+      display: flex;
+      align-items: flex-start;
+      gap: 0.95em;
+      font-size: 1.05em;
+    }
+
+    .list-icon {
+      min-width: 36px;
+      min-height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.65em;
+      color: var(--pink);
+      margin-top: 0.1em;
+    }
+
+    .cta-btn {
+      margin-top: 2.5em;
+      padding: 1em 2.3em;
+      font-size: 1.25em;
+      font-weight: 600;
+      color: var(--white);
+      background: linear-gradient(100deg, var(--pink), var(--deep));
+      border: none;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      cursor: pointer;
+      letter-spacing: 0.04em;
+      transition: background 0.2s, transform 0.1s;
+      display: flex;
+      align-items: center;
+      gap: 0.75em;
+    }
+    .cta-btn:active { transform: scale(0.98); background: var(--deep); }
+
+    .footer {
+      margin-top: 2em;
+      font-size: 1em;
+      color: #222;
+      text-align: center;
+      opacity: 0.7;
+      line-height: 1.5;
+    }
+    .rodo {
+      font-size: 0.96em;
+      color: #555;
+      margin-top: 1em;
+    }
+    .placeholder-form {
+      background: #e9e9e9;
+      border-radius: var(--radius);
+      min-height: 100px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #777;
+      font-size: 1.1em;
+      margin: 2em 0 0 0;
+      font-style: italic;
+    }
+  </style>
+</head>
+<body>
+  <div class="app-container" id="appContainer">
+
+    <!-- Sekcja 1 -->
+    <section class="section" id="section0">
+      <h1>Poznaj nowych ludzi – poznaj siebie</h1>
+      <p>
+        Wpadnij na spotkanie, podczas którego możesz swobodnie rozmawiać, inspirować się i lepiej zrozumieć siebie – wszystko w kameralnej, przyjaznej atmosferze.
+      </p>
+      <div class="hero-gif" id="heroGif">
+        <!-- Replace with your GIF -->
+        <img src="https://images.unsplash.com/photo-1511988617509-a57c8a288659?auto=format&fit=crop&w=600&q=80" alt="GIF ludzi" />
+      </div>
+      <span class="swipe-arrow" onclick="goNext()">&rarr;</span>
+    </section>
+
+    <!-- Sekcja 2 -->
+    <section class="section" id="section1">
+      <h2>Dlaczego warto?</h2>
+      <div class="list-icons">
+        <div class="list-item">
+          <span class="list-icon">
+            <!-- Balon/Inspiracja -->
+            <svg width="30" height="30" fill="none"><circle cx="15" cy="12" r="10" fill="#ca054d"/><rect x="13" y="20" width="4" height="8" rx="2" fill="#a4d4b4"/></svg>
+          </span>
+          <span><b>Swoboda i kreatywność</b><br>To Ty decydujesz, jak bardzo się otworzysz. Zero sztywnych reguł – liczy się Twoja autentyczność.</span>
+        </div>
+        <div class="list-item">
+          <span class="list-icon">
+            <!-- Grupa ludzi -->
+            <svg width="34" height="34" fill="none"><circle cx="11" cy="12" r="6" fill="#a4d4b4"/><circle cx="23" cy="12" r="6" fill="#ca054d"/><ellipse cx="17" cy="25" rx="12" ry="7" fill="#a4d4b4"/></svg>
+          </span>
+          <span><b>Nowe znajomości</b><br>Poznasz ludzi, którzy są otwarci i chcą czegoś więcej niż kolejnej rozmowy online.</span>
+        </div>
+        <div class="list-item">
+          <span class="list-icon">
+            <!-- Tarcza/serce -->
+            <svg width="30" height="30" fill="none"><circle cx="15" cy="15" r="13" fill="#a4d4b4"/><path d="M10 16c0-2.5 5-5.5 5-5.5s5 3 5 5.5A5 5 0 0 1 15 21a5 5 0 0 1-5-5z" fill="#ca054d"/></svg>
+          </span>
+          <span><b>Bezpieczeństwo i szacunek</b><br>Każdy głos jest ważny. Dbamy o poufność i atmosferę bez oceniania.</span>
+        </div>
+        <div class="list-item">
+          <span class="list-icon">
+            <!-- Żarówka -->
+            <svg width="30" height="30" fill="none"><ellipse cx="15" cy="12" rx="9" ry="9" fill="#ca054d"/><rect x="11" y="21" width="8" height="4" rx="2" fill="#a4d4b4"/></svg>
+          </span>
+          <span><b>Rozwój osobisty</b><br>Twórcze pytania i ćwiczenia otworzą nowe perspektywy na siebie i innych.</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Sekcja 3 -->
+    <section class="section" id="section2">
+      <h2>Jak to wygląda?</h2>
+      <div class="list-icons">
+        <div class="list-item">
+          <span class="list-icon">
+            <!-- 3 osoby przy stole -->
+            <svg width="34" height="34" fill="none"><circle cx="11" cy="15" r="6" fill="#a4d4b4"/><circle cx="23" cy="15" r="6" fill="#ca054d"/><rect x="7" y="25" width="20" height="4" rx="2" fill="#a4d4b4"/></svg>
+          </span>
+          <span><b>Kameralne grupy</b><br>Mniejsze spotkania sprzyjają prawdziwym rozmowom i naturalnej atmosferze.</span>
+        </div>
+        <div class="list-item">
+          <span class="list-icon">
+            <!-- Pytajnik w chmurce -->
+            <svg width="32" height="32" fill="none"><ellipse cx="16" cy="14" rx="12" ry="8" fill="#a4d4b4"/><text x="13" y="19" font-size="15" fill="#ca054d">?</text></svg>
+          </span>
+          <span><b>Przyjazne ćwiczenia</b><br>Inspirujące pytania i zadania pomagają się przełamać – nic na siłę.</span>
+        </div>
+        <div class="list-item">
+          <span class="list-icon">
+            <!-- Zegar/Luz -->
+            <svg width="32" height="32" fill="none"><circle cx="16" cy="16" r="14" fill="#a4d4b4"/><path d="M16 9v7l5 3" stroke="#ca054d" stroke-width="2.5" stroke-linecap="round"/></svg>
+          </span>
+          <span><b>Elastyczny przebieg</b><br>Zostawiamy dużo przestrzeni na spontaniczne rozmowy i poznawanie się bez presji.</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Sekcja 4 -->
+    <section class="section" id="section3">
+      <h2>Chcesz spróbować?</h2>
+      <p>Wypełnij krótki formularz, a zaprosimy Cię na najbliższe spotkanie.<br>
+        Czekamy na Ciebie z otwartymi głowami i ramionami!</p>
+      <div class="placeholder-form">
+        [Tutaj pojawi się formularz Google]
+      </div>
+      <button class="cta-btn" onclick="alert('Wkrótce! Dodamy formularz.')">
+        Dołącz &rarr;
+      </button>
+      <div class="footer">
+        Masz pytania? Napisz: <a href="mailto:kontakt@twojprojekt.pl" style="color:#3b1c32;">kontakt@twojprojekt.pl</a><br>
+        <span class="rodo">Twoje dane są bezpieczne — służą tylko do kontaktu w sprawie spotkań.</span><br>
+        © 2025 Spotkania Inaczej
+      </div>
+    </section>
+  </div>
+  <div class="nav-arrows">
+    <button onclick="goPrev()" aria-label="Poprzedni" id="prevBtn" disabled>&larr;</button>
+    <button onclick="goNext()" aria-label="Następny" id="nextBtn">&rarr;</button>
+  </div>
+  <script>
+    // Simple navigation
+    const appContainer = document.getElementById('appContainer');
+    const sections = Array.from(document.querySelectorAll('.section'));
+    let currentIndex = 0;
+
+    function scrollToIndex(idx) {
+      if (idx < 0 || idx >= sections.length) return;
+      currentIndex = idx;
+      sections[idx].scrollIntoView({behavior: "smooth"});
+      document.getElementById('prevBtn').disabled = (currentIndex === 0);
+      document.getElementById('nextBtn').disabled = (currentIndex === sections.length - 1);
+    }
+
+    function goNext() {
+      if (currentIndex < sections.length - 1) scrollToIndex(currentIndex + 1);
+    }
+    function goPrev() {
+      if (currentIndex > 0) scrollToIndex(currentIndex - 1);
+    }
+
+    // Allow left/right arrow keys
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight') goNext();
+      if (e.key === 'ArrowLeft') goPrev();
+    });
+
+    // Touch swipe navigation
+    let startX = null;
+    appContainer.addEventListener('touchstart', (e) => {
+      startX = e.touches[0].clientX;
+    });
+    appContainer.addEventListener('touchend', (e) => {
+      if (startX === null) return;
+      const delta = e.changedTouches[0].clientX - startX;
+      if (delta < -40) goNext();
+      if (delta > 40) goPrev();
+      startX = null;
+    });
+
+    // On page load: ensure first section is active, disable prev arrow
+    scrollToIndex(0);
+  </script>
+</body>
+</html>

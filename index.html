@@ -7,105 +7,82 @@
   <!-- Playfair Display & Lora fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Lora:wght@400;500;700&display=swap" rel="stylesheet">
   <style>
-    :root {
-      --outer: #26221c;
-      --tile: #ede8df;
-      --shadow: 0 4px 32px rgba(20,10,3,0.27);
-      --radius: 2.4rem;
-      --dark: #32281f;
-      --accent: #b48f6a;
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
     }
     body {
-      margin: 0;
-      background: var(--outer);
       min-height: 100vh;
+      background: linear-gradient(135deg, #e4ecf4 0%, #f7f5ef 100%);
       font-family: 'Lora', serif;
-      color: var(--dark);
+      color: #2d2320;
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: background 0.6s;
+      transition: background 0.7s;
+      cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" height="32" width="32"><path d="M10,30 Q13,29 15,23 Q20,10 28,4 Q29,3 28,2 Q27,1 24,4 Q17,12 14,22 Q12,28 10,30 Z" fill="black"/></svg>') 0 32, auto;
+    }
+    .header-logo {
+      width: 130px;
+      max-width: 38vw;
+      margin: 0 auto -30px auto;
+      display: block;
+      z-index: 10;
+      background: none;
+      border-radius: 40px;
+      box-shadow: none;
+    }
+    @media (max-width: 600px) {
+      .header-logo {
+        width: 95px;
+        margin-bottom: -18px;
+      }
     }
     .center-rect {
-      background: var(--tile);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      margin: 28px;
-      max-width: 480px;
+      background: #faf8f3;
+      border-radius: 2.6rem;
+      box-shadow: 0 6px 44px rgba(65,65,87,0.12), 0 1px 1px #e1ded6;
+      margin: 0 auto;
+      max-width: 450px;
       min-width: 300px;
+      width: 98vw;
       min-height: 530px;
-      width: 96vw;
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
-      padding: 28px 18px 24px 18px;
+      justify-content: flex-start;
+      padding: 50px 18px 30px 18px;
       position: relative;
-      z-index: 2;
-      animation: fadeIn 0.7s;
-      overflow: hidden;
+      z-index: 1;
+      border: 1.8px solid #e6e2d9;
     }
     @media (max-width: 600px) {
-      .center-rect {
-        padding: 16px 2vw 16px 2vw;
-        width: 98vw;
-        margin: 4px;
-      }
+      .center-rect { padding: 35px 4vw 25px 4vw; width: 99vw;}
     }
-    @keyframes fadeIn {
-      from { opacity: 0; transform: scale(0.96);}
-      to { opacity: 1; transform: scale(1);}
+    .sketch-underline {
+      width: 110px;
+      height: 18px;
+      display: block;
+      margin: 0.4em auto 1.4em auto;
     }
-    /* --- Animated logo (first/last slide only) --- */
-    .floating-logo {
-      position: absolute;
-      left: 50%;
-      transform: translateX(-50%);
-      transition: opacity 0.5s, top 0.5s, bottom 0.5s;
-      opacity: 0;
-      z-index: 10;
-      pointer-events: none;
-    }
-    /* Show on slide 0 (top) */
-    .floating-logo.top {
-      top: 18px;
-      width: 160px;
-      max-width: 70vw;
-      opacity: 1;
-      animation: logoFadeDown 0.7s;
-    }
-    /* Show on last slide (bottom) */
-    .floating-logo.bottom {
-      bottom: 14px;
-      width: 100px;
-      max-width: 44vw;
-      opacity: 1;
-      animation: logoFadeUp 0.7s;
-    }
-    @keyframes logoFadeDown {
-      from { opacity: 0; top: 0px;}
-      to { opacity: 1; top: 18px;}
-    }
-    @keyframes logoFadeUp {
-      from { opacity: 0; bottom: 0;}
-      to { opacity: 1; bottom: 14px;}
-    }
-
     .slide {
       width: 100%;
-      min-height: 370px;
+      min-height: 340px;
       display: none;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       text-align: center;
       position: absolute;
-      top: 0;
+      top: 60px;
       left: 0;
       z-index: 1;
-      padding-top: 62px;
-      padding-bottom: 32px;
+      padding-top: 8px;
+      padding-bottom: 24px;
       box-sizing: border-box;
+      background: transparent;
+      transition: opacity 0.4s;
     }
     .slide.active {
       display: flex;
@@ -113,26 +90,27 @@
       animation: slideIn 0.5s;
     }
     @keyframes slideIn {
-      from { opacity: 0; transform: translateX(40px);}
+      from { opacity: 0; transform: translateX(38px);}
       to { opacity: 1; transform: translateX(0);}
     }
-
     h1, h2 {
       font-family: 'Playfair Display', serif;
       font-weight: 700;
       margin: 0 0 0.65em 0;
-      letter-spacing: -0.5px;
-      color: #2a1d14;
+      letter-spacing: -0.2px;
+      color: #221e1c;
+      background: transparent;
     }
-    h1 { font-size: 1.6rem; margin-top: 0.1em; }
-    h2 { font-size: 1.19rem; margin-bottom: 0.55em; }
+    h1 { font-size: 1.39rem; margin-top: 0.2em; }
+    h2 { font-size: 1.14rem; margin-bottom: 0.50em; }
 
     p {
       font-family: 'Lora', serif;
-      font-size: 1.1rem;
+      font-size: 1.05rem;
       margin: 0 0 1.25em 0;
-      line-height: 1.67;
-      color: #302822;
+      line-height: 1.7;
+      color: #2d2320;
+      background: transparent;
     }
     .list-icons {
       margin: 1em 0 1.7em 0;
@@ -145,222 +123,239 @@
     .list-item {
       display: flex;
       align-items: center;
-      gap: 0.93em;
+      gap: 0.86em;
       width: 100%;
       max-width: 310px;
-      background: rgba(255,255,255,0.50);
-      border-left: 3px solid var(--accent);
-      border-radius: 1.4em;
+      background: none;
+      border-left: 3px solid #b2b7ca;
+      border-radius: 1.4em 1.4em 1.4em 2.1em;
       padding: 0.35em 1em;
       font-size: 1em;
-      box-shadow: 0 1px 7px 0 rgba(50,32,16,0.09);
+      box-shadow: 0 1px 7px 0 rgba(50,32,16,0.08);
     }
     .drawn-icon {
-      width: 29px; height: 29px;
+      width: 28px; height: 28px;
       display: flex; align-items: center; justify-content: center;
     }
+
     .nav-arrows {
       width: 100%;
       display: flex;
       justify-content: space-between;
       position: absolute;
-      bottom: 16px;
+      bottom: 19px;
       left: 0;
       z-index: 20;
       pointer-events: none;
-      padding: 0 13px;
+      padding: 0 17px;
     }
     .nav-arrows button {
-      background: var(--accent);
+      background: none;
       border: none;
       cursor: pointer;
       pointer-events: all;
-      opacity: 0.89;
-      font-size: 2rem;
-      color: #fff;
-      transition: transform 0.1s, background 0.15s;
       border-radius: 50%;
-      width: 42px; height: 42px;
+      width: 44px; height: 44px;
       display: flex; align-items: center; justify-content: center;
-      margin: 0 6px;
-      box-shadow: 0 1px 8px 0 rgba(0,0,0,0.07);
+      margin: 0 5px;
+      box-shadow: none;
+      transition: filter 0.13s;
+      outline: none;
+      padding: 0;
     }
-    .nav-arrows button:active {
-      transform: scale(0.93);
-      background: #6d5132;
+    .nav-arrows button:active,
+    .nav-arrows button:hover {
+      filter: brightness(1.2) drop-shadow(0 2px 5px #c1c8da77);
+      outline: none;
     }
-    .drawn-arrow {
-      width: 30px; height: 30px;
+    /* Hand-drawn imperfect circle as button background */
+    .handdrawn-btn {
+      width: 44px;
+      height: 44px;
+      border: none;
+      background: transparent;
+      padding: 0;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      outline: none;
     }
+    .handdrawn-circle {
+      position: absolute;
+      top: 0; left: 0;
+      width: 44px;
+      height: 44px;
+      pointer-events: none;
+      z-index: 1;
+    }
+    .btn-arrow {
+      position: relative;
+      z-index: 2;
+      width: 22px; height: 22px;
+    }
+    .handdrawn-btn:hover .btn-arrow {
+      filter: drop-shadow(0 0 1.5px #adb1c5);
+    }
+
     .cta-btn {
       font-family: inherit;
-      background: var(--accent);
+      background: #b2b7ca;
       color: #fff;
       border: none;
       border-radius: 2em;
-      font-size: 1.13em;
-      padding: 0.65em 2em;
+      font-size: 1.07em;
+      padding: 0.61em 1.7em;
       cursor: pointer;
-      margin: 2.1em 0 0.6em 0;
+      margin: 1.9em 0 0.5em 0;
       letter-spacing: 0.03em;
       box-shadow: 0 1px 8px 0 rgba(130, 90, 70, 0.11);
       transition: background 0.2s, color 0.2s;
       position: relative;
       z-index: 4;
+      outline: none;
     }
-    .cta-btn:active {
-      background: #6d5132;
+    .cta-btn:active,
+    .cta-btn:hover {
+      background: #8896b3;
+      color: #fff;
+      outline: none;
     }
     .placeholder-form {
-      margin: 1.3em 0 0 0;
+      margin: 1.2em 0 0 0;
       font-size: 1em;
       color: #888;
       font-style: italic;
-      background: #f3efe6;
+      background: #f7f9fa;
       border-radius: 1em;
-      padding: 20px;
-      border: 1.2px dashed #bead99;
+      padding: 16px;
+      border: 1.1px dashed #b2b7ca;
     }
     .footer {
-      margin-top: 1.2em;
-      font-size: 0.96em;
-      color: #d9c5a8;
+      margin-top: 1em;
+      font-size: 0.95em;
+      color: #99a4b6;
       opacity: 0.82;
       text-align: center;
+      background: transparent;
     }
     .rodo {
       display: block;
-      font-size: 0.92em;
-      color: #c2b6a6;
-      margin-top: 0.5em;
+      font-size: 0.91em;
+      color: #b4b6be;
+      margin-top: 0.4em;
+      background: transparent;
     }
   </style>
 </head>
 <body>
-  <div class="center-rect">
-
-    <!-- Floating logo - only visible on slide 0 (top) and slide 3 (bottom) -->
+  <div>
+    <!-- Logo, above card, never floating over text -->
     <img src="ChatGPT Image Jul 26, 2025, 02_57_49 PM.png"
          alt="intouch: collectiv logo"
-         class="floating-logo"
-         id="floatingLogo" />
-
-    <!-- Slide 1 -->
-    <div class="slide active" id="slide0">
-      <h1>Cześć! Poznajmy się.</h1>
-      <p>
-        Spotkania, które są inne: luźne, kreatywne, trochę śmieszne, zawsze autentyczne.<br><br>
-        Wpadnij i przekonaj się, jak dobrze można poczuć się w nowym gronie!
-      </p>
-    </div>
-
-    <!-- Slide 2 -->
-    <div class="slide" id="slide1">
-      <h2>Dlaczego warto?</h2>
-      <div class="list-icons">
-        <div class="list-item">
-          <span class="drawn-icon">
-            <svg width="27" height="27" fill="none"><ellipse cx="13" cy="10" rx="8" ry="7" stroke="#b48f6a" stroke-width="2.2" /><path d="M13,17 Q15,21 10,23" stroke="#b48f6a" stroke-width="2" fill="none"/></svg>
-          </span>
-          <span><b>Swobodnie i po swojemu</b><br>Nie udajemy nikogo – możesz być sobą, naprawdę.</span>
-        </div>
-        <div class="list-item">
-          <span class="drawn-icon">
-            <svg width="27" height="27" fill="none"><circle cx="8" cy="14" r="5" stroke="#b48f6a" stroke-width="2"/><circle cx="19" cy="14" r="5" stroke="#b48f6a" stroke-width="2"/><ellipse cx="13.5" cy="21" rx="8" ry="3.5" stroke="#b48f6a" stroke-width="2"/></svg>
-          </span>
-          <span><b>Nowe znajomości</b><br>Ludzie, którzy też mają ochotę pogadać o czymś więcej niż pogoda.</span>
-        </div>
-        <div class="list-item">
-          <span class="drawn-icon">
-            <svg width="27" height="27" fill="none"><ellipse cx="13.5" cy="13.5" rx="10" ry="10" stroke="#b48f6a" stroke-width="2"/><path d="M9,15 Q13.5,20 18,15 Q13.5,9 9,15 Z" stroke="#b48f6a" fill="none" stroke-width="2"/></svg>
-          </span>
-          <span><b>Zero oceniania</b><br>Pełen komfort – tu liczy się dobra energia i szacunek.</span>
-        </div>
-        <div class="list-item">
-          <span class="drawn-icon">
-            <svg width="27" height="27" fill="none"><ellipse cx="13.5" cy="8" rx="6" ry="6" stroke="#b48f6a" stroke-width="2"/><path d="M13.5,14 L13.5,20" stroke="#b48f6a" stroke-width="2"/><ellipse cx="13.5" cy="23" rx="2.5" ry="1.5" stroke="#b48f6a" stroke-width="1.3"/></svg>
-          </span>
-          <span><b>Zaskoczenie!</b><br>Ćwiczenia, które naprawdę otwierają głowę.</span>
+         class="header-logo" />
+    <div class="center-rect">
+      <!-- Optional: Hand-drawn underline under logo -->
+      <svg class="sketch-underline" viewBox="0 0 110 18"><path d="M8 12 Q35 17 105 9 Q85 8 80 16 Q60 4 35 9 Q18 12 8 12Z" stroke="#b2b7ca" stroke-width="2.3" fill="none" /></svg>
+      <!-- Slides -->
+      <div class="slide active" id="slide0">
+        <h1>Cześć! Poznajmy się.</h1>
+        <p>
+          Spotkania, które są inne: luźne, kreatywne, trochę śmieszne, zawsze autentyczne.<br><br>
+          Wpadnij i przekonaj się, jak dobrze można poczuć się w nowym gronie!
+        </p>
+      </div>
+      <div class="slide" id="slide1">
+        <h2>Dlaczego warto?</h2>
+        <div class="list-icons">
+          <div class="list-item">
+            <span class="drawn-icon">
+              <svg width="25" height="25" fill="none"><ellipse cx="13" cy="10" rx="8" ry="7" stroke="#b2b7ca" stroke-width="2.2" /><path d="M13,17 Q15,21 10,23" stroke="#b2b7ca" stroke-width="2" fill="none"/></svg>
+            </span>
+            <span><b>Swobodnie i po swojemu</b><br>Nie udajemy nikogo – możesz być sobą, naprawdę.</span>
+          </div>
+          <div class="list-item">
+            <span class="drawn-icon">
+              <svg width="25" height="25" fill="none"><circle cx="8" cy="14" r="5" stroke="#b2b7ca" stroke-width="2"/><circle cx="19" cy="14" r="5" stroke="#b2b7ca" stroke-width="2"/><ellipse cx="13.5" cy="21" rx="8" ry="3.5" stroke="#b2b7ca" stroke-width="2"/></svg>
+            </span>
+            <span><b>Nowe znajomości</b><br>Ludzie, którzy też mają ochotę pogadać o czymś więcej niż pogoda.</span>
+          </div>
+          <div class="list-item">
+            <span class="drawn-icon">
+              <svg width="25" height="25" fill="none"><ellipse cx="13.5" cy="13.5" rx="10" ry="10" stroke="#b2b7ca" stroke-width="2"/><path d="M9,15 Q13.5,20 18,15 Q13.5,9 9,15 Z" stroke="#b2b7ca" fill="none" stroke-width="2"/></svg>
+            </span>
+            <span><b>Zero oceniania</b><br>Pełen komfort – tu liczy się dobra energia i szacunek.</span>
+          </div>
+          <div class="list-item">
+            <span class="drawn-icon">
+              <svg width="25" height="25" fill="none"><ellipse cx="13.5" cy="8" rx="6" ry="6" stroke="#b2b7ca" stroke-width="2"/><path d="M13.5,14 L13.5,20" stroke="#b2b7ca" stroke-width="2"/><ellipse cx="13.5" cy="23" rx="2.5" ry="1.5" stroke="#b2b7ca" stroke-width="1.3"/></svg>
+            </span>
+            <span><b>Zaskoczenie!</b><br>Ćwiczenia, które naprawdę otwierają głowę.</span>
+          </div>
         </div>
       </div>
-    </div>
-
-    <!-- Slide 3 -->
-    <div class="slide" id="slide2">
-      <h2>Jak to wygląda?</h2>
-      <div class="list-icons">
-        <div class="list-item">
-          <span class="drawn-icon">
-            <svg width="27" height="27" fill="none"><circle cx="6.5" cy="12" r="3.7" stroke="#b48f6a" stroke-width="2"/><circle cx="19.5" cy="12" r="3.7" stroke="#b48f6a" stroke-width="2"/><circle cx="13" cy="6" r="3.7" stroke="#b48f6a" stroke-width="2"/><rect x="6.5" y="17" width="13" height="2.5" rx="1.1" stroke="#b48f6a" stroke-width="2" fill="none"/></svg>
-          </span>
-          <span><b>Kameralne grupy</b><br>Mniej osób, więcej czasu na prawdziwą rozmowę.</span>
-        </div>
-        <div class="list-item">
-          <span class="drawn-icon">
-            <svg width="27" height="27" fill="none"><ellipse cx="13.5" cy="8" rx="8" ry="4" stroke="#b48f6a" stroke-width="2"/><text x="11" y="14" font-size="13" fill="#b48f6a" font-family="Playfair Display, Times New Roman">?</text></svg>
-          </span>
-          <span><b>Pytania & zadania</b><br>Przełamują lody, pomagają zacząć na luzie.</span>
-        </div>
-        <div class="list-item">
-          <span class="drawn-icon">
-            <svg width="27" height="27" fill="none"><ellipse cx="13.5" cy="13.5" rx="10" ry="10" stroke="#b48f6a" stroke-width="2"/><path d="M13.5,13.5 L13.5,5" stroke="#b48f6a" stroke-width="2"/><path d="M13.5,13.5 L18,16" stroke="#b48f6a" stroke-width="2"/></svg>
-          </span>
-          <span><b>Spontanicznie!</b><br>Nie musisz nic planować – klimat tworzy się sam.</span>
+      <div class="slide" id="slide2">
+        <h2>Jak to wygląda?</h2>
+        <div class="list-icons">
+          <div class="list-item">
+            <span class="drawn-icon">
+              <svg width="25" height="25" fill="none"><circle cx="6.5" cy="12" r="3.7" stroke="#b2b7ca" stroke-width="2"/><circle cx="19.5" cy="12" r="3.7" stroke="#b2b7ca" stroke-width="2"/><circle cx="13" cy="6" r="3.7" stroke="#b2b7ca" stroke-width="2"/><rect x="6.5" y="17" width="13" height="2.5" rx="1.1" stroke="#b2b7ca" stroke-width="2" fill="none"/></svg>
+            </span>
+            <span><b>Kameralne grupy</b><br>Mniej osób, więcej czasu na prawdziwą rozmowę.</span>
+          </div>
+          <div class="list-item">
+            <span class="drawn-icon">
+              <svg width="25" height="25" fill="none"><ellipse cx="13.5" cy="8" rx="8" ry="4" stroke="#b2b7ca" stroke-width="2"/><text x="11" y="14" font-size="13" fill="#b2b7ca" font-family="Playfair Display, Times New Roman">?</text></svg>
+            </span>
+            <span><b>Pytania & zadania</b><br>Przełamują lody, pomagają zacząć na luzie.</span>
+          </div>
+          <div class="list-item">
+            <span class="drawn-icon">
+              <svg width="25" height="25" fill="none"><ellipse cx="13.5" cy="13.5" rx="10" ry="10" stroke="#b2b7ca" stroke-width="2"/><path d="M13.5,13.5 L13.5,5" stroke="#b2b7ca" stroke-width="2"/><path d="M13.5,13.5 L18,16" stroke="#b2b7ca" stroke-width="2"/></svg>
+            </span>
+            <span><b>Spontanicznie!</b><br>Nie musisz nic planować – klimat tworzy się sam.</span>
+          </div>
         </div>
       </div>
-    </div>
-
-    <!-- Slide 4 -->
-    <div class="slide" id="slide3">
-      <h2>Dołącz do nas!</h2>
-      <p>
-        Chcesz zobaczyć, jak to działa? Zostaw kontakt, a wyślemy zaproszenie na kolejne spotkanie.<br><br>
-        Widzimy się? 🙂
-      </p>
-      <div class="placeholder-form">
-        [Tutaj pojawi się formularz Google]
+      <div class="slide" id="slide3">
+        <h2>Dołącz do nas!</h2>
+        <p>
+          Chcesz zobaczyć, jak to działa? Zostaw kontakt, a wyślemy zaproszenie na kolejne spotkanie.<br><br>
+          Widzimy się? 🙂
+        </p>
+        <div class="placeholder-form">
+          [Tutaj pojawi się formularz Google]
+        </div>
+        <button class="cta-btn" onclick="alert('Wkrótce! Dodamy formularz.')">
+          Dołącz
+        </button>
+        <div class="footer">
+          Masz pytania? Napisz: <a href="mailto:kontakt@twojprojekt.pl" style="color:#b2b7ca;">kontakt@twojprojekt.pl</a>
+          <span class="rodo">Twoje dane są bezpieczne — służą tylko do kontaktu w sprawie spotkań.</span>
+          <br>© 2025 intouch: collectiv
+        </div>
       </div>
-      <button class="cta-btn" onclick="alert('Wkrótce! Dodamy formularz.')">
-        Dołącz
-      </button>
-      <div class="footer">
-        Masz pytania? Napisz: <a href="mailto:kontakt@twojprojekt.pl" style="color:#ccb998;">kontakt@twojprojekt.pl</a>
-        <span class="rodo">Twoje dane są bezpieczne — służą tylko do kontaktu w sprawie spotkań.</span>
-        <br>© 2025 intouch: collectiv
+      <!-- Nav arrows, now "hand-drawn" SVGs and custom cursor -->
+      <div class="nav-arrows">
+        <button class="handdrawn-btn" id="prevBtn" onclick="goPrev()" aria-label="Poprzedni" disabled>
+          <svg class="handdrawn-circle" viewBox="0 0 44 44"><path d="M7,21 Q12,2 35,7 Q42,18 29,39 Q22,43 8,32 Q2,21 7,21 Z" stroke="#b2b7ca" stroke-width="2.5" fill="none"/></svg>
+          <svg class="btn-arrow" viewBox="0 0 24 24"><path d="M15 5L8 12L15 19" stroke="#647195" stroke-width="2.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <button class="handdrawn-btn" id="nextBtn" onclick="goNext()" aria-label="Następny">
+          <svg class="handdrawn-circle" viewBox="0 0 44 44"><path d="M37,21 Q32,2 9,7 Q2,18 15,39 Q22,43 36,32 Q42,21 37,21 Z" stroke="#b2b7ca" stroke-width="2.5" fill="none"/></svg>
+          <svg class="btn-arrow" viewBox="0 0 24 24"><path d="M9 5L16 12L9 19" stroke="#647195" stroke-width="2.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
       </div>
-    </div>
-
-    <!-- Nav arrows -->
-    <div class="nav-arrows">
-      <button id="prevBtn" onclick="goPrev()" aria-label="Poprzedni" disabled>
-        <svg class="drawn-arrow" viewBox="0 0 38 38" fill="none"><path d="M28 19H10M17 13l-7 6 7 6" stroke="#fff" stroke-width="2.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </button>
-      <button id="nextBtn" onclick="goNext()" aria-label="Następny">
-        <svg class="drawn-arrow" viewBox="0 0 38 38" fill="none"><path d="M10 19h18M21 13l7 6-7 6" stroke="#fff" stroke-width="2.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </button>
     </div>
   </div>
   <script>
-    // Slides and dynamic logo placement
+    // Swipable slides
     const slides = Array.from(document.querySelectorAll('.slide'));
     let currentSlide = 0;
-    const logo = document.getElementById('floatingLogo');
-
     function showSlide(idx) {
       slides.forEach((s, i) => s.classList.toggle('active', i === idx));
       document.getElementById('prevBtn').disabled = idx === 0;
       document.getElementById('nextBtn').disabled = idx === slides.length - 1;
-      // Logo: show on 0 (top), 3 (bottom), hide elsewhere
-      logo.classList.remove('top', 'bottom');
-      if (idx === 0) {
-        logo.classList.add('top');
-        logo.style.display = 'block';
-      } else if (idx === slides.length - 1) {
-        logo.classList.add('bottom');
-        logo.style.display = 'block';
-      } else {
-        logo.style.display = 'none';
-      }
       currentSlide = idx;
     }
     function goNext() {

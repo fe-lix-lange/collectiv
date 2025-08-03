@@ -1,193 +1,299 @@
-<!-- Top navigation -->
-<nav class="top-nav" aria-label="Main">
-  <ul style="display:flex; gap:1rem; list-style:none; padding:12px; margin:0; background:rgba(26,20,35,0.05);">
-    <li><button onclick="startFirstTime()" aria-label="Start">Gra</button></li>
-    <li><button onclick="showPage('elevator')">Elevator Pitch</button></li>
-    <li><button onclick="showPage('about')">O nas</button></li>
-    <li><button onclick="showPage('why')">Dlaczego my?</button></li>
-    <li><button onclick="showPage('events')">Lista Wydarzeń</button></li>
-  </ul>
-</nav>
-
-<!-- Sections -->
-<div id="game" class="page">
-  <h1>Rozpocznij grę</h1>
-  <p>Wybierz pytania. Zagraj, żeby lepiej wejść w kontakt.</p>
-  <div id="question-box">
-    <div id="current-question" style="margin:1em 0; font-weight:600;"></div>
-    <button id="next-question-btn">Następne pytanie</button>
-    <div style="margin-top:8px;">
-      <button onclick="skipToEvents()">Zobacz wydarzenia</button>
+<!-- trimmed for brevity: assumes your existing :root palette and core CSS are present -->
+<body>
+  <header class="site-nav" style="position:fixed;top:0;left:0;right:0;display:flex;align-items:center;gap:1em;padding:12px 18px;background:rgba(255,255,255,0.95);backdrop-filter:blur(8px);z-index:50;">
+    <div class="logo" style="display:flex;align-items:center;cursor:pointer;" onclick="scrollToSection('game')">
+      <div class="logo-badge" style="width:44px;height:44px;margin:0;">
+        <!-- small badge version -->
+        <img src="ChatGPT Image Jul 26, 2025, 02_57_49 PM.png" alt="logo" style="width:24px;" />
+      </div>
+      <span style="margin-left:6px;font-weight:700;">collectiv</span>
     </div>
-  </div>
-</div>
+    <nav style="flex:1;display:flex;gap:14px;font-size:0.9em;">
+      <a href="#game" onclick="scrollToSection('game')">Gra</a>
+      <a href="#pitch" onclick="scrollToSection('pitch')">Kim jesteśmy</a>
+      <a href="#about" onclick="scrollToSection('about')">O nas</a>
+      <a href="#why" onclick="scrollToSection('why')">Dlaczego my?</a>
+      <a href="#events" onclick="scrollToSection('events')">Wydarzenia</a>
+    </nav>
+    <button onclick="scrollToSection('events')" style="padding:8px 16px;border-radius:999px;border:2px solid var(--burnt-orange);background:transparent;cursor:pointer;font-weight:600;">Zobacz wydarzenia</button>
+  </header>
 
-<div id="elevator" class="page" style="display:none;">
-  <h2>Kim jesteśmy</h2>
-  <p>Krótki elevator pitch: łączymy ludzi przez sensowne spotkania, przełamujemy samotność i budujemy relacje.</p>
-  <button onclick="showPage('about')">Dalej: O nas</button>
-</div>
+  <main style="padding-top:78px;max-width:900px;margin:0 auto;">
+    <!-- 1. Game -->
+    <section id="game" style="padding:60px 18px;position:relative;">
+      <div class="card" style="max-width:500px;margin:0 auto;position:relative;">
+        <div id="questionCard" style="background:#fff;border-radius:1.8rem;box-shadow:0 18px 50px -10px rgba(15,36,62,0.15);padding:32px;display:flex;flex-direction:column;gap:14px;position:relative;">
+          <div style="display:flex;justify-content:space-between;align-items:center;">
+            <div id="gameProgress" style="font-size:0.8em;font-weight:500;color:var(--forest-green)">Pytanie 1 z 10</div>
+            <div><button onclick="skipGame()" style="background:none;border:none;color:var(--burnt-orange);cursor:pointer;">Pomiń</button></div>
+          </div>
+          <h1 style="margin:0;font-size:1.6rem;"> <span id="currentQuestion">Co jest najtrudniejsze w Twojej samotności?</span></h1>
+          <textarea id="answerInput" rows="3" placeholder="Napisz krótko..." style="resize:none;border:2px solid var(--muted-gold);border-radius:12px;padding:12px;font-size:1em;font-family:inherit;outline:none;"></textarea>
+          <div style="display:flex;justify-content:space-between;align-items:center;">
+            <div id="feedback" style="opacity:0;font-size:0.85em;color:var(--dusty-teal);">Dzięki, to pomaga spersonalizować.</div>
+            <button id="nextQuestionBtn" onclick="nextQuestion()" style="padding:10px 22px;border:none;border-radius:30px;background:var(--burnt-orange);color:#fff;cursor:pointer;font-weight:600;">Dalej</button>
+          </div>
+        </div>
+      </div>
+    </section>
 
-<div id="about" class="page" style="display:none;">
-  <h2>O nas</h2>
-  <p>Opis misji, wartości, sposób działania.</p>
-  <button onclick="showPage('why')">Dalej: Dlaczego my?</button>
-</div>
+    <!-- 2. Elevator Pitch -->
+    <section id="pitch" style="padding:60px 18px;">
+      <div style="max-width:720px;margin:0 auto;text-align:center;">
+        <h2>Kim jesteśmy</h2>
+        <p style="margin:8px 0 24px;">Pomagamy ludziom wchodzić w realne relacje poprzez strukturalne, ludzkie spotkania które przełamują lody bez sztuczności.</p>
+        <div style="display:flex;gap:14px;flex-wrap:wrap;justify-content:center;">
+          <div class="info-card" onclick="flip(this)" style="cursor:pointer;flex:1 1 180px;min-width:160px;position:relative;border-radius:1rem;padding:18px;background:#fff;box-shadow:0 14px 40px -8px rgba(15,36,62,0.1);">
+            <div class="front">
+              <strong>Obietnica</strong>
+              <div style="margin-top:6px;">Rozmowy, które zostają.</div>
+            </div>
+          </div>
+          <div class="info-card" onclick="flip(this)" style="cursor:pointer;flex:1 1 180px;min-width:160px;position:relative;border-radius:1rem;padding:18px;background:#fff;box-shadow:0 14px 40px -8px rgba(15,36,62,0.1);">
+            <div class="front">
+              <strong>Dlaczego działa</strong>
+              <div style="margin-top:6px;">Struktura + empatia + wspólna gra.</div>
+            </div>
+          </div>
+          <div class="info-card" onclick="flip(this)" style="cursor:pointer;flex:1 1 180px;min-width:160px;position:relative;border-radius:1rem;padding:18px;background:#fff;box-shadow:0 14px 40px -8px rgba(15,36,62,0.1);">
+            <div class="front">
+              <strong>Efekt</strong>
+              <div style="margin-top:6px;">Nowe połączenia, mniej samotności.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
 
-<div id="why" class="page" style="display:none;">
-  <h2>Dlaczego my?</h2>
-  <p>Co nas wyróżnia, korzyści dla uczestnika, zaufanie.</p>
-  <button onclick="showPage('events')">Zobacz wydarzenia</button>
-</div>
+    <!-- 3. O nas -->
+    <section id="about" style="padding:60px 18px;background:rgba(240,230,210,0.3);">
+      <div style="max-width:800px;margin:0 auto;">
+        <h2>O nas</h2>
+        <p>Krótka historia, misja, wartości. Interaktywnie: przesuń suwak, by zobaczyć etapy rozwoju.</p>
+        <!-- placeholder for timeline/values -->
+        <div style="display:flex;gap:12px;overflow-x:auto;padding:12px 0;">
+          <div class="step" style="min-width:160px;background:#fff;border-radius:14px;padding:16px;box-shadow:0 10px 30px -5px rgba(15,36,62,0.08);">
+            <strong>Start</strong>
+            <div style="font-size:0.85em;margin-top:6px;">Pomysł z potrzeby prawdziwych relacji.</div>
+          </div>
+          <div class="step" style="min-width:160px;background:#fff;border-radius:14px;padding:16px;box-shadow:0 10px 30px -5px rgba(15,36,62,0.08);">
+            <strong>Testy</strong>
+            <div style="font-size:0.85em;margin-top:6px;">Pierwsze spotkania, feedback.</div>
+          </div>
+          <div class="step" style="min-width:160px;background:#fff;border-radius:14px;padding:16px;box-shadow:0 10px 30px -5px rgba(15,36,62,0.08);">
+            <strong>Rozwój</strong>
+            <div style="font-size:0.85em;margin-top:6px;">Skalowanie i lepsze dopasowanie.</div>
+          </div>
+        </div>
+      </div>
+    </section>
 
-<div id="events" class="page" style="display:none;">
-  <h2>Lista wydarzeń</h2>
-  <p><strong>Elevator pitch:</strong> Łączymy cię z ludźmi poprzez strukturalne rozmowy i autentyczne doświadczenia.</p>
-  <ul id="event-list">
-    <!-- Example events -->
-    <li>
-      <div>Wydarzenie 1 – 12 sierpnia</div>
-      <button onclick="openSignup('Wydarzenie 1')">Zapisz się</button>
-    </li>
-    <li>
-      <div>Wydarzenie 2 – 19 sierpnia</div>
-      <button onclick="openSignup('Wydarzenie 2')">Zapisz się</button>
-    </li>
-  </ul>
-  <div style="margin-top:1em;">
-    <button onclick="showPage('collectEmail')">Zostaw email</button>
-  </div>
-</div>
+    <!-- 4. Dlaczego my? -->
+    <section id="why" style="padding:60px 18px;">
+      <div style="max-width:840px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:start;">
+        <div>
+          <h2>Dlaczego my?</h2>
+          <p>Różnica w praktyce:</p>
+          <div style="display:flex;gap:12px;flex-wrap:wrap;">
+            <div style="flex:1;min-width:160px;background:#fff;border-radius:12px;padding:14px;box-shadow:0 12px 34px -6px rgba(15,36,62,0.1);">
+              <strong>Standardowe</strong>
+              <div style="margin-top:6px;font-size:0.85em;">Rozmowy bez kierunku, mija szybko.</div>
+            </div>
+            <div style="flex:1;min-width:160px;background:#fff;border-radius:12px;padding:14px;box-shadow:0 12px 34px -6px rgba(15,36,62,0.1);">
+              <strong>Nasze</strong>
+              <div style="margin-top:6px;font-size:0.85em;">Struktura + gra = głębia bez sztuczności.</div>
+            </div>
+          </div>
+          <div style="margin-top:18px;">
+            <div style="display:flex;gap:8px;">
+              <div style="flex:1;">
+                <div style="font-size:0.75em;color:gray;">Poziom połączenia</div>
+                <div>★★★★☆</div>
+              </div>
+              <div style="flex:1;">
+                <div style="font-size:0.75em;color:gray;">Łatwość startu</div>
+                <div>★★★★★</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <!-- testimonial / dynamic proof -->
+          <div style="background:rgba(248,244,239,1);border-radius:14px;padding:18px;box-shadow:0 14px 40px -8px rgba(15,36,62,0.08);">
+            <strong>„Na początku nie wiedziałem, co powiedzieć. Po 30 minutach czułem, że znam kilku ludzi lepiej niż po tygodniu na innych eventach.”</strong>
+            <div style="margin-top:10px;font-size:0.85em;">— uczestnik</div>
+          </div>
+        </div>
+      </div>
+    </section>
 
-<!-- Leave email with RODO -->
-<div id="collectEmail" class="page" style="display:none;">
-  <h2>Zostaw email</h2>
-  <form id="emailForm">
-    <label>
-      Email:
-      <input type="email" required name="email" placeholder="twoj@adres.pl" />
-    </label>
-    <div>
-      <label>
-        <input type="checkbox" required name="consent" />
-        Zgadzam się na przetwarzanie danych zgodnie z RODO.
-      </label>
+    <!-- 5. Event List -->
+    <section id="events" style="padding:60px 18px;background:#f9f7f2;">
+      <div style="max-width:900px;margin:0 auto;position:relative;">
+        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;">
+          <div>
+            <h2>Wydarzenia</h2>
+            <p style="margin:4px 0;">Wybierz spotkanie, do którego chcesz dołączyć. Krótko: <em>kolejne: 3 maja, 10 maja...</em></p>
+          </div>
+          <div style="display:flex;gap:10px;">
+            <input id="filterInput" placeholder="Szukaj..." style="padding:8px 14px;border-radius:999px;border:1px solid var(--muted-gold);outline:none;" oninput="filterEvents()" />
+          </div>
+        </div>
+        <div id="pitchSticky" style="background:#fff;border-left:4px solid var(--burnt-orange);padding:12px 16px;border-radius:8px;box-shadow:0 10px 30px -5px rgba(15,36,62,0.08);margin-bottom:18px;">
+          <strong>Krótko:</strong> Spotkania z sensem, żeby poznawać ludzi inaczej niż na powierzchownych scrollach. Zostaw email, przypomnimy. <button onclick="openEmailPanel()" style="margin-left:12px;padding:6px 14px;border:none;border-radius:999px;background:var(--dusty-teal);color:#fff;cursor:pointer;">Zostaw email</button>
+        </div>
+
+        <div id="eventsContainer" style="display:grid;gap:16px;">
+          <!-- example event card -->
+          <div class="event-card" style="background:#fff;border-radius:16px;display:flex;justify-content:space-between;align-items:center;padding:16px;box-shadow:0 18px 50px -10px rgba(15,36,62,0.08);">
+            <div>
+              <div style="font-weight:600;">Spotkanie: Połączenia</div>
+              <div style="font-size:0.85em;margin-top:4px;">3 maja • Warszawa • 6–8 osób</div>
+            </div>
+            <div style="display:flex;gap:12px;align-items:center;">
+              <button onclick="signupEvent('połączenia')" style="padding:10px 18px;border-radius:999px;border:2px solid var(--forest-green);background:var(--forest-green);color:#fff;cursor:pointer;">Zapisz się</button>
+              <button style="background:none;border:none;cursor:pointer;font-size:0.8em;color:var(--deep-navy);">Dodaj do kalendarza</button>
+            </div>
+          </div>
+          <!-- repeat -> would be generated dynamically -->
+        </div>
+      </div>
+    </section>
+
+    <!-- Email / RODO Panel -->
+    <div id="emailPanel" style="position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(26,20,35,0.65);display:none;align-items:center;justify-content:center;z-index:200;">
+      <div style="background:#fff;border-radius:18px;max-width:440px;width:100%;padding:28px;position:relative;box-shadow:0 30px 80px -10px rgba(15,36,62,0.25);">
+        <button onclick="closeEmailPanel()" style="position:absolute;top:12px;right:12px;border:none;background:none;font-size:1.2em;cursor:pointer;">×</button>
+        <h3>Zostaw email</h3>
+        <p style="margin:6px 0 14px;">Będziemy przypominać o najbliższych wydarzeniach. Dane używamy tylko w celu kontaktu. <br><small>RODO: podajesz zgodę na przetwarzanie danych.</small></p>
+        <form id="emailForm" onsubmit="submitEmail(event)">
+          <input type="email" id="emailInput" required placeholder="Twój email" style="width:100%;padding:12px;border:2px solid var(--muted-gold);border-radius:10px;font-size:1em;margin-bottom:10px;outline:none;" />
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
+            <input type="checkbox" id="consentCheckbox" required />
+            <label for="consentCheckbox" style="font-size:0.85em;">Zgadzam się na przetwarzanie danych zgodnie z RODO.</label>
+          </div>
+          <button type="submit" style="width:100%;padding:12px;border:none;border-radius:999px;background:var(--burnt-orange);color:#fff;font-weight:600;cursor:pointer;">Zapisz mnie</button>
+        </form>
+        <div id="emailSuccess" style="display:none;margin-top:14px;color:var(--forest-green);font-weight:600;">Dzięki! Będziemy przypominać.</div>
+      </div>
     </div>
-    <button type="submit">Wyślij</button>
-    <button type="button" onclick="showPage('events')">Wróć do wydarzeń</button>
-  </form>
-  <div id="email-thanks" style="display:none;">Dzięki! Będziemy w kontakcie.</div>
-</div>
 
-<!-- Event signup -->
-<div id="signup" class="page" style="display:none;">
-  <h2 id="signup-title">Zapisz się na wydarzenie</h2>
-  <form id="signupForm">
-    <label>
-      Email:
-      <input type="email" required name="email" placeholder="twoj@adres.pl" />
-    </label>
-    <label>
-      Telefon:
-      <input type="tel" required name="phone" placeholder="+48 600 000 000" />
-    </label>
-    <div>
-      <label>
-        <input type="checkbox" required name="consent" />
-        Zgadzam się na przetwarzanie danych zgodnie z RODO.
-      </label>
+    <!-- Event Signup deeper form -->
+    <div id="eventSignupPanel" style="position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(26,20,35,0.65);display:none;align-items:center;justify-content:center;z-index:200;">
+      <div style="background:#fff;border-radius:18px;max-width:500px;width:100%;padding:28px;position:relative;box-shadow:0 30px 80px -10px rgba(15,36,62,0.25);">
+        <button onclick="closeEventSignup()" style="position:absolute;top:12px;right:12px;border:none;background:none;font-size:1.2em;cursor:pointer;">×</button>
+        <h3>Zapisz się na wydarzenie</h3>
+        <p id="selectedEventTitle" style="margin:6px 0 14px;font-weight:500;"></p>
+        <form id="fullSignupForm" onsubmit="submitFullSignup(event)">
+          <input type="email" id="eventEmail" required placeholder="Email" style="width:100%;padding:12px;border:2px solid var(--muted-gold);border-radius:10px;font-size:1em;margin-bottom:10px;outline:none;" />
+          <input type="tel" id="eventPhone" required placeholder="Telefon" style="width:100%;padding:12px;border:2px solid var(--muted-gold);border-radius:10px;font-size:1em;margin-bottom:10px;outline:none;" />
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
+            <input type="checkbox" id="eventConsent" required />
+            <label for="eventConsent" style="font-size:0.85em;">Zgadzam się na przetwarzanie danych zgodnie z RODO.</label>
+          </div>
+          <button type="submit" style="width:100%;padding:12px;border:none;border-radius:999px;background:var(--forest-green);color:#fff;font-weight:600;cursor:pointer;">Dołącz</button>
+        </form>
+        <div id="signupSuccess" style="display:none;margin-top:14px;color:var(--dusty-teal);font-weight:600;">Jesteś zapisany. Wyślemy potwierdzenie.</div>
+      </div>
     </div>
-    <button type="submit">Zapisz się</button>
-    <button type="button" onclick="showPage('events')">Wróć</button>
-  </form>
-  <div id="signup-thanks" style="display:none;">Super, zapisane.</div>
-</div>
+  </main>
 
-<script>
-  // Navigation/showing
-  const pages = ['game','elevator','about','why','events','collectEmail','signup'];
-  function showPage(id) {
-    pages.forEach(p => {
-      document.getElementById(p).style.display = (p === id) ? 'block' : 'none';
-    });
-    // if coming to events from other path, nothing else needed
-  }
-
-  // First-time linear flow
-  function startFirstTime() {
-    // start with game, then chain on completion
-    showPage('game');
-    questionIndex = 0;
-    loadNextQuestion();
-    firstTimeSequence = ['elevator','about','why','events'];
-    sequencePointer = 0;
-    // when game done, advance through sequence
-  }
-
-  // Questions logic
-  const questionPool = [
-    "Co jest najtrudniejsze w twojej samotności?",
-    "Dlaczego potrzebujesz przyjaciół?",
-    "Jaką aktywność chciałbyś robić z innymi?",
-    "Czego ostatnio szukasz w relacjach?",
-    "Kiedy czułeś się naprawdę zrozumiany?",
-    "Co powstrzymuje cię przed poznawaniem ludzi?",
-    "Jaka rozmowa zmieniła twoje spojrzenie na siebie?",
-    "Kogo chciałbyś zaprosić do rozmowy?",
-    "Co byś dał innym w relacji?",
-    "Jakie małe działanie mogłoby cię przybliżyć do kogoś nowego?"
-  ];
-  let shuffled = [];
-  let questionIndex = 0;
-  let firstTimeSequence = [];
-  let sequencePointer = 0;
-
-  function shuffleArray(a) {
-    return a
-      .map(v => ({v, r: Math.random()}))
-      .sort((a,b)=>a.r - b.r)
-      .map(o => o.v);
-  }
-
-  function loadNextQuestion() {
-    if (shuffled.length === 0) shuffled = shuffleArray(questionPool);
-    if (questionIndex >= 5) { // after 5 questions, proceed in first-time flow if applicable
-      if (firstTimeSequence[sequencePointer]) {
-        showPage(firstTimeSequence[sequencePointer++]);
+  <script>
+    // question pool
+    const questions = [
+      "Co jest najtrudniejsze w Twojej samotności?",
+      "Dlaczego potrzebujesz przyjaciół?",
+      "Jaką aktywność chciałbyś/chciałabyś robić z innymi?",
+      "Co sprawia, że czujesz się naprawdę słyszany?",
+      "Jaki temat rozmowy łamie lody dla Ciebie?",
+      "Kiedy ostatnio poczułeś/poczułaś bliskość?",
+      "Czego brakuje w obecnych relacjach?",
+      "Jakie wartości łączą Cię z innymi?",
+      "Co byś zrobił/zrobiła z nową znajomością?",
+      "Jak chcesz być zapamiętany/zapamiętana po spotkaniu?"
+    ];
+    let gameIndex = 0;
+    let answers = [];
+    const currentQuestionEl = document.getElementById('currentQuestion');
+    const progressEl = document.getElementById('gameProgress');
+    const answerInput = document.getElementById('answerInput');
+    function randomizePool() {
+      for (let i = questions.length -1; i>0; i--) {
+        const j = Math.floor(Math.random()* (i+1));
+        [questions[i], questions[j]] = [questions[j], questions[i]];
       }
-      return;
     }
-    document.getElementById('current-question').textContent = shuffled[questionIndex];
-    questionIndex++;
-  }
+    function showQuestion() {
+      currentQuestionEl.textContent = questions[gameIndex];
+      progressEl.textContent = `Pytanie ${gameIndex+1} z ${questions.length}`;
+      answerInput.value = '';
+      document.getElementById('feedback').style.opacity = 0;
+    }
+    function nextQuestion() {
+      const ans = answerInput.value.trim();
+      if(ans) {
+        answers[gameIndex] = ans;
+        document.getElementById('feedback').style.opacity = 1;
+      }
+      gameIndex++;
+      if (gameIndex >= questions.length) {
+        // proceed to pitch
+        scrollToSection('pitch');
+      } else {
+        showQuestion();
+      }
+    }
+    function skipGame() {
+      scrollToSection('pitch');
+    }
+    function scrollToSection(id) {
+      document.getElementById(id).scrollIntoView({behavior:'smooth',block:'start'});
+    }
+    function filterEvents() {
+      const q = document.getElementById('filterInput').value.toLowerCase();
+      document.querySelectorAll('.event-card').forEach(card => {
+        const text = card.textContent.toLowerCase();
+        card.style.display = text.includes(q) ? 'flex' : 'none';
+      });
+    }
 
-  document.getElementById('next-question-btn').addEventListener('click', loadNextQuestion);
+    // Email panel
+    function openEmailPanel() { document.getElementById('emailPanel').style.display='flex'; }
+    function closeEmailPanel() { document.getElementById('emailPanel').style.display='none'; }
+    function submitEmail(e) {
+      e.preventDefault();
+      const email = document.getElementById('emailInput').value.trim();
+      if(!email) return;
+      // persist, send to backend, etc.
+      document.getElementById('emailSuccess').style.display='block';
+      setTimeout(closeEmailPanel, 1200);
+    }
 
-  function skipToEvents() {
-    showPage('events');
-  }
+    // Event signup
+    let currentEvent = '';
+    function signupEvent(eventName) {
+      currentEvent = eventName;
+      document.getElementById('selectedEventTitle').textContent = `Wydarzenie: ${eventName}`;
+      document.getElementById('eventSignupPanel').style.display='flex';
+    }
+    function closeEventSignup() { document.getElementById('eventSignupPanel').style.display='none'; }
+    function submitFullSignup(e) {
+      e.preventDefault();
+      // collect email/phone, send
+      document.getElementById('signupSuccess').style.display='block';
+      setTimeout(closeEventSignup, 1400);
+    }
 
-  // Email form submit
-  document.getElementById('emailForm').addEventListener('submit', e => {
-    e.preventDefault();
-    // here: send to backend or store
-    document.getElementById('emailForm').style.display = 'none';
-    document.getElementById('email-thanks').style.display = 'block';
-  });
-
-  // Signup flow
-  function openSignup(eventName) {
-    document.getElementById('signup-title').textContent = `Zapisz się na: ${eventName}`;
-    showPage('signup');
-  }
-  document.getElementById('signupForm').addEventListener('submit', e => {
-    e.preventDefault();
-    document.getElementById('signupForm').style.display = 'none';
-    document.getElementById('signup-thanks').style.display = 'block';
-  });
-
-  // Initialize to game
-  showPage('game');
-  shuffled = shuffleArray(questionPool);
-  loadNextQuestion();
-</script>
+    // Entry flow detection
+    function initFlow() {
+      randomizePool();
+      showQuestion();
+      const params = new URLSearchParams(window.location.search);
+      if (params.get('entry') === 'events') {
+        scrollToSection('events');
+      }
+    }
+    initFlow();
+  </script>
+</body>
+</html>

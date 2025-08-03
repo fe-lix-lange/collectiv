@@ -3,873 +3,462 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>InTouch Collective – autentyczne kontakty offline</title>
+<title>Collectiv Micro-Game Playground</title>
+<meta name="color-scheme" content="light dark">
 <style>
   :root {
-    --deep-navy:#0F243E;
-    --forest-green:#1F4A36;
-    --burnt-orange:#C25E32;
-    --cream:#F0E6D2;
-    --dusty-teal:#5A8B7C;
-    --charcoal:#3b2c24;
-    --muted-gold:#B88F58;
-    --radius:1.6rem;
-    --transition:.25s cubic-bezier(.3,.05,.15,1);
+    --bg:#F0E6D2;
+    --dark:#1A1423;
+    --muted:#816B58;
+    --accent:#C25E32;
+    --teal:#5A8B7C;
+    --radius:1.4rem;
+    --shadow:0 24px 80px -12px rgba(26,20,35,.15);
+    font-family:'Times New Roman', Times, serif;
+    --ease:.35s cubic-bezier(.25,.1,.25,1);
   }
   *{box-sizing:border-box;}
   body{
     margin:0;
-    background: var(--cream);
-    font-family:'Times New Roman', Times, serif;
-    color: var(--charcoal);
+    background:var(--bg);
+    color:var(--dark);
     -webkit-font-smoothing:antialiased;
-    scroll-behavior:smooth;
-    min-height:100vh;
+    line-height:1.4;
   }
-  h1{margin:0;font-size:1.8rem;font-weight:700;line-height:1.15;}
-  h2{margin:0;font-size:1.4rem;font-weight:700;line-height:1.2;}
-  p{margin:0 0 1em;font-size:1rem;line-height:1.55;}
+  h1{margin:0;font-size:1.8rem;font-weight:700;}
+  h2{margin:0;font-size:1.3rem;font-weight:700;}
+  p{margin:0 0 1em;}
   small{font-size:.75em;color:rgba(26,20,35,.6);}
-  button{cursor:pointer;border:none;background:none;font-family:inherit;position:relative;outline:none;}
-  a{color:inherit;text-decoration:none;}
-
-  /* NAV */
-  .site-nav {
-    position:fixed;
-    top:0;left:0;right:0;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    padding:10px 16px;
-    gap:10px;
-    background:rgba(255,255,255,0.93);
-    backdrop-filter:blur(8px);
-    z-index:200;
-    border-bottom:1px solid rgba(26,20,35,.08);
-  }
-  .logo{
-    display:flex;align-items:center;gap:8px;cursor:pointer;font-weight:700;font-size:1rem;
-  }
-  .nav-links{
-    display:flex;gap:14px;font-size:.9em;
-  }
-  .nav-links a{
-    padding:6px 10px;
-    border-radius:8px;
-    transition:background .2s;
-  }
-  .nav-links a:hover{background:rgba(26,20,35,.05);}
-  .hamburger{
-    display:none;
-    background:none;
-    padding:6px;
-    border:none;
-  }
-  .cta{
-    padding:10px 18px;
-    border-radius:999px;
-    background:var(--burnt-orange);
-    color:#fff;
-    font-weight:600;
-    display:inline-flex;
-    align-items:center;
-    gap:6px;
-    position:relative;
-    overflow:hidden;
-    transition:transform .2s;
-  }
-  .cta:hover{transform:scale(1.02);}
-  .pulse-ring{
-    position:absolute;top:-4px;left:-4px;right:-4px;bottom:-4px;
-    border-radius:999px;
-    border:2px solid rgba(255,255,255,.4);
-    animation:pulse 2s infinite ease-out;
-    pointer-events:none;
-  }
-  @keyframes pulse{
-    0%{transform:scale(1);opacity:.5;}
-    50%{transform:scale(1.08);opacity:.15;}
-    100%{transform:scale(1);opacity:.5;}
-  }
-
-  .container{max-width:940px;margin:0 auto;padding:0 14px;}
-  .section{padding:72px 0;position:relative;overflow:hidden;}
-  .card{
-    background:#fff;
-    border-radius: var(--radius);
-    padding:24px 20px;
-    box-shadow:0 22px 60px -10px rgba(15,36,62,.15);
-    position:relative;
-    overflow:hidden;
-    transition:var(--transition);
-    margin-bottom:30px;
-  }
+  .container{max-width:1020px;margin:0 auto;padding:80px 16px;}
+  .card{background:#fff;border-radius:16px;padding:20px;box-shadow:var(--shadow);position:relative;margin-bottom:28px;overflow:hidden;transition:transform .25s;}
   .card:hover{transform:translateY(-2px);}
-  .small-badge{
-    background:rgba(90,139,124,.1);
-    padding:6px 14px;
-    border-radius:999px;
-    font-size:.65em;
-    display:inline-block;
-  }
-
-  /* scribble underline */
-  .scribble-underline{
-    width:112px;height:18px;display:block;margin:6px 0 14px auto;
-  }
-  .scribble-underline svg path{
-    stroke: var(--muted-gold);
-    stroke-width:2.2;
-    fill:none;
-    stroke-dasharray:310;
-    stroke-dashoffset:310;
-    animation:draw-scribble 1.3s cubic-bezier(.8,-0.4,.7,1) forwards;
-  }
-  @keyframes draw-scribble{to{stroke-dashoffset:0;}}
-
-  /* elevator pitch toggles */
-  .toggle-switch{
-    display:inline-flex;
-    border:1px solid rgba(26,20,35,.15);
-    border-radius:999px;
-    overflow:hidden;
-    font-size:.85em;
-    margin-bottom:10px;
-  }
-  .toggle-button{
-    padding:8px 14px;
-    cursor:pointer;
-    background:transparent;
-    border:none;
-    min-width:100px;
-    text-align:center;
-    font-weight:600;
-    transition:background .25s,color .25s;
-  }
-  .toggle-button.active{
-    background:var(--burnt-orange);
-    color:#fff;
-  }
-
-  /* empathy pulse indicator */
-  .empathy-headline{
-    position:relative;
-    padding:14px 16px;
-    border-radius:12px;
-    background:rgba(255,255,255,1);
-    font-size:1.3rem;
-    font-weight:700;
-    overflow:hidden;
-    display:inline-block;
-    transition:background .4s;
-  }
-  .empathy-pulse{
-    position:absolute;
-    inset:0;
-    border-radius:12px;
-    pointer-events:none;
-    box-shadow:0 0 80px 15px rgba(200,94,50,.18);
-    opacity:0;
-    animation:fadePulse 3s infinite;
-  }
-  @keyframes fadePulse{
-    0%{opacity:.04;transform:scale(1);}
-    50%{opacity:.12;transform:scale(1.02);}
-    100%{opacity:.04;transform:scale(1);}
-  }
-
-  /* magnet canvas */
-  #connectionCanvas{
-    width:100%;height:220px;
-    border-radius:16px;
-    background:#f4f1eb;
-    display:block;
-    margin-top:14px;
-    touch-action:none;
-    cursor:grab;
-  }
-  .node-tooltip{
-    position:fixed;
-    background:#fff;
-    padding:12px 16px;
-    border-radius:12px;
-    box-shadow:0 30px 80px -10px rgba(15,36,62,.25);
-    font-size:.85em;
-    pointer-events:none;
-    z-index:300;
-    max-width:240px;
-  }
-
-  /* event list */
-  .event-card{
-    background:#fff;
-    border-radius:16px;
-    padding:14px 16px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    gap:14px;
-    flex-wrap:wrap;
-    position:relative;
-    overflow:hidden;
-    box-shadow:0 18px 50px -10px rgba(15,36,62,.12);
-    transition:var(--transition);
-    cursor:default;
-  }
-  .event-card:hover{transform:translateY(-2px);}
-  .event-info{flex:1;min-width:160px;}
-  .event-actions{display:flex;gap:10px;flex-wrap:wrap;}
-  .filter-row{display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin-bottom:8px;}
-
-  /* sticky summary */
-  .sticky-summary{
-    position:sticky;
-    top:70px;
-    background:#fff;
-    border-left:4px solid var(--burnt-orange);
-    padding:14px 16px;
-    border-radius:8px;
-    box-shadow:0 10px 30px -5px rgba(15,36,62,.08);
-    margin-bottom:18px;
-    display:flex;
-    gap:12px;
-    flex-wrap:wrap;
-    font-size:.9em;
-  }
-
-  /* overlays/forms */
-  .overlay{
-    position:fixed;inset:0;
-    background:rgba(26,20,35,.65);
-    display:none;
-    align-items:center;
-    justify-content:center;
-    padding:14px;
-    z-index:400;
-  }
-  .panel{
-    background:#fff;
-    border-radius:18px;
-    max-width:500px;
-    width:100%;
-    padding:28px 24px;
-    position:relative;
-    box-shadow:0 30px 80px -10px rgba(15,36,62,.25);
-  }
-  .close-btn{
-    position:absolute;
-    top:12px;right:12px;
-    background:none;
-    border:none;
-    font-size:1.3em;
-    cursor:pointer;
-  }
-  input, textarea{
-    width:100%;
-    padding:12px 14px;
-    border-radius:10px;
-    border:2px solid var(--muted-gold);
-    font-family:inherit;
-    font-size:1rem;
-    outline:none;
-    resize:vertical;
-    margin-bottom:10px;
-    transition:all .2s;
-  }
-  input:focus, textarea:focus{border-color:var(--burnt-orange);background:#fff;}
-  .btn{
-    background:#fff;
-    border:2px solid var(--dusty-teal);
-    padding:10px 18px;
-    border-radius:999px;
-    font-weight:600;
-    display:inline-flex;
-    gap:6px;
-    align-items:center;
-    position:relative;
-    transition:transform .2s,box-shadow .2s;
-  }
-  .btn:hover{transform:scale(1.02);}
-  .btn-primary{
-    background:var(--forest-green);
-    color:#fff;
-    border:none;
-  }
-  .btn-accent{
-    background:var(--burnt-orange);
-    color:#fff;
-    border:none;
-  }
-
-  /* interactive hint */
-  .hint{
-    background:rgba(255,255,255,.95);
-    border:1px solid var(--muted-gold);
-    padding:10px 14px;
-    border-radius:12px;
-    display:inline-flex;
-    gap:8px;
-    align-items:center;
-    font-size:.75em;
-    box-shadow:0 18px 50px -10px rgba(15,36,62,.15);
-    margin-top:8px;
-  }
-
-  /* responsive */
-  @media (max-width:900px){
-    .nav-links{display:none;position:absolute;top:56px;left:12px;right:12px;flex-direction:column;background:#fff;padding:14px;border-radius:12px;box-shadow:0 20px 60px -10px rgba(15,36,62,.15);}
-    .hamburger{display:block;}
-    .event-card{flex-direction:column;align-items:flex-start;}
-    .sticky-summary{flex-direction:column;top:60px;}
-  }
-
-  /* subtle surprise: secret reveal on double-tap game card */
-  .secret-banner{
-    position:fixed;top:12px;left:50%;transform:translateX(-50%);
-    background: var(--forest-green);
-    color:#fff;
-    padding:12px 18px;
-    border-radius:12px;
-    font-weight:600;
-    box-shadow:0 30px 70px -10px rgba(15,36,62,.4);
-    display:none;
-    z-index:500;
-    letter-spacing:0.5px;
-  }
+  .flex{display:flex;gap:16px;flex-wrap:wrap;}
+  .btn{padding:10px 18px;border-radius:999px;border:none;cursor:pointer;font-weight:600;display:inline-flex;align-items:center;gap:6px;transition:all var(--ease);}
+  .btn-primary{background:var(--accent);color:#fff;}
+  .btn-secondary{background:var(--teal);color:#fff;}
+  .pill{background:rgba(59,44,36,.08);padding:6px 14px;border-radius:999px;font-size:.65em;display:inline-block;margin-right:6px;}
+  .input{padding:12px 14px;border:2px solid rgba(26,20,35,.15);border-radius:10px;width:100%;font-size:1rem;outline:none;transition:border .2s;}
+  .slider-row{display:flex;gap:14px;align-items:center;margin-top:8px;flex-wrap:wrap;}
+  .value-box{flex:1;min-width:120px;background:rgba(248,244,239,1);padding:10px;border-radius:12px;display:flex;flex-direction:column;gap:6px;position:relative;}
+  .small-badge{background:var(--teal);color:#fff;padding:4px 10px;border-radius:999px;font-size:.6em;display:inline-block;margin-bottom:4px;}
+  .game-section{position:relative;}
+  .hint{background:rgba(255,255,255,.95);padding:10px 14px;border-radius:12px;box-shadow:0 14px 48px -8px rgba(26,20,35,.15);display:inline-flex;gap:8px;margin-top:6px;font-size:.8em;}
+  .divider{height:1px;background:rgba(26,20,35,.08);margin:18px 0;}
+  .micro-title{font-size:.9em;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;}
+  .tag{display:inline-flex;gap:6px;flex-wrap:wrap;margin-top:6px;}
+  .token{background:var(--accent);color:#fff;border-radius:999px;padding:6px 12px;display:inline-flex;align-items:center;font-size:.75em;position:relative;overflow:hidden;cursor:pointer;user-select:none;box-shadow:0 14px 50px -12px rgba(26,20,35,.2);}
+  .ripple{position:absolute;border-radius:50%;transform:translate(-50%,-50%);pointer-events:none;mix-blend-mode:screen;opacity:.6;}
+  .game-row{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+  .placeholder{padding:14px;border:2px dashed rgba(26,20,35,.2);border-radius:12px;font-size:.9em;display:flex;flex-direction:column;gap:8px;background:#faf7f2;}
+  .pill-variant{background:var(--accent);color:#fff;padding:6px 14px;border-radius:999px;font-size:.65em;margin-right:4px;}
+  .hint-box{position:fixed;bottom:18px;right:18px;background:#fff;padding:14px;border-radius:14px;box-shadow:0 30px 90px -10px rgba(26,20,35,.25);display:flex;gap:12px;align-items:center;font-size:.85em;max-width:320px;}
+  .surprise{background:var(--teal);color:#fff;padding:8px 14px;border-radius:8px;display:inline-block;margin:4px 0;font-weight:600;}
+  .value-slider{width:100%;-webkit-appearance:none;height:10px;border-radius:8px;background:rgba(26,20,35,.1);outline:none;position:relative;}
+  .value-slider::-webkit-slider-thumb{-webkit-appearance:none;height:22px;width:22px;border-radius:50%;background:var(--accent);box-shadow:0 0 12px rgba(194,94,50,.6);cursor:pointer;border:3px solid #fff;margin-top:-6px;transition:transform .2s;}
+  .fade-in{opacity:0;transform:translateY(8px);transition:opacity .6s,transform .6s;}
+  .visible{opacity:1;transform:translateY(0);}
+  .badge{background:rgba(248,244,239,1);padding:10px 14px;border-radius:12px;display:inline-flex;gap:8px;align-items:center;font-size:.8em;border:1px solid rgba(26,20,35,.08);}
+  .value-labels{display:flex;justify-content:space-between;font-size:.7em;margin-top:6px;letter-spacing:0.5px;}
+  canvas{border-radius:14px;display:block;}
+  .game-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px;margin-top:12px;}
+  .pill-btn{background:var(--accent);color:#fff;border:none;border-radius:999px;padding:8px 18px;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:6px;}
 </style>
 </head>
 <body>
 
-  <div class="site-nav">
-    <div class="logo" onclick="scrollToSection('game')">
-      <div style="width:40px;height:40px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 10px 30px -5px rgba(15,36,62,.08);">
-        <img src="ChatGPT Image Jul 26, 2025, 02_57_49 PM.png" alt="logo" style="width:24px;">
-      </div>
-      InTouch Collective
-    </div>
-    <div class="nav-links" id="navLinks">
-      <a href="#game" onclick="scrollToSection('game')">Gra</a>
-      <a href="#pitch" onclick="scrollToSection('pitch')">Elevator Pitch</a>
-      <a href="#about" onclick="scrollToSection('about')">O nas</a>
-      <a href="#why" onclick="scrollToSection('why')">Dlaczego my?</a>
-      <a href="#events" onclick="scrollToSection('events')">Wydarzenia</a>
-    </div>
-    <div style="display:flex;gap:10px;align-items:center;">
-      <button class="cta" onclick="scrollToSection('events')">
-        Zobacz wydarzenia
-        <span class="pulse-ring"></span>
-      </button>
-      <button class="hamburger" aria-label="menu" onclick="toggleNav()">
-        <div style="width:22px;height:3px;background:var(--charcoal);margin:3px 0;border-radius:2px;"></div>
-        <div style="width:22px;height:3px;background:var(--charcoal);margin:3px 0;border-radius:2px;"></div>
-        <div style="width:22px;height:3px;background:var(--charcoal);margin:3px 0;border-radius:2px;"></div>
-      </button>
-    </div>
-  </div>
-
-  <div class="container" style="padding-top:78px;">
-
-    <!-- 1. Game / Icebreaker -->
-    <section id="game" class="section">
-      <div class="card" id="gameCard">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
-          <div style="font-size:.75em;font-weight:600;color:var(--forest-green);" id="gameProgress">Pytanie 1 z 10</div>
-          <button style="background:none;color:var(--burnt-orange);font-weight:600;" onclick="skipGame()">Pomiń</button>
+  <div class="container">
+    <div class="card">
+      <div style="display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;">
+        <div>
+          <div class="micro-title">Playground</div>
+          <h1>10 micro-games dla autentycznych połączeń</h1>
+          <p style="margin-top:4px;">Krótkie, psychologiczne, interaktywne doświadczenia. Wszystko działa tylko w przeglądarce; odpowiedzi kształtują, co pokażemy dalej — bez zapisywania.</p>
         </div>
-        <h1 id="questionTitle">Co jest najtrudniejsze w Twojej samotności?</h1>
-        <div class="scribble-underline">
-          <svg viewBox="0 0 110 18"><path d="M8 12 Q35 17 105 9 Q85 8 80 16 Q60 4 35 9 Q18 12 8 12Z"/></svg>
-        </div>
-        <textarea id="answerInput" rows="3" placeholder="Napisz krótko..." aria-label="odpowiedź"></textarea>
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-top:6px;">
-          <div id="feedback" style="opacity:0;font-size:.85em;color:var(--dusty-teal);">Dzięki, to pomaga spersonalizować.</div>
-          <button class="btn btn-accent" id="nextQuestionBtn" onclick="nextQuestion()">Dalej</button>
-        </div>
-        <div class="hint" id="gameHint">
-          <div>Odpowiedz, by lepiej dopasować następne sugestie.</div>
-        </div>
-        <div style="margin-top:12px;font-size:.75em;color:rgba(26,20,35,.6);">
-          (Dwukrotne tapnięcie w kartę odsłania niespodziankę.)
+        <div>
+          <div class="surprise">Twist: Empatia reaguje. Twist: Sieć przyciąga.</div>
         </div>
       </div>
-    </section>
+      <div class="divider"></div>
+      <div class="game-grid">
+        <!-- 1 Empathy Pulse -->
+        <div class="card" id="game1">
+          <div class="micro-title">1. Empathy Pulse</div>
+          <h2>Powiedz, co czujesz</h2>
+          <p>Wpisz jedno zdanie o swoich relacjach. Nagłówki i tło reagują na ton, długość i słowa — czujesz, że jesteś słyszany.</p>
+          <textarea id="pulseInput" placeholder="Np. Czuję się zmęczony powierzchownością..." rows="3" class="input"></textarea>
+          <div style="margin-top:6px;">
+            <div id="pulseHeadline" style="font-weight:700;font-size:1.1rem;display:inline-block;">Masz dość płytkich relacji?</div>
+            <div style="display:inline-block;margin-left:8px;" id="pulseHint"><small>Reaguje na to, co wpisujesz.</small></div>
+          </div>
+          <div class="hint" id="pulseSignal">
+            <div>Im więcej szczerości, tym silniejszy puls i dopasowanie następnej sugestii.</div>
+          </div>
+        </div>
 
-    <!-- 2. Elevator Pitch -->
-    <section id="pitch" class="section">
-      <div class="card" style="position:relative;overflow:visible;">
-        <div style="display:flex;flex-wrap:wrap;gap:14px;align-items:start;">
-          <div style="flex:1;min-width:260px;">
-            <div class="toggle-switch" aria-label="widoki">
-              <button class="toggle-button active" id="fullBtn" onclick="setPitchView('full')">Pełna</button>
-              <button class="toggle-button" id="shortBtn" onclick="setPitchView('short')">Krótka</button>
+        <!-- 2 Magnetic Canvas -->
+        <div class="card" id="game2">
+          <div class="micro-title">2. Magnetic Connection Canvas</div>
+          <h2>Poczuj połączenia</h2>
+          <p>Twoje imię jest w centrum. Porusz kursorem / dotykiem: przyciąga, odpycha, łączy. Kliknij kropki, by zobaczyć krótkie historie.</p>
+          <canvas id="magCanvas" style="margin-top:6px;width:100%;height:180px;"></canvas>
+          <div class="hint">
+            <div>Im więcej kliknięć w konkretne historie, tym wyświetlane potem sugestie podkreślają tę narrację.</div>
+          </div>
+        </div>
+
+        <!-- 3 Reflection Mirror -->
+        <div class="card" id="game3">
+          <div class="micro-title">3. Reflection Mirror</div>
+          <h2>Wydobądź temat</h2>
+          <p>Wpisz słowa, które czujesz w relacjach. Każde staje się żywą cząstką chmury. Zobacz, co dominuje.</p>
+          <div style="position:relative;">
+            <input id="mirrorInput" class="input" placeholder="np. samotność, zmęczenie, tęsknota..." />
+            <div id="wordCloud" style="position:absolute;top:52px;left:0;right:0;min-height:80px;display:flex;flex-wrap:wrap;gap:6px;padding:6px;"></div>
+          </div>
+          <div class="hint">
+            <div>Najczęściej użyte słowa zmieniają dynamikę rekomendacji niżej.</div>
+          </div>
+          <div style="margin-top:10px;">
+            <div><strong>Dominujący temat:</strong> <span id="dominantTag" class="pill-variant">—</span></div>
+          </div>
+        </div>
+
+        <!-- 4 Value Alignment Slider -->
+        <div class="card" id="game4">
+          <div class="micro-title">4. Value Alignment</div>
+          <h2>Gdzie jesteś?</h2>
+          <p>Przesuń suwak, by ustawić względną wagę dwóch wartości. Poczuj, co dla Ciebie ważniejsze – pomaga dobrać typ doświadczenia.</p>
+          <div style="margin-top:6px;">
+            <div style="display:flex;justify-content:space-between;font-size:.75em;">
+              <div>Głębokość</div>
+              <div>Szybkość</div>
             </div>
-            <div id="pitchContent">
-              <!-- full version -->
-              <div id="fullPitch">
-                <div class="empathy-headline" id="empathyHeadline">
-                  Masz dość social mediów, szybkich znajomości i płytkich rozmów?
-                  <div class="empathy-pulse" id="empathyPulse"></div>
-                </div>
-                <p style="margin-top:12px;">
-                  InTouch Collective to inicjatywa dwóch przyjaciół z pasją do psychologii i budowania autentycznych relacji, organizująca spotkania offline w Warszawie.
-                </p>
-                <p>
-                  <strong>Kameralne spotkania offline, stworzone dla osób, które chcą poznać nowych ludzi, przeżyć ciekawe doświadczenia i porozmawiać na poziomie, którego brakuje w codziennych kontaktach.</strong>
-                </p>
-                <p>
-                  To miejsce dla osób, które szukają autentycznych, wartościowych kontaktów offline:
-                </p>
-                <ul>
-                  <li>dla osób zmęczonych szybkim, powierzchownym światem online i social mediami,</li>
-                  <li>dla tych, którzy cenią sobie bezpieczeństwo, uważność i możliwość bycia sobą bez presji.</li>
-                </ul>
-                <p>
-                  Dzięki InTouch Collective uczestnicy budują prawdziwe relacje, rozwijają świadomość siebie i znajdują wartościową alternatywę dla cyfrowej samotności.
-                </p>
-                <p>
-                  Nasze wydarzenia odbywają się regularnie oraz okazjonalnie — część z nich to cykliczne sesje, część to eventy jednodniowe lub wyjazdy. Łączymy angażujące gry, kreatywne ćwiczenia i świadome rozmowy, by w bezpiecznej, uważnej atmosferze dać uczestnikom przestrzeń do poznawania siebie i innych.
-                </p>
-                <p>
-                  Łączymy autorskie i <strong>starannie dopasowane</strong> gry oraz ćwiczenia z psychologicznymi metodami pracy grupowej, tworząc bezpieczne i uważne środowisko. Dzięki temu uczestnicy <strong>budują wspólne doświadczenia z innymi osobami w grupie, naturalnie budując relacje</strong> i rozwijają samoświadomość — zawsze dostosowując się do własnej gotowości i potrzeb.
-                </p>
-                <hr style="margin:14px 0;border:none;border-top:1px solid rgba(59,44,36,.1);" />
-                <p style="font-weight:600;">
-                  <strong>InTouch Collective to kameralne spotkania na żywo w Warszawie, gdzie możesz nawiązać prawdziwe kontakty i spędzić czas w atmosferze autentyczności i wzajemnego szacunku.</strong>
-                </p>
-                <p>
-                  Organizujemy regularne i okazjonalne sesje, które łączą przemyślane gry oraz ćwiczenia z elementami pracy grupowej, pozwalając uczestnikom poznawać siebie i innych na głębszym poziomie — bez presji i sztuczności.
-                </p>
-                <p>
-                  To miejsce dla tych, którzy szukają wartościowych relacji i chcą świadomie budować swoje społeczne umiejętności — zawsze w tempie dostosowanym do siebie.
-                </p>
-              </div>
-              <!-- short version hidden -->
-              <div id="shortPitch" style="display:none;">
-                <div class="empathy-headline" id="empathyHeadlineShort">
-                  Masz dość powierzchownych relacji online?
-                  <div class="empathy-pulse"></div>
-                </div>
-                <p>
-                  Kameralne, facylitowane spotkania w Warszawie. Autorskie gry i ćwiczenia dają głębię bez sztuczności — prawdziwe relacje zamiast scrollowania.
-                </p>
-              </div>
+            <input id="sliderDepth" type="range" min="0" max="100" value="60" class="value-slider" />
+            <div class="value-labels">
+              <div id="labelDepth">Głębia</div>
+              <div id="labelSpeed">Tempo</div>
             </div>
           </div>
-          <div style="flex:1;min-width:240px;position:relative;">
-            <div style="font-weight:600;margin-bottom:6px;">Poczuj połączenie</div>
-            <canvas id="connectionCanvas"></canvas>
-            <div style="margin-top:8px;font-size:.75em;color:rgba(26,20,35,.6);">
-              Przesuń myszką / dotknij — zobacz jak Twoje imię przyciąga innych. Kliknij w kropki, by zobaczyć krótkie historie.
-            </div>
+          <div class="hint">
+            <div>Twój wybór modyfikuje następne propozycje: więcej głębi → dłuższe sesje, szybkość → krótkie integracje.</div>
           </div>
         </div>
-        <div class="sticky-summary" style="margin-top:16px;">
-          <div style="flex:1;min-width:150px;"><strong>Kim jesteśmy:</strong> Dwójka przyjaciół z psychologii tworząca spotkania łączące strukturę i autentyczność.</div>
-          <div style="flex:1;min-width:150px;"><strong>Co robimy:</strong> Gry i świadome rozmowy w kameralnych, offline’owych sesjach.</div>
-          <div style="flex:1;min-width:150px;"><strong>Efekt:</strong> Relacje, samoświadomość, przynależność.</div>
-          <button class="btn btn-accent" onclick="scrollToSection('events')">Zobacz wydarzenia</button>
-        </div>
-      </div>
-    </section>
 
-    <!-- 3. O nas -->
-    <section id="about" class="section" style="background:rgba(240,230,210,.25);">
-      <div class="card">
-        <h2>O nas</h2>
-        <p>Jesteśmy dwójką przyjaciół z psychologicznych studiów. Zaczęliśmy od prostego pytania: jak tworzyć relacje, które zostają? Testowaliśmy, dopracowywaliśmy, teraz organizujemy regularne i okazjonalne spotkania w Warszawie.</p>
-        <div style="display:flex;gap:14px;flex-wrap:wrap;margin-top:12px;">
-          <div class="small-badge">Start – pomysł z potrzeby autentyczności</div>
-          <div class="small-badge">Testy – pierwsze sesje i feedback</div>
-          <div class="small-badge">Rozwój – skalowanie i dopasowanie</div>
-          <div class="small-badge">Teraz – działające spotkania</div>
+        <!-- 5 Appreciation Exchange -->
+        <div class="card" id="game5">
+          <div class="micro-title">5. Appreciation Exchange</div>
+          <h2>Wyślij token wdzięczności</h2>
+          <p>Kliknij osobę na wirtualnej tablicy, by wysłać “dziękuję”. Animacja ripple symuluje pozytywną wymianę.</p>
+          <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:6px;">
+            <div class="token" data-name="Anna">Anna</div>
+            <div class="token" data-name="Michał">Michał</div>
+            <div class="token" data-name="Ola">Ola</div>
+            <div class="token" data-name="Tomasz">Tomasz</div>
+          </div>
+          <div id="appreciationLog" style="margin-top:12px;font-size:.85em;"></div>
+          <div class="hint">
+            <div>Wymiana buduje poczucie bezpieczeństwa. Najczęściej wysyłane imiona sugerują “grupę”, którą podkreślimy dalej.</div>
+          </div>
         </div>
-      </div>
-    </section>
 
-    <!-- 4. Dlaczego my? -->
-    <section id="why" class="section">
-      <div class="card">
-        <h2>Dlaczego my?</h2>
-        <p>W świecie powierzchownych kontaktów oferujemy coś innego: strukturę połączoną z uważnością. Dzięki temu relacje powstają naturalnie, nie sztucznie.</p>
-        <div style="display:flex;gap:16px;flex-wrap:wrap;margin-top:14px;">
-          <div style="flex:1;min-width:160px;" class="badge">
-            <strong>Autorskie, dopasowane gry</strong>
-            <div style="font-size:.85em;margin-top:4px;">Nie improwizacja — przemyślana struktura.</div>
-          </div>
-          <div style="flex:1;min-width:160px;" class="badge">
-            <strong>Psychologia grupowa</strong>
-            <div style="font-size:.85em;margin-top:4px;">Zrozumienie dynamiki, bez presji.</div>
-          </div>
-          <div style="flex:1;min-width:160px;" class="badge">
-            <strong>Bezpieczeństwo & uważność</strong>
-            <div style="font-size:.85em;margin-top:4px;">Tempo dostosowane do Ciebie.</div>
-          </div>
+        <!-- placeholders for remaining 5 -->
+        <div class="card placeholder">
+          <div class="micro-title">6. Shared Story Weave</div>
+          <h2>Wspólna opowieść</h2>
+          <p>Wybierasz między dwiema wersjami zdania, historia się rozwija. Na końcu zobaczysz złożoną narrację grupową.</p>
+          <small>(demo coming)</small>
         </div>
-        <div style="display:flex;gap:24px;margin-top:18px;flex-wrap:wrap;">
-          <div>
-            <div style="font-size:.7em;color:rgba(26,20,35,.6);">Poziom połączenia</div>
-            <div>★★★★☆</div>
-          </div>
-          <div>
-            <div style="font-size:.7em;color:rgba(26,20,35,.6);">Łatwość startu</div>
-            <div>★★★★★</div>
-          </div>
+        <div class="card placeholder">
+          <div class="micro-title">7. Anchor & Drift</div>
+          <h2>Zakotwicz się</h2>
+          <p>Wybierz wspomnienie lub wartość, przeciągnij powiązane pojęcia bliżej. Zobacz swoją mapę znaczeń.</p>
+          <small>(demo coming)</small>
         </div>
-        <div style="margin-top:18px;">
-          <div style="background:rgba(248,244,239,1);padding:16px;border-radius:14px;box-shadow:0 14px 40px -8px rgba(15,36,62,.08);">
-            <strong>„Na początku nie wiedziałem, co powiedzieć. Po 30 minutach czułem, że znam kilku ludzi lepiej niż po tygodniu na innych eventach.”</strong>
-            <div style="margin-top:6px;font-size:.85em;">— uczestnik</div>
-          </div>
+        <div class="card placeholder">
+          <div class="micro-title">8. Isolation Path</div>
+          <h2>Ścieżka izolacji</h2>
+          <p>Podążaj za wyborem, który doprowadził do odczucia dystansu i dostaniesz mikro-tip jak to odwrócić.</p>
+          <small>(demo coming)</small>
+        </div>
+        <div class="card placeholder">
+          <div class="micro-title">9. Pulse Breathing Sync</div>
+          <h2>Synchronizacja oddechu</h2>
+          <p>Dotykaj rytmicznie, UI daje feedback — uspokój się przed kolejnym krokiem.</p>
+          <small>(demo coming)</small>
+        </div>
+        <div class="card placeholder">
+          <div class="micro-title">10. Social Comparison Slider</div>
+          <h2>Scroll vs Spotkanie</h2>
+          <p>Przeciągnij suwak, by zderzyć hałas online z prostotą realnych rozmów. Kontrast motywuje decyzję.</p>
+          <small>(demo coming)</small>
         </div>
       </div>
-    </section>
-
-    <!-- 5. Event List -->
-    <section id="events" class="section" style="background:#f9f7f2;">
-      <div class="filter-row">
-        <div style="flex:1;min-width:220px;">
-          <h2>Wydarzenia</h2>
-          <p>Wybierz spotkanie. Zostaw email, przypomnimy. Krótko: kolejne: 3 maja, 10 maja...</p>
-        </div>
-        <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:center;">
-          <input id="filterInput" placeholder="Szukaj..." aria-label="szukaj" oninput="filterEvents()" style="max-width:170px;" />
-          <button class="btn btn-accent" onclick="openEmailPanel()">Zostaw email</button>
-        </div>
-      </div>
-      <div class="sticky-summary">
-        <div style="flex:1;min-width:140px;"><strong>Krótko:</strong> autentyczne relacje offline zamiast scrollowania.</div>
-        <div style="flex:1;min-width:140px;"><strong>Następne:</strong> 3 maja, 10 maja...</div>
-        <button class="btn btn-primary" onclick="scrollToSection('events')">Zapisz się</button>
-      </div>
-      <div id="eventsContainer">
-        <div class="event-card" data-name="Połączenia">
-          <div class="event-info">
-            <div style="font-weight:600;">Spotkanie: Połączenia</div>
-            <div style="font-size:.85em;margin-top:4px;">3 maja • Warszawa • 6–8 osób</div>
-          </div>
-          <div class="event-actions">
-            <button class="btn btn-primary" onclick="signupEvent('Połączenia')">Zapisz się</button>
-            <button class="btn" style="border:1px solid var(--deep-navy);color:var(--deep-navy);font-size:.85em;">Dodaj do kalendarza</button>
-          </div>
-        </div>
-        <div class="event-card" data-name="Nowe początki">
-          <div class="event-info">
-            <div style="font-weight:600;">Spotkanie: Nowe początki</div>
-            <div style="font-size:.85em;margin-top:4px;">10 maja • Kraków • 8–12 osób</div>
-          </div>
-          <div class="event-actions">
-            <button class="btn btn-primary" onclick="signupEvent('Nowe początki')">Zapisz się</button>
-            <button class="btn" style="border:1px solid var(--deep-navy);color:var(--deep-navy);font-size:.85em;">Dodaj do kalendarza</button>
-          </div>
-        </div>
-      </div>
-    </section>
-  </div>
-
-  <!-- email panel -->
-  <div class="overlay" id="emailPanel">
-    <div class="panel">
-      <button class="close-btn" onclick="closeEmailPanel()">×</button>
-      <h2>Zostaw email</h2>
-      <p>Będziemy przypominać o najbliższych wydarzeniach. Dane używamy tylko do kontaktu. <br><small>RODO: zgoda na przetwarzanie danych.</small></p>
-      <form id="emailForm" onsubmit="submitEmail(event)">
-        <input type="email" id="emailInput" required placeholder="Twój email" aria-label="email"/>
-        <div style="display:flex;align-items:center;gap:8px;margin:8px 0;">
-          <input type="checkbox" id="consentCheckbox" required/>
-          <label for="consentCheckbox"><small>Zgoda na przetwarzanie danych zgodnie z RODO.</small></label>
-        </div>
-        <button class="btn btn-accent" type="submit" style="width:100%;">Zapisz mnie</button>
-      </form>
-      <div id="emailSuccess" style="display:none;margin-top:14px;color:var(--forest-green);font-weight:600;">Dzięki! Będziemy przypominać.</div>
     </div>
-  </div>
 
-  <!-- full signup -->
-  <div class="overlay" id="eventSignupPanel">
-    <div class="panel">
-      <button class="close-btn" onclick="closeEventSignup()">×</button>
-      <h2>Zapisz się na wydarzenie</h2>
-      <p id="selectedEventTitle" style="font-weight:600;margin-bottom:6px;"></p>
-      <form id="fullSignupForm" onsubmit="submitFullSignup(event)">
-        <input type="email" id="eventEmail" required placeholder="Email" aria-label="email"/>
-        <input type="tel" id="eventPhone" required placeholder="Telefon" aria-label="telefon"/>
-        <div style="display:flex;align-items:center;gap:8px;margin:8px 0;">
-          <input type="checkbox" id="eventConsent" required/>
-          <label for="eventConsent"><small>Zgoda na przetwarzanie danych zgodnie z RODO.</small></label>
-        </div>
-        <button class="btn btn-primary" type="submit" style="width:100%;">Dołącz</button>
-      </form>
-      <div id="signupSuccess" style="display:none;margin-top:14px;color:var(--dusty-teal);font-weight:600;">Jesteś zapisany. Wyślemy potwierdzenie.</div>
+    <!-- dynamic suggestion area -->
+    <div class="card" id="suggestionArea">
+      <div class="micro-title">Co dalej?</div>
+      <h2>Spersonalizowana sugestia</h2>
+      <p id="suggestionText">Odpowiedz na kilka pytań, żeby zobaczyć rekomendację.</p>
+      <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:8px;">
+        <button class="btn btn-primary" onclick="scrollToSection('game')">Zagraj w Empathy Pulse</button>
+        <button class="btn btn-secondary" onclick="scrollToSection('events')">Zobacz wydarzenia</button>
+      </div>
     </div>
+
+    <!-- lightweight events preview -->
+    <div class="card">
+      <div class="micro-title">Przykład wpływu</div>
+      <h2>Wydarzenia dopasowane do Ciebie</h2>
+      <div style="display:flex;gap:14px;flex-wrap:wrap;margin-top:12px;">
+        <div class="badge">Głęboka rozmowa • Warszawa • 3 maja</div>
+        <div class="badge">Szybkie połączenia • Kraków • 10 maja</div>
+        <div class="badge">Wieczór refleksji • online/local</div>
+      </div>
+      <p style="margin-top:6px;">Tu system by zaproponował na podstawie Twoich wyborów: jeśli wpisałeś dużo “samotność” i ustawiłeś “głębia”, sugerujemy <strong>“Głęboką rozmowę”</strong>.</p>
+    </div>
+
   </div>
 
-  <div class="secret-banner" id="secretBanner">Wiedzieliśmy, że to zadziała — jesteś tu ponownie.</div>
-
-  <div class="node-tooltip" id="tooltip" style="display:none;"></div>
+  <!-- hint / onboarding -->
+  <div class="hint-box" id="globalHint">
+    <div><strong>Tip:</strong> Zacznij od wpisania tego, co czujesz — reszta adaptuje się do Ciebie. Kliknij w kropki na kanwie, by zobaczyć historie.</div>
+  </div>
 
   <script>
-    // nav toggle
-    function toggleNav(){
-      const nav=document.getElementById('navLinks');
-      nav.style.display = nav.style.display==='flex'?'none':'flex';
-    }
-    function scrollToSection(id){
-      const el=document.getElementById(id);
-      if(el) el.scrollIntoView({behavior:'smooth',block:'start'});
-    }
-
-    // Game logic + empathy pulse
-    const questions=[
-      "Co jest najtrudniejsze w Twojej samotności?",
-      "Dlaczego potrzebujesz przyjaciół?",
-      "Jaką aktywność chciałbyś/chciałabyś robić z innymi?",
-      "Co sprawia, że czujesz się naprawdę słyszany?",
-      "Jaki temat rozmowy łamie lody dla Ciebie?",
-      "Kiedy ostatnio poczułeś/poczułaś bliskość?",
-      "Czego brakuje w obecnych relacjach?",
-      "Jakie wartości łączą Cię z innymi?",
-      "Co byś zrobił/zrobiła z nową znajomością?",
-      "Jak chcesz być zapamiętany/zapamiętana po spotkaniu?"
-    ];
-    let gameIndex=0, answers=[], userName=sessionStorage.getItem('collectiv_name')||'';
-    const questionTitle=document.getElementById('questionTitle');
-    const progressEl=document.getElementById('gameProgress');
-    const answerInput=document.getElementById('answerInput');
-    const feedbackEl=document.getElementById('feedback');
-    const empathyHeadline=document.getElementById('empathyHeadline');
-    const empathyPulse=document.getElementById('empathyPulse');
-
-    function randomizePool(){
-      for(let i=questions.length-1;i>0;i--){
-        const j=Math.floor(Math.random()*(i+1));
-        [questions[i],questions[j]]=[questions[j],questions[i]];
+    // Empathy Pulse logic
+    const pulseInput=document.getElementById('pulseInput');
+    const pulseHeadline=document.getElementById('pulseHeadline');
+    const pulseSignal=document.getElementById('pulseSignal');
+    let pulseTimer;
+    pulseInput.addEventListener('input',()=>{
+      clearTimeout(pulseTimer);
+      const val=pulseInput.value.trim();
+      if(!val){
+        pulseHeadline.textContent="Masz dość płytkich relacji?";
+      } else if(val.length<15){
+        pulseHeadline.textContent="Chcemy usłyszeć więcej.";
+      } else if(/\b(samotn|zmęcz|odl|oddal)\b/i.test(val)){
+        pulseHeadline.textContent="Czujesz dystans — to da się odwrócić.";
+      } else if(/\b(przyjac|blisk|pozn)\b/i.test(val)){
+        pulseHeadline.textContent="Szukasz połączeń? Zaczynamy.";
+      } else {
+        pulseHeadline.textContent="Jesteś widziany.";
       }
-    }
-    function showQuestion(){
-      questionTitle.textContent=questions[gameIndex];
-      progressEl.textContent=`Pytanie ${gameIndex+1} z ${questions.length}`;
-      answerInput.value='';
-      feedbackEl.style.opacity=0;
-    }
-    function nextQuestion(){
-      const val=answerInput.value.trim();
-      if(val){
-        answers[gameIndex]=val;
-        feedbackEl.style.opacity=1;
-        if(!userName){
-          userName=val.split(' ')[0];
-          sessionStorage.setItem('collectiv_name',userName);
-        }
-      }
-      adaptEmpathy(val);
-      gameIndex++;
-      if(gameIndex>=questions.length){
-        scrollToSection('pitch');
-      } else showQuestion();
-    }
-    function skipGame(){scrollToSection('pitch');}
-    answerInput.addEventListener('input',()=>{
-      document.getElementById('gameHint').style.opacity=1;
-      adaptEmpathy(answerInput.value.trim());
+      // visual intensity (simple)
+      const intensity=Math.min(1, Math.max(0.2, Math.min(val.length/40,1)));
+      pulseSignal.style.background=`rgba(194,94,50,${0.08+intensity*0.2})`;
+      // suggestion adapt
+      pulseTimer=setTimeout(updateSuggestion,500);
     });
 
-    function adaptEmpathy(text){
-      // simple heuristic: if length short, encourage; if contains positive keywords, change headline
-      const base1="Masz dość social mediów, szybkich znajomości i płytkich rozmów?";
-      const base2="Chcesz relacje, które zostają?";
-      let headline=base1;
-      if(!text) headline=base1;
-      else if(text.length < 10) headline="Daj znać więcej — chcemy zrozumieć.";
-      else if(/samotn|osamotn|brakuje/i.test(text)) headline="Czujesz to — tu możesz coś zmienić.";
-      else if(/przyjaci|relacj|pozn/i.test(text)) headline=base2;
-      // apply to both variants
-      document.getElementById('empathyHeadline').firstChild.textContent = headline;
-      document.getElementById('empathyHeadlineShort').firstChild.textContent = headline;
-      // pulse intensity based on emotionally loaded words
-      const intensity = Math.min(1, Math.max(0.1, Math.min(text.length/50, 1)));
-      empathyPulse.style.boxShadow = `0 0 80px ${10 * intensity}px rgba(194,94,50,${0.2 * intensity})`;
-      empathyPulse.style.opacity = 0.6 * intensity;
-    }
-
-    randomizePool();
-    showQuestion();
-
-    // Pitch view toggle
-    function setPitchView(mode){
-      document.getElementById('fullBtn').classList.toggle('active', mode==='full');
-      document.getElementById('shortBtn').classList.toggle('active', mode==='short');
-      document.getElementById('fullPitch').style.display = mode==='full'?'block':'none';
-      document.getElementById('shortPitch').style.display = mode==='short'?'block':'none';
-    }
-
-    // Email panel
-    function openEmailPanel(){document.getElementById('emailPanel').style.display='flex';}
-    function closeEmailPanel(){document.getElementById('emailPanel').style.display='none';}
-    function submitEmail(e){
-      e.preventDefault();
-      const email=document.getElementById('emailInput').value.trim();
-      if(!email) return;
-      sessionStorage.setItem('collectiv_email',email);
-      document.getElementById('emailSuccess').style.display='block';
-      setTimeout(closeEmailPanel,1200);
-    }
-
-    // Event signup
-    function signupEvent(name){
-      document.getElementById('selectedEventTitle').textContent=`Wydarzenie: ${name}`;
-      const stored = sessionStorage.getItem('collectiv_email');
-      if(stored) document.getElementById('eventEmail').value=stored;
-      document.getElementById('eventSignupPanel').style.display='flex';
-    }
-    function closeEventSignup(){document.getElementById('eventSignupPanel').style.display='none';}
-    function submitFullSignup(e){
-      e.preventDefault();
-      const email=document.getElementById('eventEmail').value.trim();
-      const phone=document.getElementById('eventPhone').value.trim();
-      if(!email||!phone) return;
-      sessionStorage.setItem('collectiv_email',email);
-      document.getElementById('signupSuccess').style.display='block';
-      setTimeout(closeEventSignup,1400);
-    }
-
-    // Filter events
-    function filterEvents(){
-      const q=document.getElementById('filterInput').value.toLowerCase();
-      document.querySelectorAll('.event-card').forEach(c=>{
-        const name=c.dataset.name.toLowerCase();
-        c.style.display = name.includes(q)?'flex':'none';
+    // Reflection Mirror
+    const mirrorInput=document.getElementById('mirrorInput');
+    const cloud=document.getElementById('wordCloud');
+    const dominantTag=document.getElementById('dominantTag');
+    const freqMap={};
+    mirrorInput.addEventListener('keyup',e=>{
+      const text=mirrorInput.value.toLowerCase();
+      const words=text.match(/\b\w{2,}\b/g) || [];
+      cloud.innerHTML='';
+      words.forEach(w=>{
+        freqMap[w]=(freqMap[w]||0)+0; // keep previous counts for session-level (not saved)
       });
+      // build current frequency of this input
+      const localMap=words.reduce((acc,w)=>{
+        acc[w]=(acc[w]||0)+1;
+        return acc;
+      },{});
+      const sorted=Object.entries(localMap).sort((a,b)=>b[1]-a[1]);
+      sorted.slice(0,10).forEach(([w,c])=>{
+        const span=document.createElement('div');
+        span.textContent=w;
+        span.style.background='rgba(194,94,50,.1)';
+        span.style.padding='6px 12px';
+        span.style.borderRadius='999px';
+        span.style.fontSize='0.85em';
+        span.style.fontWeight='600';
+        span.style.opacity=0.6 + Math.min(0.4, c*0.1);
+        cloud.appendChild(span);
+      });
+      dominantTag.textContent= sorted.length? sorted[0][0] : '—';
+      updateSuggestion();
+    });
+
+    // Value alignment slider
+    const sliderDepth=document.getElementById('sliderDepth');
+    const labelDepth=document.getElementById('labelDepth');
+    const labelSpeed=document.getElementById('labelSpeed');
+    sliderDepth.addEventListener('input',()=>{
+      const v=sliderDepth.value;
+      // simple feedback
+      labelDepth.textContent = `Głębia ${v}%`;
+      labelSpeed.textContent = `Tempo ${100-v}%`;
+      updateSuggestion();
+    });
+
+    // Appreciation exchange
+    const tokens=document.querySelectorAll('.token');
+    const logEl=document.getElementById('appreciationLog');
+    const appreciationCounts={};
+    tokens.forEach(t=>{
+      t.addEventListener('click',e=>{
+        const name=t.dataset.name;
+        appreciationCounts[name]=(appreciationCounts[name]||0)+1;
+        const ripple=document.createElement('div');
+        ripple.className='ripple';
+        ripple.style.width='120px';
+        ripple.style.height='120px';
+        ripple.style.left='50%';
+        ripple.style.top='50%';
+        ripple.style.background='rgba(194,94,50,.2)';
+        t.appendChild(ripple);
+        setTimeout(()=>{ripple.remove();},600);
+        logEl.innerHTML=`Wysłałeś token do <strong>${name}</strong>. Najwięcej wysłanych: ${Object.entries(appreciationCounts).sort((a,b)=>b[1]-a[1])[0][0]}.`;
+        updateSuggestion();
+      });
+    });
+
+    // Suggestion logic (rudimentary combining signals)
+    function updateSuggestion(){
+      const parts=[];
+      // empathy tone
+      const pulseText=pulseInput.value.trim();
+      if(/\b(samotn|odl|pusta)\b/i.test(pulseText)){
+        parts.push('Zacznij od "Połączenia" – głębokie sesje dla tych, którzy czują dystans.');
+      }
+      if(/\b(przyjac|pozn)\b/i.test(pulseText)){
+        parts.push('Wypróbuj krótką integrację, żeby spotkać nowych ludzi bez presji.');
+      }
+      // mirror dominant
+      const dom=dominantTag.textContent;
+      if(dom && dom!=='—'){
+        parts.push(`Temat "${dom}" sugeruje: sesję refleksji lub dialog w małej grupie.`);
+      }
+      // value slider
+      const depth=sliderDepth.value;
+      if(depth>65){
+        parts.push('Preferujesz głębię — sugerujemy spotkania z dłuższą strukturą rozmowy.');
+      } else if(depth<35){
+        parts.push('Chcesz szybko wejść w kontakt — polecamy integracyjne micro-meetupy.');
+      }
+      // appreciation
+      const topApp=Object.entries(appreciationCounts).sort((a,b)=>b[1]-a[1])[0];
+      if(topApp){
+        parts.push(`Wzajemność z "${topApp[0]}" wskazuje na potrzebę bezpiecznego wymieniania się — zobacz "Appreciation Exchange" jeszcze raz.`);
+      }
+      const suggestionText=document.getElementById('suggestionText');
+      suggestionText.textContent = parts.length? parts[0] : 'Spróbuj odpowiedzieć na jedno z promptów powyżej, a dostaniesz spersonalizowaną rekomendację.';
     }
 
-    // Connection canvas (twist 2)
-    const canvas=document.getElementById('connectionCanvas');
+    // Magnetic Canvas logic (simplified physics)
+    const canvas=document.getElementById('magCanvas');
     const ctx=canvas.getContext('2d');
-    let width, height;
+    let cw, ch;
     const nodes=[];
-    const testimonials=[
-      "„Po 30 minutach znałem kilka osób lepiej niż po tygodniu innych eventów.”",
-      "„Zaczęło się od pytania, a skończyło na realnej rozmowie.”",
-      "„Czułem, że mogę być sobą, bez maski.”",
-      "„Nie naciskają, a jednak coś się otwiera.”"
+    const stories=[
+      "Spotkania dają poczucie przynależności.",
+      "Bliskość zaczyna się od uważnego słuchania.",
+      "Wartość jest w byciu sobą, bez udawania.",
+      "Powierzchowność online zmęczyła mnie.",
+      "Znalazłem kogoś, kto naprawdę słucha."
     ];
-    function resizeCanvas(){
-      width=canvas.clientWidth;
-      height=canvas.clientHeight;
-      canvas.width=width*devicePixelRatio;
-      canvas.height=height*devicePixelRatio;
+    function resize(){
+      cw=canvas.clientWidth;
+      ch=canvas.clientHeight;
+      canvas.width=cw*devicePixelRatio;
+      canvas.height=ch*devicePixelRatio;
       ctx.setTransform(devicePixelRatio,0,0,devicePixelRatio,0,0);
     }
-    function initNodes(){
+    function initMag(){
       nodes.length=0;
-      // create random orbiting nodes
-      for(let i=0;i<18;i++){
+      // create story nodes
+      for(let i=0;i<8;i++){
+        const angle=(Math.PI*2/8)*i;
+        const r= Math.min(cw,ch)/3;
         nodes.push({
-          x: Math.random()*width,
-          y: Math.random()*height,
-          vx: (Math.random()-0.5)*0.6,
-          vy: (Math.random()-0.5)*0.6,
-          r: 6 + Math.random()*5,
-          label: testimonials[i%testimonials.length],
-          isUser: false,
-          angle: Math.random()*Math.PI*2
+          x: cw/2 + Math.cos(angle)*r + (Math.random()-0.5)*30,
+          y: ch/2 + Math.sin(angle)*r + (Math.random()-0.5)*30,
+          vx:0,vy:0,
+          radius:9 + Math.random()*4,
+          story: stories[i%stories.length],
+          isCenter:false
         });
       }
-      // user node from name
-      const name=sessionStorage.getItem('collectiv_name') || "Ty";
+      // user central node
       nodes.push({
-        x: width/2,
-        y: height/2,
+        x:cw/2,
+        y:ch/2,
         vx:0,vy:0,
-        r:14,
-        label: `Cześć, ${name}! To ty. Kliknij inne kropki, by zobaczyć historie.`,
-        isUser:true
+        radius:16,
+        story:`Cześć, ${sessionStorage.getItem('collectiv_name')||'Ty'} – kliknij inne kropki.`,
+        isCenter:true
       });
     }
-    let pointer={x:null,y:null,isDown:false};
-    canvas.addEventListener('mousemove', e=>{
+    let pointer={x:null,y:null};
+    canvas.addEventListener('mousemove',e=>{
       const rect=canvas.getBoundingClientRect();
-      pointer.x = e.clientX - rect.left;
-      pointer.y = e.clientY - rect.top;
+      pointer.x=e.clientX-rect.left;
+      pointer.y=e.clientY-rect.top;
     });
-    canvas.addEventListener('mouseleave', ()=>{pointer.x=null;pointer.y=null;});
-    canvas.addEventListener('click', e=>{
+    canvas.addEventListener('mouseleave',()=>{pointer.x=null;pointer.y=null;});
+    canvas.addEventListener('click',e=>{
       const rect=canvas.getBoundingClientRect();
       const mx=e.clientX-rect.left;
       const my=e.clientY-rect.top;
       for(const n of nodes){
         const dx=mx-n.x, dy=my-n.y;
-        if(Math.hypot(dx,dy) < n.r+4){
-          showTooltip(e.clientX, e.clientY, n.label);
+        if(Math.hypot(dx,dy) < n.radius+6){
+          alert(n.story); // micro-testimonial popup
           return;
         }
       }
     });
-    function showTooltip(pageX,pageY,text){
-      const tip=document.getElementById('tooltip');
-      tip.textContent=text;
-      tip.style.left=pageX+12+'px';
-      tip.style.top=pageY+12+'px';
-      tip.style.display='block';
-      clearTimeout(tip._hide);
-      tip._hide=setTimeout(()=>{tip.style.display='none';},4000);
-    }
-    function updateNodes(){
+    function updateMag(){
       for(const n of nodes){
-        // basic movement
-        n.x += n.vx;
-        n.y += n.vy;
-        // bounce edges
-        if(n.x < n.r || n.x > width-n.r) n.vx *= -1;
-        if(n.y < n.r || n.y > height-n.r) n.vy *= -1;
-        // gravity from pointer (attract/repel)
+        if(!n.isCenter){
+          // attraction toward center lightly
+          const center=nodes.find(o=>o.isCenter);
+          const dx=center.x - n.x;
+          const dy=center.y - n.y;
+          const dist=Math.hypot(dx,dy);
+          const pull=(dist>80?0.01:0)*1 + 0.002;
+          n.vx += dx/dist * pull;
+          n.vy += dy/dist * pull;
+        }
+        // pointer repulsion
         if(pointer.x != null){
           const dx=pointer.x - n.x;
           const dy=pointer.y - n.y;
-          const dist=Math.hypot(dx,dy);
-          if(dist < 120){
-            const force = (120 - dist)/120 * 0.5;
-            const dirx=dx/dist, diry=dy/dist;
-            // user node attracts, others slightly repelled for separation feel
-            if(n.isUser){
-              n.vx += dirx * force * 0.15;
-              n.vy += diry * force * 0.15;
-            } else {
-              n.vx -= dirx * force * 0.08;
-              n.vy -= diry * force * 0.08;
-            }
+          const d=Math.hypot(dx,dy);
+          if(d<80 && !n.isCenter){
+            const push= (80-d)/80 * 0.5;
+            n.vx -= dx/d * push;
+            n.vy -= dy/d * push;
           }
         }
-        // small damping
-        n.vx *= 0.96;
-        n.vy *= 0.96;
+        // motion
+        n.x += n.vx;
+        n.y += n.vy;
+        n.vx *= 0.88;
+        n.vy *= 0.88;
+        // bounds
+        if(n.x < n.radius) n.x = n.radius;
+        if(n.x > cw - n.radius) n.x = cw - n.radius;
+        if(n.y < n.radius) n.y = n.radius;
+        if(n.y > ch - n.radius) n.y = ch - n.radius;
       }
     }
-    function drawNodes(){
-      ctx.clearRect(0,0,width,height);
-      for(const n of nodes){
-        ctx.save();
-        if(n.isUser){
-          ctx.fillStyle = 'rgba(194,94,50,0.95)';
-          ctx.shadowColor = 'rgba(194,94,50,0.4)';
-          ctx.shadowBlur = 14;
-        } else {
-          ctx.fillStyle = 'rgba(31,74,54,0.85)';
-          ctx.shadowColor = 'rgba(31,74,54,0.2)';
-          ctx.shadowBlur = 6;
-        }
-        ctx.beginPath();
-        ctx.arc(n.x,n.y,n.r,0,Math.PI*2);
-        ctx.fill();
-        ctx.restore();
-      }
-      // subtle linking lines
+    function drawMag(){
+      ctx.clearRect(0,0,cw,ch);
+      // lines
       for(const a of nodes){
         for(const b of nodes){
           if(a===b) continue;
           const dx=a.x-b.x, dy=a.y-b.y;
           const d=Math.hypot(dx,dy);
-          if(d < 80){
-            ctx.strokeStyle='rgba(90,139,124,'+((80-d)/120*0.15)+')';
+          if(d<90){
+            ctx.strokeStyle=`rgba(90,139,124,${(90-d)/140 * 0.15})`;
             ctx.lineWidth=1;
             ctx.beginPath();
             ctx.moveTo(a.x,a.y);
@@ -878,50 +467,50 @@
           }
         }
       }
+      nodes.forEach(n=>{
+        ctx.save();
+        if(n.isCenter){
+          ctx.fillStyle='#C25E32';
+          ctx.shadowBlur=18; ctx.shadowColor='rgba(194,94,50,.3)';
+        } else {
+          ctx.fillStyle='rgba(31,74,54,.9)';
+          ctx.shadowBlur=6; ctx.shadowColor='rgba(31,74,54,.2)';
+        }
+        ctx.beginPath();
+        ctx.arc(n.x,n.y,n.radius,0,Math.PI*2);
+        ctx.fill();
+        ctx.restore();
+      });
     }
-    function loop(){
-      updateNodes();
-      drawNodes();
-      requestAnimationFrame(loop);
+    function loopMag(){
+      updateMag();
+      drawMag();
+      requestAnimationFrame(loopMag);
     }
-    function initCanvas(){
-      resizeCanvas();
-      initNodes();
-      loop();
+
+    function initAll(){
+      resize();
+      initMag();
+      loopMag();
     }
-    window.addEventListener('resize', ()=>{
-      resizeCanvas();
-      // reposition user node center
-      const user = nodes.find(n=>n.isUser);
-      if(user){
-        user.x = canvas.clientWidth/2;
-        user.y = canvas.clientHeight/2;
-      }
+    window.addEventListener('resize',()=>{
+      resize();
+      // recenter user
+      const center=nodes.find(n=>n.isCenter);
+      if(center){center.x=cw/2;center.y=ch/2;}
     });
-    initCanvas();
+    initAll();
 
-    // secret double-tap on game card banner
-    let lastTap=0;
-    document.getElementById('gameCard').addEventListener('click', ()=> {
-      const now = Date.now();
-      if(now - lastTap < 350){
-        const b=document.getElementById('secretBanner');
-        b.style.display='block';
-        setTimeout(()=>{b.style.display='none';},2500);
-      }
-      lastTap=now;
+    // Suggestion area (simplistic)
+    function scrollToSection(id){
+      document.getElementById(id)?.scrollIntoView({behavior:'smooth',block:'start'});
+    }
+
+    // Quick initial animation reveal
+    document.querySelectorAll('.fade-in').forEach(el=>{
+      setTimeout(()=>el.classList.add('visible'),200);
     });
 
-    // Pitch toggle default
-    setPitchView('full');
-
-    // close mobile nav when clicking outside
-    document.addEventListener('click', e=>{
-      const nav=document.getElementById('navLinks');
-      if(!nav.contains(e.target) && !e.target.closest('.hamburger') && window.innerWidth<=900){
-        nav.style.display='none';
-      }
-    });
   </script>
 </body>
 </html>

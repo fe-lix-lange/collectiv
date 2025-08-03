@@ -1,312 +1,361 @@
 <!DOCTYPE html>
 <html lang="pl">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>InTouch Collective – autentyczne relacje offline</title>
-  <style>
-    :root {
-      --deep-navy:#0F243E;
-      --forest-green:#1F4A36;
-      --burnt-orange:#C25E32;
-      --cream:#F0E6D2;
-      --dusty-teal:#5A8B7C;
-      --charcoal:#1A1423;
-      --muted-gold:#B88F58;
-      --radius:1.4rem;
-      --transition:.28s cubic-bezier(.3,.05,.15,1);
-    }
-    *{box-sizing:border-box;}
-    body{
-      margin:0;
-      font-family:'Times New Roman', Times, serif;
-      background:var(--cream);
-      color:var(--charcoal);
-      -webkit-font-smoothing:antialiased;
-      scroll-behavior:smooth;
-    }
-    h1{margin:0;font-size:1.8rem;font-weight:700;line-height:1.1;}
-    h2{margin:0;font-size:1.4rem;font-weight:700;line-height:1.2;}
-    p{margin:0 0 1em;font-size:1rem;line-height:1.5;}
-    small{font-size:.75em;color:rgba(26,20,35,.65);}
-    button{cursor:pointer;border:none;background:none;font-family:inherit;position:relative;}
-    a{color:inherit;text-decoration:none;}
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>InTouch Collective – autentyczne kontakty offline</title>
+<style>
+  :root {
+    --deep-navy:#0F243E;
+    --forest-green:#1F4A36;
+    --burnt-orange:#C25E32;
+    --cream:#F0E6D2;
+    --dusty-teal:#5A8B7C;
+    --charcoal:#3b2c24;
+    --muted-gold:#B88F58;
+    --radius:1.6rem;
+    --transition:.25s cubic-bezier(.3,.05,.15,1);
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background: var(--cream);
+    font-family:'Times New Roman', Times, serif;
+    color: var(--charcoal);
+    -webkit-font-smoothing:antialiased;
+    scroll-behavior:smooth;
+    min-height:100vh;
+  }
+  h1{margin:0;font-size:1.8rem;font-weight:700;line-height:1.15;}
+  h2{margin:0;font-size:1.4rem;font-weight:700;line-height:1.2;}
+  p{margin:0 0 1em;font-size:1rem;line-height:1.55;}
+  small{font-size:.75em;color:rgba(26,20,35,.6);}
+  button{cursor:pointer;border:none;background:none;font-family:inherit;position:relative;outline:none;}
+  a{color:inherit;text-decoration:none;}
 
-    /* layout */
-    .container{max-width:960px;margin:0 auto;padding:0 14px;}
-    .section{padding:60px 0;position:relative;overflow:hidden;}
-    .flex{display:flex;gap:16px;align-items:center;}
-    .stack{display:flex;flex-direction:column;gap:14px;}
+  /* NAV */
+  .site-nav {
+    position:fixed;
+    top:0;left:0;right:0;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:10px 16px;
+    gap:10px;
+    background:rgba(255,255,255,0.93);
+    backdrop-filter:blur(8px);
+    z-index:200;
+    border-bottom:1px solid rgba(26,20,35,.08);
+  }
+  .logo{
+    display:flex;align-items:center;gap:8px;cursor:pointer;font-weight:700;font-size:1rem;
+  }
+  .nav-links{
+    display:flex;gap:14px;font-size:.9em;
+  }
+  .nav-links a{
+    padding:6px 10px;
+    border-radius:8px;
+    transition:background .2s;
+  }
+  .nav-links a:hover{background:rgba(26,20,35,.05);}
+  .hamburger{
+    display:none;
+    background:none;
+    padding:6px;
+    border:none;
+  }
+  .cta{
+    padding:10px 18px;
+    border-radius:999px;
+    background:var(--burnt-orange);
+    color:#fff;
+    font-weight:600;
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    position:relative;
+    overflow:hidden;
+    transition:transform .2s;
+  }
+  .cta:hover{transform:scale(1.02);}
+  .pulse-ring{
+    position:absolute;top:-4px;left:-4px;right:-4px;bottom:-4px;
+    border-radius:999px;
+    border:2px solid rgba(255,255,255,.4);
+    animation:pulse 2s infinite ease-out;
+    pointer-events:none;
+  }
+  @keyframes pulse{
+    0%{transform:scale(1);opacity:.5;}
+    50%{transform:scale(1.08);opacity:.15;}
+    100%{transform:scale(1);opacity:.5;}
+  }
 
-    /* nav */
-    .site-nav{
-      position:fixed;top:0;left:0;right:0;
-      display:flex;align-items:center;justify-content:space-between;
-      padding:10px 14px;
-      background:rgba(255,255,255,0.95);
-      backdrop-filter:blur(10px);
-      z-index:200;
-      border-bottom:1px solid rgba(26,20,35,.08);
-      gap:8px;
-    }
-    .logo{display:flex;align-items:center;gap:8px;cursor:pointer;font-weight:700;font-size:1rem;}
-    .nav-links{display:flex;gap:14px;flex-wrap:wrap;font-size:.9em;}
-    .nav-links a{padding:6px 10px;border-radius:8px;transition:background .2s;}
-    .nav-links a:hover{background:rgba(26,20,35,.05);}
-    .hamburger{display:none;background:none;border:none;padding:6px;}
-    .cta-primary{
-      padding:10px 18px;
-      border-radius:999px;
-      background:var(--burnt-orange);
-      color:#fff;
-      font-weight:600;
-      display:inline-flex;
-      align-items:center;
-      gap:6px;
-      position:relative;
-      overflow:hidden;
-    }
-    .pulse-ring{
-      position:absolute;top:-4px;left:-4px;right:-4px;bottom:-4px;
-      border-radius:999px;
-      border:2px solid rgba(255,255,255,.4);
-      animation:pulse 2s infinite ease-out;
-      pointer-events:none;
-    }
-    @keyframes pulse{0%{transform:scale(1);opacity:.5;}50%{transform:scale(1.08);opacity:.15;}100%{transform:scale(1);opacity:.5;}}
+  .container{max-width:940px;margin:0 auto;padding:0 14px;}
+  .section{padding:72px 0;position:relative;overflow:hidden;}
+  .card{
+    background:#fff;
+    border-radius: var(--radius);
+    padding:24px 20px;
+    box-shadow:0 22px 60px -10px rgba(15,36,62,.15);
+    position:relative;
+    overflow:hidden;
+    transition:var(--transition);
+    margin-bottom:30px;
+  }
+  .card:hover{transform:translateY(-2px);}
+  .small-badge{
+    background:rgba(90,139,124,.1);
+    padding:6px 14px;
+    border-radius:999px;
+    font-size:.65em;
+    display:inline-block;
+  }
 
-    /* card */
-    .card{
-      background:#fff;
-      border-radius:1.6rem;
-      padding:22px 18px;
-      box-shadow:0 22px 60px -12px rgba(15,36,62,.15);
-      position:relative;
-      overflow:hidden;
-      transition:var(--transition);
-    }
-    .card:hover{transform:translateY(-2px);}
+  /* scribble underline */
+  .scribble-underline{
+    width:112px;height:18px;display:block;margin:6px 0 14px auto;
+  }
+  .scribble-underline svg path{
+    stroke: var(--muted-gold);
+    stroke-width:2.2;
+    fill:none;
+    stroke-dasharray:310;
+    stroke-dashoffset:310;
+    animation:draw-scribble 1.3s cubic-bezier(.8,-0.4,.7,1) forwards;
+  }
+  @keyframes draw-scribble{to{stroke-dashoffset:0;}}
 
-    /* scribble underline */
-    .scribble{width:110px;height:18px;display:block;margin:6px 0 14px;}
-    .scribble path{stroke:var(--burnt-orange);stroke-width:2.2;fill:none;stroke-dasharray:310;stroke-dashoffset:310;animation:draw 1.2s cubic-bezier(.8,-0.4,.7,1) forwards;}
-    @keyframes draw{to{stroke-dashoffset:0;}}
+  /* elevator pitch toggles */
+  .toggle-switch{
+    display:inline-flex;
+    border:1px solid rgba(26,20,35,.15);
+    border-radius:999px;
+    overflow:hidden;
+    font-size:.85em;
+    margin-bottom:10px;
+  }
+  .toggle-button{
+    padding:8px 14px;
+    cursor:pointer;
+    background:transparent;
+    border:none;
+    min-width:100px;
+    text-align:center;
+    font-weight:600;
+    transition:background .25s,color .25s;
+  }
+  .toggle-button.active{
+    background:var(--burnt-orange);
+    color:#fff;
+  }
 
-    /* elevator pitch layout */
-    .grid{display:grid;gap:22px;}
-    .three-cols{grid-template-columns:repeat(auto-fit,minmax(200px,1fr));}
-    .compare{display:flex;gap:14px;flex-wrap:wrap;}
-    .badge{background: #fff;border-radius:12px;padding:12px 14px;box-shadow:0 12px 34px -6px rgba(15,36,62,.1);}
+  /* empathy pulse indicator */
+  .empathy-headline{
+    position:relative;
+    padding:14px 16px;
+    border-radius:12px;
+    background:rgba(255,255,255,1);
+    font-size:1.3rem;
+    font-weight:700;
+    overflow:hidden;
+    display:inline-block;
+    transition:background .4s;
+  }
+  .empathy-pulse{
+    position:absolute;
+    inset:0;
+    border-radius:12px;
+    pointer-events:none;
+    box-shadow:0 0 80px 15px rgba(200,94,50,.18);
+    opacity:0;
+    animation:fadePulse 3s infinite;
+  }
+  @keyframes fadePulse{
+    0%{opacity:.04;transform:scale(1);}
+    50%{opacity:.12;transform:scale(1.02);}
+    100%{opacity:.04;transform:scale(1);}
+  }
 
-    /* accordion */
-    .accordion{
-      border-radius:12px;
-      overflow:hidden;
-      background:#fff;
-      box-shadow:0 14px 50px -12px rgba(15,36,62,.12);
-      margin-bottom:14px;
-    }
-    .accordion-header{
-      padding:14px 16px;
-      display:flex;justify-content:space-between;align-items:center;
-      cursor:pointer;
-      user-select:none;
-    }
-    .accordion-header strong{font-weight:600;}
-    .accordion-body{
-      max-height:0;
-      overflow:hidden;
-      transition:max-height .35s ease;
-      padding:0 16px;
-      font-size:.95em;
-    }
-    .accordion.open .accordion-body{
-      padding:12px 16px;
-      max-height:400px;
-    }
-    .chevron{
-      transition:transform .3s ease;
-    }
-    .accordion.open .chevron{transform:rotate(180deg);}
+  /* magnet canvas */
+  #connectionCanvas{
+    width:100%;height:220px;
+    border-radius:16px;
+    background:#f4f1eb;
+    display:block;
+    margin-top:14px;
+    touch-action:none;
+    cursor:grab;
+  }
+  .node-tooltip{
+    position:fixed;
+    background:#fff;
+    padding:12px 16px;
+    border-radius:12px;
+    box-shadow:0 30px 80px -10px rgba(15,36,62,.25);
+    font-size:.85em;
+    pointer-events:none;
+    z-index:300;
+    max-width:240px;
+  }
 
-    /* pitch summary sticky */
-    .sticky-summary{
-      position:sticky;
-      top:70px;
-      background:#fff;
-      border-left:4px solid var(--burnt-orange);
-      padding:12px 16px;
-      border-radius:8px;
-      box-shadow:0 10px 30px -5px rgba(15,36,62,.08);
-      margin-bottom:18px;
-      display:flex;
-      flex-wrap:wrap;
-      gap:10px;
-      font-size:.95em;
-    }
-    .sticky-summary button{margin-left:auto;}
+  /* event list */
+  .event-card{
+    background:#fff;
+    border-radius:16px;
+    padding:14px 16px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:14px;
+    flex-wrap:wrap;
+    position:relative;
+    overflow:hidden;
+    box-shadow:0 18px 50px -10px rgba(15,36,62,.12);
+    transition:var(--transition);
+    cursor:default;
+  }
+  .event-card:hover{transform:translateY(-2px);}
+  .event-info{flex:1;min-width:160px;}
+  .event-actions{display:flex;gap:10px;flex-wrap:wrap;}
+  .filter-row{display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin-bottom:8px;}
 
-    /* hint bubble */
-    .hint-bubble{
-      position:absolute;
-      top:-10px;
-      right:6px;
-      background:var(--dusty-teal);
-      color:#fff;
-      padding:6px 14px;
-      border-radius:999px;
-      font-size:.65em;
-      display:flex;
-      align-items:center;
-      gap:6px;
-      opacity:0;
-      pointer-events:none;
-      transform:translateY(6px);
-      transition:opacity .4s,transform .4s;
-    }
-    .hint-bubble.show{opacity:1;transform:translateY(0);}
+  /* sticky summary */
+  .sticky-summary{
+    position:sticky;
+    top:70px;
+    background:#fff;
+    border-left:4px solid var(--burnt-orange);
+    padding:14px 16px;
+    border-radius:8px;
+    box-shadow:0 10px 30px -5px rgba(15,36,62,.08);
+    margin-bottom:18px;
+    display:flex;
+    gap:12px;
+    flex-wrap:wrap;
+    font-size:.9em;
+  }
 
-    /* events */
-    .event-card{
-      background:#fff;
-      border-radius:16px;
-      padding:14px 16px;
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      gap:12px;
-      flex-wrap:wrap;
-      position:relative;
-      overflow:hidden;
-      touch-action:pan-y;
-      user-select:none;
-      transition:var(--transition);
-    }
-    .event-card .info{flex:1;min-width:160px;}
-    .event-card .actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap;}
-    .event-card:hover{transform:translateY(-2px);}
+  /* overlays/forms */
+  .overlay{
+    position:fixed;inset:0;
+    background:rgba(26,20,35,.65);
+    display:none;
+    align-items:center;
+    justify-content:center;
+    padding:14px;
+    z-index:400;
+  }
+  .panel{
+    background:#fff;
+    border-radius:18px;
+    max-width:500px;
+    width:100%;
+    padding:28px 24px;
+    position:relative;
+    box-shadow:0 30px 80px -10px rgba(15,36,62,.25);
+  }
+  .close-btn{
+    position:absolute;
+    top:12px;right:12px;
+    background:none;
+    border:none;
+    font-size:1.3em;
+    cursor:pointer;
+  }
+  input, textarea{
+    width:100%;
+    padding:12px 14px;
+    border-radius:10px;
+    border:2px solid var(--muted-gold);
+    font-family:inherit;
+    font-size:1rem;
+    outline:none;
+    resize:vertical;
+    margin-bottom:10px;
+    transition:all .2s;
+  }
+  input:focus, textarea:focus{border-color:var(--burnt-orange);background:#fff;}
+  .btn{
+    background:#fff;
+    border:2px solid var(--dusty-teal);
+    padding:10px 18px;
+    border-radius:999px;
+    font-weight:600;
+    display:inline-flex;
+    gap:6px;
+    align-items:center;
+    position:relative;
+    transition:transform .2s,box-shadow .2s;
+  }
+  .btn:hover{transform:scale(1.02);}
+  .btn-primary{
+    background:var(--forest-green);
+    color:#fff;
+    border:none;
+  }
+  .btn-accent{
+    background:var(--burnt-orange);
+    color:#fff;
+    border:none;
+  }
 
-    /* reveal animation */
-    .fade-up{opacity:0;transform:translateY(12px);transition:opacity .6s ease,transform .6s ease;}
-    .visible{opacity:1;transform:translateY(0);}
+  /* interactive hint */
+  .hint{
+    background:rgba(255,255,255,.95);
+    border:1px solid var(--muted-gold);
+    padding:10px 14px;
+    border-radius:12px;
+    display:inline-flex;
+    gap:8px;
+    align-items:center;
+    font-size:.75em;
+    box-shadow:0 18px 50px -10px rgba(15,36,62,.15);
+    margin-top:8px;
+  }
 
-    /* input / form */
-    input, textarea{
-      width:100%;
-      padding:12px 14px;
-      border-radius:10px;
-      border:2px solid var(--muted-gold);
-      font-family:inherit;
-      font-size:1rem;
-      outline:none;
-      resize:vertical;
-      transition:all .2s;
-    }
-    input:focus, textarea:focus{border-color:var(--burnt-orange);background:#fff;}
-    .form-row{display:flex;gap:12px;flex-wrap:wrap;}
+  /* responsive */
+  @media (max-width:900px){
+    .nav-links{display:none;position:absolute;top:56px;left:12px;right:12px;flex-direction:column;background:#fff;padding:14px;border-radius:12px;box-shadow:0 20px 60px -10px rgba(15,36,62,.15);}
+    .hamburger{display:block;}
+    .event-card{flex-direction:column;align-items:flex-start;}
+    .sticky-summary{flex-direction:column;top:60px;}
+  }
 
-    /* signature-style button */
-    .btn{
-      background: #fff;
-      border:2px solid var(--dusty-teal);
-      border-radius:999px;
-      padding:10px 18px;
-      font-weight:600;
-      display:inline-flex;
-      gap:8px;
-      align-items:center;
-      position:relative;
-      transition:transform .2s,box-shadow .2s;
-    }
-    .btn-primary{
-      background: var(--forest-green);
-      color:#fff;
-      border:none;
-    }
-    .btn-accent{
-      background: var(--burnt-orange);
-      color:#fff;
-      border:none;
-    }
-    .btn:hover{transform:scale(1.02);}
-    .small-badge{background:rgba(90,139,124,.1);padding:6px 12px;border-radius:999px;font-size:.6em;display:inline-block;}
-
-    /* overlays */
-    .overlay{
-      position:fixed;inset:0;
-      background:rgba(26,20,35,.65);
-      display:none;
-      align-items:center;
-      justify-content:center;
-      padding:14px;
-      z-index:300;
-    }
-    .panel{
-      background:#fff;
-      border-radius:18px;
-      max-width:500px;
-      width:100%;
-      padding:28px 24px;
-      position:relative;
-      box-shadow:0 30px 80px -10px rgba(15,36,62,.25);
-    }
-    .close{position:absolute;top:12px;right:12px;background:none;border:none;font-size:1.4em;cursor:pointer;}
-
-    /* mobile adjustments */
-    @media (max-width:900px){
-      .nav-links{display:none;position:absolute;top:56px;left:12px;right:12px;flex-direction:column;background:#fff;padding:14px;border-radius:12px;box-shadow:0 20px 60px -10px rgba(15,36,62,.15);}
-      .hamburger{display:block;}
-      .flex{flex-direction:column;}
-      .compare{flex-direction:column;}
-    }
-
-    /* small interactive indicators */
-    .pulse-cta{
-      position:relative;
-    }
-    .pulse-cta::after{
-      content:"";
-      position:absolute;
-      inset:-4px;
-      border-radius:999px;
-      border:2px solid rgba(255,255,255,.4);
-      animation:pulse 2.2s infinite ease-out;
-      pointer-events:none;
-    }
-
-    /* onboarding hint */
-    .micro-hint{
-      background:rgba(255,255,255,.95);
-      border:1px solid var(--muted-gold);
-      padding:10px 14px;
-      border-radius:12px;
-      font-size:.75em;
-      display:inline-flex;
-      gap:8px;
-      align-items:center;
-      box-shadow:0 18px 50px -10px rgba(15,36,62,.15);
-    }
-  </style>
+  /* subtle surprise: secret reveal on double-tap game card */
+  .secret-banner{
+    position:fixed;top:12px;left:50%;transform:translateX(-50%);
+    background: var(--forest-green);
+    color:#fff;
+    padding:12px 18px;
+    border-radius:12px;
+    font-weight:600;
+    box-shadow:0 30px 70px -10px rgba(15,36,62,.4);
+    display:none;
+    z-index:500;
+    letter-spacing:0.5px;
+  }
+</style>
 </head>
 <body>
 
-  <!-- NAVIGATION -->
-  <header class="site-nav">
-    <div class="logo" onclick="scrollTo('hero')">
-      <div style="width:38px;height:38px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 10px 30px -5px rgba(15,36,62,.08);">
-        <img src="ChatGPT Image Jul 26, 2025, 02_57_49 PM.png" alt="logo" style="width:22px;">
+  <div class="site-nav">
+    <div class="logo" onclick="scrollToSection('game')">
+      <div style="width:40px;height:40px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 10px 30px -5px rgba(15,36,62,.08);">
+        <img src="ChatGPT Image Jul 26, 2025, 02_57_49 PM.png" alt="logo" style="width:24px;">
       </div>
-      collectiv
+      InTouch Collective
     </div>
     <div class="nav-links" id="navLinks">
-      <a href="#game" onclick="scrollTo('game')">Gra</a>
-      <a href="#pitch" onclick="scrollTo('pitch')">Kim jesteśmy</a>
-      <a href="#about" onclick="scrollTo('about')">O nas</a>
-      <a href="#why" onclick="scrollTo('why')">Dlaczego my?</a>
-      <a href="#events" onclick="scrollTo('events')">Wydarzenia</a>
+      <a href="#game" onclick="scrollToSection('game')">Gra</a>
+      <a href="#pitch" onclick="scrollToSection('pitch')">Elevator Pitch</a>
+      <a href="#about" onclick="scrollToSection('about')">O nas</a>
+      <a href="#why" onclick="scrollToSection('why')">Dlaczego my?</a>
+      <a href="#events" onclick="scrollToSection('events')">Wydarzenia</a>
     </div>
     <div style="display:flex;gap:10px;align-items:center;">
-      <button class="cta-primary" onclick="scrollTo('events')">
+      <button class="cta" onclick="scrollToSection('events')">
         Zobacz wydarzenia
         <span class="pulse-ring"></span>
       </button>
@@ -316,189 +365,160 @@
         <div style="width:22px;height:3px;background:var(--charcoal);margin:3px 0;border-radius:2px;"></div>
       </button>
     </div>
-  </header>
+  </div>
 
   <div class="container" style="padding-top:78px;">
 
     <!-- 1. Game / Icebreaker -->
     <section id="game" class="section">
-      <div class="card fade-up" id="gameCard">
+      <div class="card" id="gameCard">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
-          <div id="gameProgress" style="font-size:.75em;font-weight:600;color:var(--forest-green);">Pytanie 1 z 10</div>
-          <button id="skipBtn" style="background:none;color:var(--burnt-orange);font-weight:600;" onclick="skipGame()">Pomiń</button>
+          <div style="font-size:.75em;font-weight:600;color:var(--forest-green);" id="gameProgress">Pytanie 1 z 10</div>
+          <button style="background:none;color:var(--burnt-orange);font-weight:600;" onclick="skipGame()">Pomiń</button>
         </div>
-        <h1>Co czujesz w relacjach, których brakuje?</h1>
-        <div class="scribble">
-          <svg viewBox="0 0 110 18" style="width:100%;height:100%;"><path d="M8 12 Q35 17 105 9 Q85 8 80 16 Q60 4 35 9 Q18 12 8 12Z"/></svg>
+        <h1 id="questionTitle">Co jest najtrudniejsze w Twojej samotności?</h1>
+        <div class="scribble-underline">
+          <svg viewBox="0 0 110 18"><path d="M8 12 Q35 17 105 9 Q85 8 80 16 Q60 4 35 9 Q18 12 8 12Z"/></svg>
         </div>
         <textarea id="answerInput" rows="3" placeholder="Napisz krótko..." aria-label="odpowiedź"></textarea>
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-top:4px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-top:6px;">
           <div id="feedback" style="opacity:0;font-size:.85em;color:var(--dusty-teal);">Dzięki, to pomaga spersonalizować.</div>
-          <button id="nextQuestionBtn" class="btn btn-accent" onclick="nextQuestion()">Dalej</button>
+          <button class="btn btn-accent" id="nextQuestionBtn" onclick="nextQuestion()">Dalej</button>
         </div>
-        <div class="micro-hint" id="gameHint" style="margin-top:12px;">
-          <div>Odpowiedz, by dopasować sugestie</div>
-          <div style="margin-left:auto;font-size:1.2em;">➜</div>
+        <div class="hint" id="gameHint">
+          <div>Odpowiedz, by lepiej dopasować następne sugestie.</div>
+        </div>
+        <div style="margin-top:12px;font-size:.75em;color:rgba(26,20,35,.6);">
+          (Dwukrotne tapnięcie w kartę odsłania niespodziankę.)
         </div>
       </div>
     </section>
 
     <!-- 2. Elevator Pitch -->
     <section id="pitch" class="section">
-      <div class="stack" style="max-width:860px;margin:0 auto;">
-        <div class="card fade-up" style="position:relative;">
-          <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;">
-            <div style="flex:1;min-width:220px;">
-              <h1 style="font-size:1.6rem;">Masz dość płytkich znajomości?</h1>
-              <p>Offline’owe spotkania, w których budujesz prawdziwe relacje — bez presji, w bezpiecznej atmosferze.</p>
+      <div class="card" style="position:relative;overflow:visible;">
+        <div style="display:flex;flex-wrap:wrap;gap:14px;align-items:start;">
+          <div style="flex:1;min-width:260px;">
+            <div class="toggle-switch" aria-label="widoki">
+              <button class="toggle-button active" id="fullBtn" onclick="setPitchView('full')">Pełna</button>
+              <button class="toggle-button" id="shortBtn" onclick="setPitchView('short')">Krótka</button>
             </div>
-            <div style="flex:none;position:relative;">
-              <div class="hint-bubble" id="heroHint">
-                Zobacz, jak działa ↓
+            <div id="pitchContent">
+              <!-- full version -->
+              <div id="fullPitch">
+                <div class="empathy-headline" id="empathyHeadline">
+                  Masz dość social mediów, szybkich znajomości i płytkich rozmów?
+                  <div class="empathy-pulse" id="empathyPulse"></div>
+                </div>
+                <p style="margin-top:12px;">
+                  InTouch Collective to inicjatywa dwóch przyjaciół z pasją do psychologii i budowania autentycznych relacji, organizująca spotkania offline w Warszawie.
+                </p>
+                <p>
+                  <strong>Kameralne spotkania offline, stworzone dla osób, które chcą poznać nowych ludzi, przeżyć ciekawe doświadczenia i porozmawiać na poziomie, którego brakuje w codziennych kontaktach.</strong>
+                </p>
+                <p>
+                  To miejsce dla osób, które szukają autentycznych, wartościowych kontaktów offline:
+                </p>
+                <ul>
+                  <li>dla osób zmęczonych szybkim, powierzchownym światem online i social mediami,</li>
+                  <li>dla tych, którzy cenią sobie bezpieczeństwo, uważność i możliwość bycia sobą bez presji.</li>
+                </ul>
+                <p>
+                  Dzięki InTouch Collective uczestnicy budują prawdziwe relacje, rozwijają świadomość siebie i znajdują wartościową alternatywę dla cyfrowej samotności.
+                </p>
+                <p>
+                  Nasze wydarzenia odbywają się regularnie oraz okazjonalnie — część z nich to cykliczne sesje, część to eventy jednodniowe lub wyjazdy. Łączymy angażujące gry, kreatywne ćwiczenia i świadome rozmowy, by w bezpiecznej, uważnej atmosferze dać uczestnikom przestrzeń do poznawania siebie i innych.
+                </p>
+                <p>
+                  Łączymy autorskie i <strong>starannie dopasowane</strong> gry oraz ćwiczenia z psychologicznymi metodami pracy grupowej, tworząc bezpieczne i uważne środowisko. Dzięki temu uczestnicy <strong>budują wspólne doświadczenia z innymi osobami w grupie, naturalnie budując relacje</strong> i rozwijają samoświadomość — zawsze dostosowując się do własnej gotowości i potrzeb.
+                </p>
+                <hr style="margin:14px 0;border:none;border-top:1px solid rgba(59,44,36,.1);" />
+                <p style="font-weight:600;">
+                  <strong>InTouch Collective to kameralne spotkania na żywo w Warszawie, gdzie możesz nawiązać prawdziwe kontakty i spędzić czas w atmosferze autentyczności i wzajemnego szacunku.</strong>
+                </p>
+                <p>
+                  Organizujemy regularne i okazjonalne sesje, które łączą przemyślane gry oraz ćwiczenia z elementami pracy grupowej, pozwalając uczestnikom poznawać siebie i innych na głębszym poziomie — bez presji i sztuczności.
+                </p>
+                <p>
+                  To miejsce dla tych, którzy szukają wartościowych relacji i chcą świadomie budować swoje społeczne umiejętności — zawsze w tempie dostosowanym do siebie.
+                </p>
               </div>
-              <div style="background:rgba(240,230,210,.4);padding:12px;border-radius:14px;display:inline-block;font-weight:600;">Autentyczność offline</div>
+              <!-- short version hidden -->
+              <div id="shortPitch" style="display:none;">
+                <div class="empathy-headline" id="empathyHeadlineShort">
+                  Masz dość powierzchownych relacji online?
+                  <div class="empathy-pulse"></div>
+                </div>
+                <p>
+                  Kameralne, facylitowane spotkania w Warszawie. Autorskie gry i ćwiczenia dają głębię bez sztuczności — prawdziwe relacje zamiast scrollowania.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div style="flex:1;min-width:240px;position:relative;">
+            <div style="font-weight:600;margin-bottom:6px;">Poczuj połączenie</div>
+            <canvas id="connectionCanvas"></canvas>
+            <div style="margin-top:8px;font-size:.75em;color:rgba(26,20,35,.6);">
+              Przesuń myszką / dotknij — zobacz jak Twoje imię przyciąga innych. Kliknij w kropki, by zobaczyć krótkie historie.
             </div>
           </div>
         </div>
-
-        <!-- summary -->
-        <div class="sticky-summary fade-up" id="pitchSummary">
-          <div style="flex:1;min-width:160px;">
-            <strong>Problem:</strong> powierzchowne kontakty, samotność mimo bycia “online”. 
-          </div>
-          <div style="flex:1;min-width:160px;">
-            <strong>Rozwiązanie:</strong> kameralne, facylitowane spotkania + autorskie gry.
-          </div>
-          <div style="flex:1;min-width:160px;">
-            <strong>Efekt:</strong> relacje, świadomość, poczucie przynależności.
-          </div>
-          <button class="btn btn-accent" onclick="scrollTo('events')">Zobacz wydarzenia</button>
-        </div>
-
-        <!-- breakdown accordions -->
-        <div class="grid three-cols" style="margin-top:14px;">
-          <div class="accordion" id="whoAccordion">
-            <div class="accordion-header" onclick="toggleAccordion(this.parentElement)">
-              <div><strong>Kim jesteśmy?</strong></div>
-              <div class="chevron">▾</div>
-            </div>
-            <div class="accordion-body">
-              <p>Dwójka przyjaciół z psychologicznych studiów tworząca przestrzeń dla autentycznych kontaktów offline w Warszawie. Pasjonaci facylitacji, świadomej obecności i grupowego potencjału.</p>
-            </div>
-          </div>
-          <div class="accordion" id="whatAccordion">
-            <div class="accordion-header" onclick="toggleAccordion(this.parentElement)">
-              <div><strong>Co robimy?</strong></div>
-              <div class="chevron">▾</div>
-            </div>
-            <div class="accordion-body">
-              <p>Organizujemy kameralne spotkania, łączące autorskie gry, kreatywne ćwiczenia i świadome rozmowy. Facylitujemy w bezpiecznej, uważnej atmosferze, dając trzy poziomy doświadczenia: integracja, pogłębienie, samoświadomość.</p>
-            </div>
-          </div>
-          <div class="accordion" id="whyAccordion">
-            <div class="accordion-header" onclick="toggleAccordion(this.parentElement)">
-              <div><strong>Dlaczego my?</strong></div>
-              <div class="chevron">▾</div>
-            </div>
-            <div class="accordion-body">
-              <ul style="padding-left:1em;margin:6px 0;">
-                <li>Autorskie, starannie dopasowane gry i ćwiczenia.</li>
-                <li>Praca grupowa oparta na psychologii.</li>
-                <li>Bezpieczne, uważne środowisko.</li>
-                <li>Tempo dostosowane do uczestnika.</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-
-        <!-- outcomes -->
-        <div class="card fade-up" style="margin-top:16px;">
-          <h2>Co zyskujesz</h2>
-          <div class="compare" style="margin-top:10px;">
-            <div class="badge">
-              <div><strong>Przełamanie izolacji</strong></div>
-              <div style="font-size:.85em;margin-top:4px;">Realne połączenia zamiast pustych interakcji.</div>
-            </div>
-            <div class="badge">
-              <div><strong>Autentyczne relacje</strong></div>
-              <div style="font-size:.85em;margin-top:4px;">Z ludźmi, którzy chcą być obecni.</div>
-            </div>
-            <div class="badge">
-              <div><strong>Samoświadomość</strong></div>
-              <div style="font-size:.85em;margin-top:4px;">Lepsze zrozumienie siebie w kontakcie z innymi.</div>
-            </div>
-          </div>
+        <div class="sticky-summary" style="margin-top:16px;">
+          <div style="flex:1;min-width:150px;"><strong>Kim jesteśmy:</strong> Dwójka przyjaciół z psychologii tworząca spotkania łączące strukturę i autentyczność.</div>
+          <div style="flex:1;min-width:150px;"><strong>Co robimy:</strong> Gry i świadome rozmowy w kameralnych, offline’owych sesjach.</div>
+          <div style="flex:1;min-width:150px;"><strong>Efekt:</strong> Relacje, samoświadomość, przynależność.</div>
+          <button class="btn btn-accent" onclick="scrollToSection('events')">Zobacz wydarzenia</button>
         </div>
       </div>
     </section>
 
     <!-- 3. O nas -->
     <section id="about" class="section" style="background:rgba(240,230,210,.25);">
-      <div class="stack container">
-        <div class="card fade-up">
-          <h2>O nas</h2>
-          <p>Historia, misja i wartości — od pomysłu po działające spotkania. Przesuń lub kliknij, by prześledzić etapy.</p>
-          <div class="compare" style="margin-top:12px;">
-            <div class="badge">
-              <strong>Start</strong>
-              <div style="font-size:.85em;margin-top:6px;">Pomysł z potrzeby głębszych relacji.</div>
-            </div>
-            <div class="badge">
-              <strong>Testy</strong>
-              <div style="font-size:.85em;margin-top:6px;">Pierwsze spotkania, feedback.</div>
-            </div>
-            <div class="badge">
-              <strong>Rozwój</strong>
-              <div style="font-size:.85em;margin-top:6px;">Skalowanie i dopasowanie.</div>
-            </div>
-            <div class="badge">
-              <strong>Teraz</strong>
-              <div style="font-size:.85em;margin-top:6px;">Regularne i okazjonalne sesje w Warszawie.</div>
-            </div>
-          </div>
+      <div class="card">
+        <h2>O nas</h2>
+        <p>Jesteśmy dwójką przyjaciół z psychologicznych studiów. Zaczęliśmy od prostego pytania: jak tworzyć relacje, które zostają? Testowaliśmy, dopracowywaliśmy, teraz organizujemy regularne i okazjonalne spotkania w Warszawie.</p>
+        <div style="display:flex;gap:14px;flex-wrap:wrap;margin-top:12px;">
+          <div class="small-badge">Start – pomysł z potrzeby autentyczności</div>
+          <div class="small-badge">Testy – pierwsze sesje i feedback</div>
+          <div class="small-badge">Rozwój – skalowanie i dopasowanie</div>
+          <div class="small-badge">Teraz – działające spotkania</div>
         </div>
       </div>
     </section>
 
-    <!-- 4. Dlaczego my? (depth + social proof) -->
+    <!-- 4. Dlaczego my? -->
     <section id="why" class="section">
-      <div class="container">
-        <div class="grid" style="grid-template-columns:1fr 1fr;gap:30px;">
-          <div class="fade-up">
-            <h2>Dlaczego my?</h2>
-            <p>Nie jest to kolejna powierzchowna networkingowa “aktywność”. Tu tworzy się więź przez strukturę i obecność.</p>
-            <div style="display:flex;gap:14px;flex-wrap:wrap;margin-top:12px;">
-              <div class="badge">
-                <strong>Struktura + gra</strong>
-                <div style="font-size:.8em;margin-top:4px;">Rozmowy mają kierunek i głębię.</div>
-              </div>
-              <div class="badge">
-                <strong>Bezpieczeństwo</strong>
-                <div style="font-size:.8em;margin-top:4px;">Uważna facilitation, brak presji.</div>
-              </div>
-              <div class="badge">
-                <strong>Dopasowanie</strong>
-                <div style="font-size:.8em;margin-top:4px;">Tempo i forma do twojej gotowości.</div>
-              </div>
-            </div>
-            <div style="margin-top:16px;">
-              <div style="display:flex;gap:24px;">
-                <div>
-                  <div style="font-size:.7em;color:rgba(26,20,35,.6);">Poziom połączenia</div>
-                  <div>★★★★☆</div>
-                </div>
-                <div>
-                  <div style="font-size:.7em;color:rgba(26,20,35,.6);">Łatwość startu</div>
-                  <div>★★★★★</div>
-                </div>
-              </div>
-            </div>
+      <div class="card">
+        <h2>Dlaczego my?</h2>
+        <p>W świecie powierzchownych kontaktów oferujemy coś innego: strukturę połączoną z uważnością. Dzięki temu relacje powstają naturalnie, nie sztucznie.</p>
+        <div style="display:flex;gap:16px;flex-wrap:wrap;margin-top:14px;">
+          <div style="flex:1;min-width:160px;" class="badge">
+            <strong>Autorskie, dopasowane gry</strong>
+            <div style="font-size:.85em;margin-top:4px;">Nie improwizacja — przemyślana struktura.</div>
           </div>
-          <div class="fade-up">
-            <div class="card">
-              <strong>„Po 30 minutach czułem, że znam kilka osób lepiej niż po tygodniu innych eventów.”</strong>
-              <div style="margin-top:10px;font-size:.85em;">— Uczestnik</div>
-            </div>
+          <div style="flex:1;min-width:160px;" class="badge">
+            <strong>Psychologia grupowa</strong>
+            <div style="font-size:.85em;margin-top:4px;">Zrozumienie dynamiki, bez presji.</div>
+          </div>
+          <div style="flex:1;min-width:160px;" class="badge">
+            <strong>Bezpieczeństwo & uważność</strong>
+            <div style="font-size:.85em;margin-top:4px;">Tempo dostosowane do Ciebie.</div>
+          </div>
+        </div>
+        <div style="display:flex;gap:24px;margin-top:18px;flex-wrap:wrap;">
+          <div>
+            <div style="font-size:.7em;color:rgba(26,20,35,.6);">Poziom połączenia</div>
+            <div>★★★★☆</div>
+          </div>
+          <div>
+            <div style="font-size:.7em;color:rgba(26,20,35,.6);">Łatwość startu</div>
+            <div>★★★★★</div>
+          </div>
+        </div>
+        <div style="margin-top:18px;">
+          <div style="background:rgba(248,244,239,1);padding:16px;border-radius:14px;box-shadow:0 14px 40px -8px rgba(15,36,62,.08);">
+            <strong>„Na początku nie wiedziałem, co powiedzieć. Po 30 minutach czułem, że znam kilku ludzi lepiej niż po tygodniu na innych eventach.”</strong>
+            <div style="margin-top:6px;font-size:.85em;">— uczestnik</div>
           </div>
         </div>
       </div>
@@ -506,56 +526,50 @@
 
     <!-- 5. Event List -->
     <section id="events" class="section" style="background:#f9f7f2;">
-      <div class="container">
-        <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:14px;align-items:start;">
-          <div style="flex:1;min-width:220px;">
-            <h2>Wydarzenia</h2>
-            <p>Wybierz spotkanie lub zostaw email — przypomnimy.</p>
+      <div class="filter-row">
+        <div style="flex:1;min-width:220px;">
+          <h2>Wydarzenia</h2>
+          <p>Wybierz spotkanie. Zostaw email, przypomnimy. Krótko: kolejne: 3 maja, 10 maja...</p>
+        </div>
+        <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:center;">
+          <input id="filterInput" placeholder="Szukaj..." aria-label="szukaj" oninput="filterEvents()" style="max-width:170px;" />
+          <button class="btn btn-accent" onclick="openEmailPanel()">Zostaw email</button>
+        </div>
+      </div>
+      <div class="sticky-summary">
+        <div style="flex:1;min-width:140px;"><strong>Krótko:</strong> autentyczne relacje offline zamiast scrollowania.</div>
+        <div style="flex:1;min-width:140px;"><strong>Następne:</strong> 3 maja, 10 maja...</div>
+        <button class="btn btn-primary" onclick="scrollToSection('events')">Zapisz się</button>
+      </div>
+      <div id="eventsContainer">
+        <div class="event-card" data-name="Połączenia">
+          <div class="event-info">
+            <div style="font-weight:600;">Spotkanie: Połączenia</div>
+            <div style="font-size:.85em;margin-top:4px;">3 maja • Warszawa • 6–8 osób</div>
           </div>
-          <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:center;">
-            <input id="filterInput" placeholder="Szukaj..." oninput="filterEvents()" aria-label="szukaj wydarzenia" style="max-width:160px;" />
-            <button class="btn btn-accent" onclick="openEmailPanel()">Zostaw email</button>
+          <div class="event-actions">
+            <button class="btn btn-primary" onclick="signupEvent('Połączenia')">Zapisz się</button>
+            <button class="btn" style="border:1px solid var(--deep-navy);color:var(--deep-navy);font-size:.85em;">Dodaj do kalendarza</button>
           </div>
         </div>
-
-        <div class="sticky-summary fade-up" style="margin-top:12px;">
-          <div style="flex:1;"><strong>Krótko:</strong> Realne relacje offline zamiast scrollowania.</div>
-          <div style="flex:1;"><strong>Najbliższe:</strong> 3 maja, 10 maja...</div>
-          <button class="btn btn-primary" onclick="scrollTo('events')">Zapisz się</button>
-        </div>
-
-        <div id="eventsContainer" style="margin-top:16px;">
-          <!-- example event cards -->
-          <div class="event-card fade-up" data-name="Połączenia">
-            <div class="info">
-              <div style="font-weight:600;">Spotkanie: Połączenia</div>
-              <div style="font-size:.85em;margin-top:4px;">3 maja • Warszawa • 6–8 osób</div>
-            </div>
-            <div class="actions">
-              <button class="btn btn-primary" onclick="signupEvent('Połączenia')">Zapisz się</button>
-              <button class="btn" style="border:1px solid var(--deep-navy);color:var(--deep-navy);font-size:.85em;">Dodaj do kalendarza</button>
-            </div>
+        <div class="event-card" data-name="Nowe początki">
+          <div class="event-info">
+            <div style="font-weight:600;">Spotkanie: Nowe początki</div>
+            <div style="font-size:.85em;margin-top:4px;">10 maja • Kraków • 8–12 osób</div>
           </div>
-          <div class="event-card fade-up" data-name="Nowe początki">
-            <div class="info">
-              <div style="font-weight:600;">Spotkanie: Nowe początki</div>
-              <div style="font-size:.85em;margin-top:4px;">10 maja • Kraków • 8–12 osób</div>
-            </div>
-            <div class="actions">
-              <button class="btn btn-primary" onclick="signupEvent('Nowe początki')">Zapisz się</button>
-              <button class="btn" style="border:1px solid var(--deep-navy);color:var(--deep-navy);font-size:.85em;">Dodaj do kalendarza</button>
-            </div>
+          <div class="event-actions">
+            <button class="btn btn-primary" onclick="signupEvent('Nowe początki')">Zapisz się</button>
+            <button class="btn" style="border:1px solid var(--deep-navy);color:var(--deep-navy);font-size:.85em;">Dodaj do kalendarza</button>
           </div>
-          <!-- dynamic list continues -->
         </div>
       </div>
     </section>
   </div>
 
-  <!-- Email overlay -->
+  <!-- email panel -->
   <div class="overlay" id="emailPanel">
     <div class="panel">
-      <button class="close" onclick="closeEmailPanel()">×</button>
+      <button class="close-btn" onclick="closeEmailPanel()">×</button>
       <h2>Zostaw email</h2>
       <p>Będziemy przypominać o najbliższych wydarzeniach. Dane używamy tylko do kontaktu. <br><small>RODO: zgoda na przetwarzanie danych.</small></p>
       <form id="emailForm" onsubmit="submitEmail(event)">
@@ -566,14 +580,14 @@
         </div>
         <button class="btn btn-accent" type="submit" style="width:100%;">Zapisz mnie</button>
       </form>
-      <div id="emailSuccess" style="display:none;margin-top:12px;color:var(--forest-green);font-weight:600;">Dzięki! Będziemy przypominać.</div>
+      <div id="emailSuccess" style="display:none;margin-top:14px;color:var(--forest-green);font-weight:600;">Dzięki! Będziemy przypominać.</div>
     </div>
   </div>
 
-  <!-- Full event signup -->
+  <!-- full signup -->
   <div class="overlay" id="eventSignupPanel">
     <div class="panel">
-      <button class="close" onclick="closeEventSignup()">×</button>
+      <button class="close-btn" onclick="closeEventSignup()">×</button>
       <h2>Zapisz się na wydarzenie</h2>
       <p id="selectedEventTitle" style="font-weight:600;margin-bottom:6px;"></p>
       <form id="fullSignupForm" onsubmit="submitFullSignup(event)">
@@ -585,80 +599,110 @@
         </div>
         <button class="btn btn-primary" type="submit" style="width:100%;">Dołącz</button>
       </form>
-      <div id="signupSuccess" style="display:none;margin-top:12px;color:var(--dusty-teal);font-weight:600;">Jesteś zapisany. Wyślemy potwierdzenie.</div>
+      <div id="signupSuccess" style="display:none;margin-top:14px;color:var(--dusty-teal);font-weight:600;">Jesteś zapisany. Wyślemy potwierdzenie.</div>
     </div>
   </div>
 
+  <div class="secret-banner" id="secretBanner">Wiedzieliśmy, że to zadziała — jesteś tu ponownie.</div>
+
+  <div class="node-tooltip" id="tooltip" style="display:none;"></div>
+
   <script>
-    // mobile nav toggle
+    // nav toggle
     function toggleNav(){
       const nav=document.getElementById('navLinks');
-      nav.style.display=nav.style.display==='flex'?'none':'flex';
+      nav.style.display = nav.style.display==='flex'?'none':'flex';
     }
-    function scrollTo(id){document.getElementById(id)?.scrollIntoView({behavior:'smooth',block:'start'});}
-
-    // elevator accordions
-    function toggleAccordion(el){
-      if(el.classList.contains('open')) el.classList.remove('open');
-      else el.classList.add('open');
+    function scrollToSection(id){
+      const el=document.getElementById(id);
+      if(el) el.scrollIntoView({behavior:'smooth',block:'start'});
     }
 
-    // Intersection observer for reveal
-    const obs=new IntersectionObserver((entries)=>{
-      entries.forEach(e=>{
-        if(e.isIntersecting) e.target.classList.add('visible');
-      });
-    },{threshold:0.2});
-    document.querySelectorAll('.fade-up').forEach(el=>obs.observe(el));
-
-    // Elevator pitch hint bubble
-    setTimeout(()=>{document.getElementById('heroHint')?.classList.add('show');},1800);
-
-    // Game logic (simplified)
+    // Game logic + empathy pulse
     const questions=[
       "Co jest najtrudniejsze w Twojej samotności?",
       "Dlaczego potrzebujesz przyjaciół?",
-      "Jaką aktywność chciałbyś robić z innymi?",
-      "Co sprawia, że czujesz się słyszany?",
-      "Jaki temat rozmowy łamie lody?",
-      "Kiedy ostatnio poczułeś bliskość?",
-      "Czego brakuje w relacjach?",
+      "Jaką aktywność chciałbyś/chciałabyś robić z innymi?",
+      "Co sprawia, że czujesz się naprawdę słyszany?",
+      "Jaki temat rozmowy łamie lody dla Ciebie?",
+      "Kiedy ostatnio poczułeś/poczułaś bliskość?",
+      "Czego brakuje w obecnych relacjach?",
       "Jakie wartości łączą Cię z innymi?",
-      "Co byś zrobił z nową znajomością?",
-      "Jak chcesz być zapamiętany po spotkaniu?"
+      "Co byś zrobił/zrobiła z nową znajomością?",
+      "Jak chcesz być zapamiętany/zapamiętana po spotkaniu?"
     ];
-    let gameIndex=0,answers=[],userName=sessionStorage.getItem('collectiv_name')||'';
-    const currentQuestionEl=document.querySelector('#game h1');
+    let gameIndex=0, answers=[], userName=sessionStorage.getItem('collectiv_name')||'';
+    const questionTitle=document.getElementById('questionTitle');
     const progressEl=document.getElementById('gameProgress');
     const answerInput=document.getElementById('answerInput');
-    const feedback=document.getElementById('feedback');
-    function randomize(){for(let i=questions.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[questions[i],questions[j]]=[questions[j],questions[i]];}}
+    const feedbackEl=document.getElementById('feedback');
+    const empathyHeadline=document.getElementById('empathyHeadline');
+    const empathyPulse=document.getElementById('empathyPulse');
+
+    function randomizePool(){
+      for(let i=questions.length-1;i>0;i--){
+        const j=Math.floor(Math.random()*(i+1));
+        [questions[i],questions[j]]=[questions[j],questions[i]];
+      }
+    }
     function showQuestion(){
-      currentQuestionEl.textContent=questions[gameIndex];
+      questionTitle.textContent=questions[gameIndex];
       progressEl.textContent=`Pytanie ${gameIndex+1} z ${questions.length}`;
       answerInput.value='';
-      feedback.style.opacity=0;
-      document.getElementById('gameHint').classList.add('show');
+      feedbackEl.style.opacity=0;
     }
     function nextQuestion(){
-      const ans=answerInput.value.trim();
-      if(ans){
-        answers[gameIndex]=ans;
-        feedback.style.opacity=1;
-        if(!userName){userName=ans.split(' ')[0];sessionStorage.setItem('collectiv_name',userName);}
+      const val=answerInput.value.trim();
+      if(val){
+        answers[gameIndex]=val;
+        feedbackEl.style.opacity=1;
+        if(!userName){
+          userName=val.split(' ')[0];
+          sessionStorage.setItem('collectiv_name',userName);
+        }
       }
+      adaptEmpathy(val);
       gameIndex++;
       if(gameIndex>=questions.length){
-        scrollTo('pitch');
+        scrollToSection('pitch');
       } else showQuestion();
     }
-    function skipGame(){scrollTo('pitch');}
-    answerInput.addEventListener('input',()=>{document.getElementById('gameHint').classList.remove('show');});
-    document.getElementById('nextQuestionBtn').addEventListener('click',()=>{document.getElementById('gameHint').classList.remove('show');});
+    function skipGame(){scrollToSection('pitch');}
+    answerInput.addEventListener('input',()=>{
+      document.getElementById('gameHint').style.opacity=1;
+      adaptEmpathy(answerInput.value.trim());
+    });
 
-    randomize();showQuestion();
+    function adaptEmpathy(text){
+      // simple heuristic: if length short, encourage; if contains positive keywords, change headline
+      const base1="Masz dość social mediów, szybkich znajomości i płytkich rozmów?";
+      const base2="Chcesz relacje, które zostają?";
+      let headline=base1;
+      if(!text) headline=base1;
+      else if(text.length < 10) headline="Daj znać więcej — chcemy zrozumieć.";
+      else if(/samotn|osamotn|brakuje/i.test(text)) headline="Czujesz to — tu możesz coś zmienić.";
+      else if(/przyjaci|relacj|pozn/i.test(text)) headline=base2;
+      // apply to both variants
+      document.getElementById('empathyHeadline').firstChild.textContent = headline;
+      document.getElementById('empathyHeadlineShort').firstChild.textContent = headline;
+      // pulse intensity based on emotionally loaded words
+      const intensity = Math.min(1, Math.max(0.1, Math.min(text.length/50, 1)));
+      empathyPulse.style.boxShadow = `0 0 80px ${10 * intensity}px rgba(194,94,50,${0.2 * intensity})`;
+      empathyPulse.style.opacity = 0.6 * intensity;
+    }
 
-    // email panel
+    randomizePool();
+    showQuestion();
+
+    // Pitch view toggle
+    function setPitchView(mode){
+      document.getElementById('fullBtn').classList.toggle('active', mode==='full');
+      document.getElementById('shortBtn').classList.toggle('active', mode==='short');
+      document.getElementById('fullPitch').style.display = mode==='full'?'block':'none';
+      document.getElementById('shortPitch').style.display = mode==='short'?'block':'none';
+    }
+
+    // Email panel
     function openEmailPanel(){document.getElementById('emailPanel').style.display='flex';}
     function closeEmailPanel(){document.getElementById('emailPanel').style.display='none';}
     function submitEmail(e){
@@ -670,10 +714,10 @@
       setTimeout(closeEmailPanel,1200);
     }
 
-    // event signup
+    // Event signup
     function signupEvent(name){
       document.getElementById('selectedEventTitle').textContent=`Wydarzenie: ${name}`;
-      const stored=sessionStorage.getItem('collectiv_email');
+      const stored = sessionStorage.getItem('collectiv_email');
       if(stored) document.getElementById('eventEmail').value=stored;
       document.getElementById('eventSignupPanel').style.display='flex';
     }
@@ -688,16 +732,191 @@
       setTimeout(closeEventSignup,1400);
     }
 
-    // filter events
+    // Filter events
     function filterEvents(){
       const q=document.getElementById('filterInput').value.toLowerCase();
       document.querySelectorAll('.event-card').forEach(c=>{
-        c.style.display=c.dataset.name.toLowerCase().includes(q)?'flex':'none';
+        const name=c.dataset.name.toLowerCase();
+        c.style.display = name.includes(q)?'flex':'none';
       });
     }
 
-    // close mobile nav on outside click
-    document.addEventListener('click',e=>{
+    // Connection canvas (twist 2)
+    const canvas=document.getElementById('connectionCanvas');
+    const ctx=canvas.getContext('2d');
+    let width, height;
+    const nodes=[];
+    const testimonials=[
+      "„Po 30 minutach znałem kilka osób lepiej niż po tygodniu innych eventów.”",
+      "„Zaczęło się od pytania, a skończyło na realnej rozmowie.”",
+      "„Czułem, że mogę być sobą, bez maski.”",
+      "„Nie naciskają, a jednak coś się otwiera.”"
+    ];
+    function resizeCanvas(){
+      width=canvas.clientWidth;
+      height=canvas.clientHeight;
+      canvas.width=width*devicePixelRatio;
+      canvas.height=height*devicePixelRatio;
+      ctx.setTransform(devicePixelRatio,0,0,devicePixelRatio,0,0);
+    }
+    function initNodes(){
+      nodes.length=0;
+      // create random orbiting nodes
+      for(let i=0;i<18;i++){
+        nodes.push({
+          x: Math.random()*width,
+          y: Math.random()*height,
+          vx: (Math.random()-0.5)*0.6,
+          vy: (Math.random()-0.5)*0.6,
+          r: 6 + Math.random()*5,
+          label: testimonials[i%testimonials.length],
+          isUser: false,
+          angle: Math.random()*Math.PI*2
+        });
+      }
+      // user node from name
+      const name=sessionStorage.getItem('collectiv_name') || "Ty";
+      nodes.push({
+        x: width/2,
+        y: height/2,
+        vx:0,vy:0,
+        r:14,
+        label: `Cześć, ${name}! To ty. Kliknij inne kropki, by zobaczyć historie.`,
+        isUser:true
+      });
+    }
+    let pointer={x:null,y:null,isDown:false};
+    canvas.addEventListener('mousemove', e=>{
+      const rect=canvas.getBoundingClientRect();
+      pointer.x = e.clientX - rect.left;
+      pointer.y = e.clientY - rect.top;
+    });
+    canvas.addEventListener('mouseleave', ()=>{pointer.x=null;pointer.y=null;});
+    canvas.addEventListener('click', e=>{
+      const rect=canvas.getBoundingClientRect();
+      const mx=e.clientX-rect.left;
+      const my=e.clientY-rect.top;
+      for(const n of nodes){
+        const dx=mx-n.x, dy=my-n.y;
+        if(Math.hypot(dx,dy) < n.r+4){
+          showTooltip(e.clientX, e.clientY, n.label);
+          return;
+        }
+      }
+    });
+    function showTooltip(pageX,pageY,text){
+      const tip=document.getElementById('tooltip');
+      tip.textContent=text;
+      tip.style.left=pageX+12+'px';
+      tip.style.top=pageY+12+'px';
+      tip.style.display='block';
+      clearTimeout(tip._hide);
+      tip._hide=setTimeout(()=>{tip.style.display='none';},4000);
+    }
+    function updateNodes(){
+      for(const n of nodes){
+        // basic movement
+        n.x += n.vx;
+        n.y += n.vy;
+        // bounce edges
+        if(n.x < n.r || n.x > width-n.r) n.vx *= -1;
+        if(n.y < n.r || n.y > height-n.r) n.vy *= -1;
+        // gravity from pointer (attract/repel)
+        if(pointer.x != null){
+          const dx=pointer.x - n.x;
+          const dy=pointer.y - n.y;
+          const dist=Math.hypot(dx,dy);
+          if(dist < 120){
+            const force = (120 - dist)/120 * 0.5;
+            const dirx=dx/dist, diry=dy/dist;
+            // user node attracts, others slightly repelled for separation feel
+            if(n.isUser){
+              n.vx += dirx * force * 0.15;
+              n.vy += diry * force * 0.15;
+            } else {
+              n.vx -= dirx * force * 0.08;
+              n.vy -= diry * force * 0.08;
+            }
+          }
+        }
+        // small damping
+        n.vx *= 0.96;
+        n.vy *= 0.96;
+      }
+    }
+    function drawNodes(){
+      ctx.clearRect(0,0,width,height);
+      for(const n of nodes){
+        ctx.save();
+        if(n.isUser){
+          ctx.fillStyle = 'rgba(194,94,50,0.95)';
+          ctx.shadowColor = 'rgba(194,94,50,0.4)';
+          ctx.shadowBlur = 14;
+        } else {
+          ctx.fillStyle = 'rgba(31,74,54,0.85)';
+          ctx.shadowColor = 'rgba(31,74,54,0.2)';
+          ctx.shadowBlur = 6;
+        }
+        ctx.beginPath();
+        ctx.arc(n.x,n.y,n.r,0,Math.PI*2);
+        ctx.fill();
+        ctx.restore();
+      }
+      // subtle linking lines
+      for(const a of nodes){
+        for(const b of nodes){
+          if(a===b) continue;
+          const dx=a.x-b.x, dy=a.y-b.y;
+          const d=Math.hypot(dx,dy);
+          if(d < 80){
+            ctx.strokeStyle='rgba(90,139,124,'+((80-d)/120*0.15)+')';
+            ctx.lineWidth=1;
+            ctx.beginPath();
+            ctx.moveTo(a.x,a.y);
+            ctx.lineTo(b.x,b.y);
+            ctx.stroke();
+          }
+        }
+      }
+    }
+    function loop(){
+      updateNodes();
+      drawNodes();
+      requestAnimationFrame(loop);
+    }
+    function initCanvas(){
+      resizeCanvas();
+      initNodes();
+      loop();
+    }
+    window.addEventListener('resize', ()=>{
+      resizeCanvas();
+      // reposition user node center
+      const user = nodes.find(n=>n.isUser);
+      if(user){
+        user.x = canvas.clientWidth/2;
+        user.y = canvas.clientHeight/2;
+      }
+    });
+    initCanvas();
+
+    // secret double-tap on game card banner
+    let lastTap=0;
+    document.getElementById('gameCard').addEventListener('click', ()=> {
+      const now = Date.now();
+      if(now - lastTap < 350){
+        const b=document.getElementById('secretBanner');
+        b.style.display='block';
+        setTimeout(()=>{b.style.display='none';},2500);
+      }
+      lastTap=now;
+    });
+
+    // Pitch toggle default
+    setPitchView('full');
+
+    // close mobile nav when clicking outside
+    document.addEventListener('click', e=>{
       const nav=document.getElementById('navLinks');
       if(!nav.contains(e.target) && !e.target.closest('.hamburger') && window.innerWidth<=900){
         nav.style.display='none';

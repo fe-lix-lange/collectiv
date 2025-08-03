@@ -7,14 +7,7 @@ const questionEl = document.getElementById('hard-question');
 questionEl.textContent = questions[Math.floor(Math.random() * questions.length)];
 
 document.getElementById('see-events').addEventListener('click', () => {
-  document.getElementById('events').scrollIntoView({ behavior: 'smooth', inline: 'start', block: 'nearest' });
-});
 
-document.querySelectorAll('.nav-link').forEach(link => {
-  link.addEventListener('click', (e) => {
-    e.preventDefault();
-    const target = document.querySelector(link.getAttribute('href'));
-    target.scrollIntoView({ behavior: 'smooth', inline: 'start', block: 'nearest' });
   });
 });
 

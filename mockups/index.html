@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>intouch: collectiv – mockup</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <nav class="top-nav">
+    <a href="#landing" class="nav-icon" aria-label="Home">🌼</a>
+    <a href="#events" class="nav-icon" aria-label="Events">👁</a>
+    <a href="#about" class="nav-icon" aria-label="About">🤝</a>
+  </nav>
+
+  <section id="landing" class="panel landing">
+    <div class="question-card">
+      <p id="hard-question"></p>
+      <button id="see-events" class="badge-button">See Events</button>
+    </div>
+    <div class="spiral" aria-hidden="true"></div>
+  </section>
+
+  <section id="events" class="panel events">
+    <h2>Upcoming gatherings</h2>
+    <div class="event-list">
+      <div class="event-card">
+        <div class="front">
+          <h3>Slow Morning</h3>
+          <p>Aug 28, 2025</p>
+        </div>
+        <div class="back">
+          <p>Gentle journaling and tea sharing.</p>
+          <button class="signup">Sign Up</button>
+        </div>
+      </div>
+      <div class="event-card">
+        <div class="front">
+          <h3>Night of Stars</h3>
+          <p>Sep 12, 2025</p>
+        </div>
+        <div class="back">
+          <p>Outdoor stargazing, offline conversations.</p>
+          <button class="signup">Sign Up</button>
+        </div>
+      </div>
+    </div>
+    <form class="email-form">
+      <input type="email" placeholder="Email" aria-label="Email">
+      <button type="submit">Join</button>
+    </form>
+  </section>
+
+  <section id="about" class="panel about">
+    <h2>Why intouch?</h2>
+    <p>We value depth over speed and create calm spaces for introverts.</p>
+    <div class="hand-illustration" aria-hidden="true">🤲</div>
+  </section>
+
+  <footer class="footer">
+    <p>Depth over speed</p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

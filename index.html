@@ -5,11 +5,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>intouch: collectiv – MVP WOW</title>
   <style>
+    :root {
+      --deep-navy: #0F243E;
+      --forest-green: #1F4A36;
+      --burnt-orange: #C25E32;
+      --cream: #F0E6D2;
+      --dusty-teal: #5A8B7C;
+      --charcoal: #1A1423;
+      --muted-gold: #B88F58;
+      --shadow-strong: rgba(15,36,62,0.15);
+      --shadow-light: rgba(15,36,62,0.08);
+    }
+
     html, body {
       margin: 0; padding: 0;
-      background: #f7f3ed;
+      background: var(--cream);
       font-family: 'Times New Roman', Times, serif;
-      color: #3b2c24;
+      color: var(--charcoal);
       min-height: 100vh;
       overflow-x: hidden;
     }
@@ -40,8 +52,8 @@
       width: 110px; height: 110px;
       border-radius: 50%;
       margin: 0 auto -54px auto;
-      background: #f9f7f2;
-      box-shadow: 0 2px 14px 0 rgba(59,44,36,0.08);
+      background: #fff;
+      box-shadow: 0 2px 14px 0 var(--shadow-light);
       display: flex; align-items: center; justify-content: center;
       animation: logoPop 1.15s cubic-bezier(.7,-0.2,.27,1.7);
       position: relative; z-index: 10;
@@ -52,19 +64,18 @@
       85% { transform: scale(0.96) translateY(-8px);}
       100% { transform: scale(1) translateY(0); opacity: 1;}
     }
-    .logo-badge img { width: 74px; filter: drop-shadow(0 0 1.2px #e0dacd);}
+    .logo-badge img { width: 74px; filter: drop-shadow(0 0 1.2px var(--shadow-light));}
     /* MVP CARD with live-drawn border */
     .center-rect {
-      background: #f9f7f2;
+      background: #fff;
       border-radius: 2.5rem;
-      box-shadow: 0 7px 34px 0 rgba(59,44,36,0.10);
+      box-shadow: 0 7px 34px 0 var(--shadow-strong);
       margin: 0 auto;
       max-width: 470px; min-width: 310px; width: 98vw; min-height: 530px;
       display: flex; flex-direction: column; align-items: center; justify-content: flex-start;
       padding: 60px 20px 38px 20px;
       position: relative; z-index: 2; overflow: visible;
       border: none;
-      /* SVG border overlays, animated below */
     }
     .border-svg {
       position: absolute;
@@ -114,22 +125,22 @@
     h1, h2 {
       font-family: 'Times New Roman', Times, serif;
       font-weight: 700; margin: 0 0 0.57em 0;
-      color: #3b2c24; font-size: 1.33rem; background: transparent; position: relative; line-height: 1.22; letter-spacing: -0.4px;
+      color: var(--charcoal); font-size: 1.33rem; background: transparent; position: relative; line-height: 1.22; letter-spacing: -0.4px;
     }
     h1 { font-size: 1.43rem;}
     h2 { font-size: 1.18rem;}
-    p { font-family: inherit; font-size: 1.09rem; margin: 0 0 1.15em 0; line-height: 1.68; color: #3b2c24; background: transparent; font-weight: 400;}
+    p { font-family: inherit; font-size: 1.09rem; margin: 0 0 1.15em 0; line-height: 1.68; color: var(--charcoal); background: transparent; font-weight: 400;}
     .surprise-message {
       font-size: 1.15em;
-      color: #866b57;
-      background: #fff6;
+      color: var(--deep-navy);
+      background: rgba(15,36,62,0.06);
       border-radius: 1.6em;
       padding: 0.44em 1.2em;
       margin-bottom: 1.6em;
       opacity: 0.01;
       transform: translateY(-30px) scale(0.98);
       animation: msgpop 1.3s cubic-bezier(.5,2.2,.24,.8) 0.7s forwards;
-      box-shadow: 0 2px 12px #cab8a934;
+      box-shadow: 0 2px 12px rgba(15,36,62,0.2);
       z-index: 30;
       display: inline-block;
       position: relative;
@@ -145,17 +156,18 @@
       font-size: 1.09em;
       background: #fff;
       border-radius: 2.3em;
-      border: 2px solid #b8a28e;
-      color: #3b2c24;
+      border: 2px solid var(--dusty-teal);
+      color: var(--charcoal);
       padding: 0.6em 2.1em;
-      box-shadow: 0 2px 10px #cab8a925;
+      box-shadow: 0 2px 10px rgba(15,36,62,0.14);
       position: relative;
       cursor: pointer;
       outline: none;
-      transition: box-shadow 0.18s, background 0.17s;
+      transition: box-shadow 0.18s, background 0.17s, transform 0.15s;
       margin: 0 auto;
       overflow: visible;
     }
+    .signature-btn:hover { transform: scale(1.02); }
     .signature-scribble {
       position: absolute; right: 22px; bottom: 10px; width: 29px; height: 11px;
       opacity: 0; pointer-events: none;
@@ -174,15 +186,15 @@
     }
     .name-input {
       font-family: inherit; font-size: 1.12em;
-      border: 2px dashed #cab8a9; border-radius: 1.1em;
+      border: 2px dashed var(--muted-gold); border-radius: 1.1em;
       padding: 0.42em 1.1em;
       outline: none;
-      background: #f4f1eb;
+      background: #fbf9f6;
       transition: border 0.2s, box-shadow 0.2s;
-      box-shadow: 0 2px 6px #cab8a929;
+      box-shadow: 0 2px 6px rgba(15,36,62,0.14);
       width: 130px;
     }
-    .name-input:focus { border: 2.5px solid #947f6b; background: #fff;}
+    .name-input:focus { border: 2.5px solid var(--burnt-orange); background: #fff;}
     .name-wiggle {
       animation: input-wiggle 0.42s;
     }
@@ -197,21 +209,22 @@
     .draw-area {
       margin: 1.6em auto 1.2em auto;
       width: 160px; height: 80px;
-      background: #fff9f6; border-radius: 1.7em;
-      border: 1.5px dashed #cab8a9;
-      box-shadow: 0 1px 12px #cab8a92a;
+      background: #fff;
+      border-radius: 1.7em;
+      border: 1.5px dashed var(--muted-gold);
+      box-shadow: 0 1px 12px rgba(15,36,62,0.17);
       position: relative;
       cursor: crosshair;
       display: flex; align-items: center; justify-content: center;
     }
     .draw-hint {
-      color: #b8a28e; font-size: 0.99em; position: absolute; left: 0; right: 0; text-align: center; top: 50%; transform: translateY(-50%);
+      color: var(--muted-gold); font-size: 0.99em; position: absolute; left: 0; right: 0; text-align: center; top: 50%; transform: translateY(-50%);
       pointer-events: none;
       opacity: 0.84;
       z-index: 2;
     }
     .draw-complete {
-      color: #61b174; font-size: 1.05em; font-weight: 600;
+      color: var(--dusty-teal); font-size: 1.05em; font-weight: 600;
       position: absolute; left: 0; right: 0; top: 50%; text-align: center; transform: translateY(-50%);
       opacity: 0;
       pointer-events: none;
@@ -250,36 +263,36 @@
     .btn-arrow {
       position: relative; z-index: 2;
       width: 25px; height: 25px;
-      stroke: #b8a28e; stroke-width: 2.8;
+      stroke: var(--burnt-orange); stroke-width: 2.8;
       transition: transform 0.17s cubic-bezier(.8,.1,.6,1.5);
       transform: scale(1);
     }
     .handdrawn-btn:active .btn-arrow, .handdrawn-btn:hover .btn-arrow {
-      transform: scale(1.13) rotate(-7deg); stroke: #a68252;
+      transform: scale(1.13) rotate(-7deg); stroke: var(--forest-green);
     }
   </style>
 </head>
 <body>
   <!-- Animated floating background icons -->
-  <svg class="floating-icon heart" viewBox="0 0 64 64"><path d="M32 56 Q12 40 12 24 Q12 14 24 14 Q32 14 32 24 Q32 14 40 14 Q52 14 52 24 Q52 40 32 56Z" stroke="#a6978a" stroke-width="4" fill="#a6978a"/></svg>
-  <svg class="floating-icon bubble" viewBox="0 0 42 38"><ellipse cx="22" cy="18" rx="16" ry="13" stroke="#b8a28e" stroke-width="3.3" fill="#fff8"/><ellipse cx="16" cy="19" rx="2" ry="1.7" fill="#cab8a9"/><ellipse cx="28" cy="20" rx="2" ry="1.7" fill="#cab8a9"/><ellipse cx="22" cy="26" rx="7" ry="4" fill="#cab8a935"/></svg>
-  <svg class="floating-icon qmark" viewBox="0 0 34 40"><path d="M18,10 Q20,7 24,7 Q30,7 30,14 Q30,21 18,24 Q17,30 17,32" stroke="#b8a28e" stroke-width="3.1" fill="none"/><ellipse cx="17" cy="36" rx="2.5" ry="2.1" fill="#a6978a"/></svg>
+  <svg class="floating-icon heart" viewBox="0 0 64 64"><path d="M32 56 Q12 40 12 24 Q12 14 24 14 Q32 14 32 24 Q32 14 40 14 Q52 14 52 24 Q52 40 32 56Z" stroke="var(--burnt-orange)" stroke-width="4" fill="var(--burnt-orange)"/></svg>
+  <svg class="floating-icon bubble" viewBox="0 0 42 38"><ellipse cx="22" cy="18" rx="16" ry="13" stroke="var(--dusty-teal)" stroke-width="3.3" fill="rgba(90,139,124,0.08)"/><ellipse cx="16" cy="19" rx="2" ry="1.7" fill="var(--charcoal)"/><ellipse cx="28" cy="20" rx="2" ry="1.7" fill="var(--charcoal)"/><ellipse cx="22" cy="26" rx="7" ry="4" fill="rgba(90,139,124,0.2)"/></svg>
+  <svg class="floating-icon qmark" viewBox="0 0 34 40"><path d="M18,10 Q20,7 24,7 Q30,7 30,14 Q30,21 18,24 Q17,30 17,32" stroke="var(--forest-green)" stroke-width="3.1" fill="none"/><ellipse cx="17" cy="36" rx="2.5" ry="2.1" fill="var(--deep-navy)"/></svg>
 
   <div class="logo-badge">
     <img src="ChatGPT Image Jul 26, 2025, 02_57_49 PM.png" alt="intouch: collectiv logo" />
   </div>
   <div class="center-rect">
     <!-- SVG border, hand-drawn, animates in -->
-    <svg class="border-svg"><rect x="8" y="8" width="calc(100% - 16)" height="calc(100% - 16)" rx="44" stroke="#b8a28e" stroke-width="4.2" fill="none"/></svg>
+    <svg class="border-svg"><rect x="8" y="8" width="calc(100% - 16)" height="calc(100% - 16)" rx="44" stroke="var(--burnt-orange)" stroke-width="4.2" fill="none"/></svg>
     <!-- Slide 1: Name prompt -->
     <div class="slide active" id="slide0">
       <h1>Cześć, jak masz na imię?</h1>
-      <svg class="scribble-underline" viewBox="0 0 110 18"><path d="M8 12 Q35 17 105 9 Q85 8 80 16 Q60 4 35 9 Q18 12 8 12Z" stroke="#a6978a" stroke-width="2.4" fill="none" /></svg>
+      <svg class="scribble-underline" viewBox="0 0 110 18"><path d="M8 12 Q35 17 105 9 Q85 8 80 16 Q60 4 35 9 Q18 12 8 12Z" stroke="var(--burnt-orange)" stroke-width="2.4" fill="none" /></svg>
       <form class="name-input-row" onsubmit="setName(event)">
         <input id="nameInput" class="name-input" type="text" maxlength="20" autocomplete="off" placeholder="Imię..."/>
         <button type="submit" class="signature-btn">
           Dalej
-          <svg class="signature-scribble" viewBox="0 0 32 12"><path d="M2,6 Q11,11 25,2 Q26,6 31,6" stroke="#b8a28e" stroke-width="2.2" fill="none" stroke-dasharray="68" stroke-dashoffset="68"/></svg>
+          <svg class="signature-scribble" viewBox="0 0 32 12"><path d="M2,6 Q11,11 25,2 Q26,6 31,6" stroke="var(--burnt-orange)" stroke-width="2.2" fill="none" stroke-dasharray="68" stroke-dashoffset="68"/></svg>
         </button>
       </form>
     </div>
@@ -287,21 +300,21 @@
     <div class="slide" id="slide1">
       <div class="surprise-message" id="surpriseMsg" style="display:none;">Dobrze, że jesteś, <span id="userNameMsg"></span>!</div>
       <h2>Poznaj nowych ludzi — poznaj siebie</h2>
-      <svg class="scribble-underline" viewBox="0 0 110 18"><path d="M8 12 Q35 17 105 9 Q85 8 80 16 Q60 4 35 9 Q18 12 8 12Z" stroke="#a6978a" stroke-width="2.2" fill="none" /></svg>
+      <svg class="scribble-underline" viewBox="0 0 110 18"><path d="M8 12 Q35 17 105 9 Q85 8 80 16 Q60 4 35 9 Q18 12 8 12Z" stroke="var(--burnt-orange)" stroke-width="2.2" fill="none" /></svg>
       <p>
         Spotkania, podczas których w przyjaznej atmosferze<br>
         możesz nawiązać nowe relacje i lepiej zrozumieć siebie.<br>
-        <span style="color:#947f6b;font-size:1.01em;">Pytania i ćwiczenia pomagają przełamać lody i zacząć wartościowe rozmowy.</span>
+        <span style="color: var(--muted-gold); font-size:1.01em;">Pytania i ćwiczenia pomagają przełamać lody i zacząć wartościowe rozmowy.</span>
       </p>
       <button class="signature-btn" onclick="goNext()">
         Chcę dalej
-        <svg class="signature-scribble" viewBox="0 0 32 12"><path d="M2,6 Q11,11 25,2 Q26,6 31,6" stroke="#a6978a" stroke-width="2.2" fill="none" stroke-dasharray="68" stroke-dashoffset="68"/></svg>
+        <svg class="signature-scribble" viewBox="0 0 32 12"><path d="M2,6 Q11,11 25,2 Q26,6 31,6" stroke="var(--burnt-orange)" stroke-width="2.2" fill="none" stroke-dasharray="68" stroke-dashoffset="68"/></svg>
       </button>
     </div>
     <!-- Slide 3: Draw-to-join -->
     <div class="slide" id="slide2">
       <h2>Narysuj serce, by dołączyć!</h2>
-      <svg class="scribble-underline" viewBox="0 0 110 18"><path d="M8 12 Q35 17 105 9 Q85 8 80 16 Q60 4 35 9 Q18 12 8 12Z" stroke="#a6978a" stroke-width="2.2" fill="none" /></svg>
+      <svg class="scribble-underline" viewBox="0 0 110 18"><path d="M8 12 Q35 17 105 9 Q85 8 80 16 Q60 4 35 9 Q18 12 8 12Z" stroke="var(--burnt-orange)" stroke-width="2.2" fill="none" /></svg>
       <div class="draw-area" id="drawArea">
         <canvas id="drawCanvas" width="160" height="80"></canvas>
         <span class="draw-hint" id="drawHint">Narysuj ❤️</span>
@@ -309,17 +322,17 @@
       </div>
       <button class="signature-btn" id="joinBtn" onclick="alert('Wkrótce! Formularz Google.')" disabled>
         Dołącz
-        <svg class="signature-scribble" viewBox="0 0 32 12"><path d="M2,6 Q11,11 25,2 Q26,6 31,6" stroke="#a6978a" stroke-width="2.2" fill="none" stroke-dasharray="68" stroke-dashoffset="68"/></svg>
+        <svg class="signature-scribble" viewBox="0 0 32 12"><path d="M2,6 Q11,11 25,2 Q26,6 31,6" stroke="var(--burnt-orange)" stroke-width="2.2" fill="none" stroke-dasharray="68" stroke-dashoffset="68"/></svg>
       </button>
     </div>
     <div class="nav-arrows">
       <button class="handdrawn-btn" id="prevBtn" onclick="goPrev()" aria-label="Poprzedni" disabled>
-        <svg class="handdrawn-circle" viewBox="0 0 46 46"><path d="M7,21 Q12,2 35,7 Q42,18 29,39 Q22,43 8,32 Q2,21 7,21 Z" stroke="#a6978a" stroke-width="2.4" fill="none"/></svg>
-        <svg class="btn-arrow" viewBox="0 0 28 28"><path d="M18 7L9 14L18 21" stroke="#b8a28e" stroke-width="2.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <svg class="handdrawn-circle" viewBox="0 0 46 46"><path d="M7,21 Q12,2 35,7 Q42,18 29,39 Q22,43 8,32 Q2,21 7,21 Z" stroke="var(--muted-gold)" stroke-width="2.4" fill="none"/></svg>
+        <svg class="btn-arrow" viewBox="0 0 28 28"><path d="M18 7L9 14L18 21" stroke="var(--burnt-orange)" stroke-width="2.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </button>
       <button class="handdrawn-btn" id="nextBtn" onclick="goNext()" aria-label="Następny">
-        <svg class="handdrawn-circle" viewBox="0 0 46 46"><path d="M37,21 Q32,2 9,7 Q2,18 15,39 Q22,43 36,32 Q42,21 37,21 Z" stroke="#a6978a" stroke-width="2.4" fill="none"/></svg>
-        <svg class="btn-arrow" viewBox="0 0 28 28"><path d="M10 7L19 14L10 21" stroke="#b8a28e" stroke-width="2.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <svg class="handdrawn-circle" viewBox="0 0 46 46"><path d="M37,21 Q32,2 9,7 Q2,18 15,39 Q22,43 36,32 Q42,21 37,21 Z" stroke="var(--muted-gold)" stroke-width="2.4" fill="none"/></svg>
+        <svg class="btn-arrow" viewBox="0 0 28 28"><path d="M10 7L19 14L10 21" stroke="var(--burnt-orange)" stroke-width="2.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </button>
     </div>
   </div>
@@ -395,7 +408,7 @@
       if(!drawing) return;
       const [x,y] = [e.offsetX,e.offsetY];
       path.push([x,y]);
-      ctx.lineWidth = 3.2; ctx.strokeStyle = '#a6978a';
+      ctx.lineWidth = 3.2; ctx.strokeStyle = 'var(--muted-gold)';
       ctx.lineCap = 'round';
       ctx.lineJoin = 'round';
       ctx.beginPath();

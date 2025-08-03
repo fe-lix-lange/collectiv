@@ -1,205 +1,631 @@
-<!-- trimmed for brevity: assumes your existing :root palette and core CSS are present -->
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>intouch: collectiv – MVP WOW</title>
+  <style>
+    :root {
+      --deep-navy: #0F243E;
+      --forest-green: #1F4A36;
+      --burnt-orange: #C25E32;
+      --cream: #F0E6D2;
+      --dusty-teal: #5A8B7C;
+      --charcoal: #1A1423;
+      --muted-gold: #B88F58;
+      --shadow-strong: rgba(15,36,62,0.15);
+      --shadow-light: rgba(15,36,62,0.08);
+    }
+    * { box-sizing:border-box; }
+    body {
+      margin:0; padding:0;
+      background: var(--cream);
+      font-family: 'Times New Roman', Times, serif;
+      color: var(--charcoal);
+      -webkit-font-smoothing: antialiased;
+      min-height:100vh;
+      overflow-x:hidden;
+      scroll-behavior: smooth;
+    }
+    a { text-decoration:none; color: inherit; }
+    button { font-family: inherit; }
+
+    /* NAV */
+    .site-nav {
+      position: fixed;
+      top: 0; left:0; right:0;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding:10px 16px;
+      background: rgba(255,255,255,0.93);
+      backdrop-filter: blur(8px);
+      gap:12px;
+      z-index: 100;
+      border-bottom: 1px solid rgba(26,20,35,0.04);
+    }
+    .nav-links {
+      display:flex;
+      gap:14px;
+      align-items:center;
+      font-size:0.9em;
+      font-weight:500;
+      flex-wrap:wrap;
+    }
+    .nav-links a {
+      padding:6px 8px;
+      border-radius:8px;
+      position: relative;
+      cursor:pointer;
+      transition: background .2s;
+    }
+    .nav-links a:hover { background: rgba(26,20,35,0.05); }
+    .hamburger {
+      display:none;
+      background:none;
+      border:none;
+      padding:6px;
+      cursor:pointer;
+    }
+    .logo-area { display:flex; align-items:center; gap:8px; cursor:pointer; }
+
+    /* CTA button in nav */
+    #ctaEvents {
+      padding:8px 16px;
+      border-radius:999px;
+      border:2px solid var(--burnt-orange);
+      background: var(--burnt-orange);
+      color:#fff;
+      cursor:pointer;
+      font-weight:600;
+      position:relative;
+      overflow:hidden;
+      display:flex;
+      align-items:center;
+      gap:6px;
+    }
+    .pulse-ring {
+      position:absolute;
+      top:-4px; left:-4px; right:-4px; bottom:-4px;
+      border-radius:999px;
+      border:2px solid rgba(255,255,255,0.4);
+      animation: pulse 2.2s infinite ease-out;
+      pointer-events:none;
+    }
+    @keyframes pulse {
+      0% { transform: scale(1); opacity: 0.5; }
+      50% { transform: scale(1.08); opacity: 0.15; }
+      100% { transform: scale(1); opacity: 0.5; }
+    }
+
+    /* main layout */
+    main { padding-top:72px; max-width:960px; margin:0 auto; }
+
+    section { padding:60px 16px; position:relative; }
+
+    h1, h2 {
+      font-family: 'Times New Roman', Times, serif;
+      font-weight:700;
+      margin:0 0 .35em 0;
+      color: var(--charcoal);
+      line-height:1.2;
+      letter-spacing:-0.3px;
+    }
+    h1 { font-size:1.64rem; }
+    h2 { font-size:1.4rem; }
+    p { margin:0 0 1em 0; font-size:1.02rem; line-height:1.55; }
+
+    /* Card aesthetics */
+    .card, .event-card, .info-card, .step {
+      background:#fff;
+      border-radius:1.6rem;
+      position:relative;
+      overflow:hidden;
+      transition: transform .25s ease, box-shadow .3s ease;
+      box-shadow: 0 18px 50px -10px var(--shadow-strong);
+    }
+    .card { padding:28px 22px 22px; max-width:540px; margin:0 auto; }
+    .card:hover, .event-card:hover, .info-card:hover { transform:translateY(-3px); }
+
+    /* scribble underline reused */
+    .scribble-underline {
+      width: 112px; height: 19px; display: block; margin: 0.2em auto 1em auto;
+      stroke-dasharray: 95 260; stroke-dashoffset: 0; opacity: 0.96;
+      animation: scribble-draw 1.25s cubic-bezier(.8,-0.6,.7,1.2) 0.2s forwards;
+    }
+    @keyframes scribble-draw {
+      0% {stroke-dashoffset: 310;}
+      100% {stroke-dashoffset: 0;}
+    }
+
+    /* Elevator pitch micro-cards */
+    .info-grid { display:flex; gap:14px; flex-wrap:wrap; margin-top:12px; }
+    .info-card {
+      flex:1 1 160px;
+      padding:18px 14px;
+      cursor:pointer;
+      min-width:140px;
+      border-radius:1rem;
+      position:relative;
+    }
+
+    /* Timeline/O nas */
+    .timeline { display:flex; gap:12px; overflow-x:auto; padding-bottom:4px; }
+    .step {
+      flex:0 0 160px;
+      padding:16px;
+    }
+
+    /* Comparison */
+    .comparison { display:grid; grid-template-columns:1fr 1fr; gap:28px; align-items:start; }
+    .badge-small { width:38px; height:38px; border-radius:50%; background:#fff; display:flex; align-items:center; justify-content:center; box-shadow:0 10px 30px -5px rgba(15,36,62,0.08); }
+
+    /* Event list */
+    #eventsContainer { display:grid; gap:16px; margin-top:10px; }
+    .event-card { display:flex; justify-content:space-between; align-items:center; padding:14px 16px; flex-wrap:wrap; gap:12px; }
+    .event-info { flex:1; min-width:180px; }
+    .event-actions { display:flex; gap:10px; align-items:center; flex-wrap:wrap; }
+
+    /* Forms & panels */
+    .overlay {
+      position:fixed;
+      inset:0;
+      background: rgba(26,20,35,0.65);
+      display:none;
+      align-items:center;
+      justify-content:center;
+      padding:14px;
+      z-index:220;
+    }
+    .panel {
+      background:#fff;
+      border-radius:18px;
+      max-width:500px;
+      width:100%;
+      padding:28px 24px;
+      position:relative;
+      box-shadow:0 30px 80px -10px rgba(15,36,62,0.25);
+    }
+    .close-btn {
+      position:absolute;
+      top:12px; right:12px;
+      background:none;
+      border:none;
+      font-size:1.4em;
+      cursor:pointer;
+      line-height:1;
+    }
+    input, textarea {
+      font-family: inherit;
+      font-size:1em;
+      border-radius:10px;
+      border:2px solid var(--muted-gold);
+      padding:12px 14px;
+      width:100%;
+      outline:none;
+      resize:vertical;
+      margin-bottom:10px;
+    }
+    input:focus, textarea:focus { border-color: var(--burnt-orange); background:#fff; }
+
+    .small { font-size:.85em; }
+    .pill-btn {
+      border:none;
+      border-radius:999px;
+      padding:10px 18px;
+      cursor:pointer;
+      font-weight:600;
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      position:relative;
+    }
+
+    /* Animated hints */
+    #gameHint {
+      position:absolute;
+      top:100%;
+      left:50%;
+      transform:translate(-50%,8px);
+      background: var(--muted-gold);
+      color: #1A1423;
+      padding:10px 14px;
+      border-radius:10px;
+      font-size:0.75em;
+      display:flex;
+      align-items:center;
+      gap:6px;
+      box-shadow:0 12px 36px -4px rgba(15,36,62,0.18);
+      opacity:0;
+      pointer-events:none;
+      z-index:10;
+    }
+    .hint-arrow { margin-left:4px; display:inline-block; animation: hint-bounce 1.4s infinite; }
+    @keyframes hint-bounce {
+      0% { transform: translateY(0); }
+      50% { transform: translateY(-4px); }
+      100% { transform: translateY(0); }
+    }
+    #gameHint.show { opacity:1; animation: hint-fade-in .4s forwards; }
+    @keyframes hint-fade-in { from {opacity:0; transform:translate(-50%,14px);} to {opacity:1; transform:translate(-50%,8px);} }
+
+    .nudge-bubble {
+      position:absolute;
+      top:-30px;
+      right:6px;
+      background: var(--dusty-teal);
+      color:#fff;
+      padding:6px 12px;
+      border-radius:999px;
+      font-size:0.65em;
+      display:flex;
+      align-items:center;
+      gap:6px;
+      opacity:0;
+      pointer-events:none;
+    }
+    .nudge-bubble.show { animation: bubble-appear .5s forwards; }
+    @keyframes bubble-appear {
+      from { opacity:0; transform:translateY(6px); }
+      to { opacity:1; transform:translateY(0); }
+    }
+
+    /* Sticky pitch summary */
+    #pitchSticky {
+      background:#fff;
+      border-left:4px solid var(--burnt-orange);
+      padding:12px 16px;
+      border-radius:8px;
+      box-shadow:0 10px 30px -5px rgba(15,36,62,0.08);
+      margin-bottom:18px;
+      position:sticky;
+      top:72px;
+      z-index:5;
+    }
+    #pitchSticky.callout::after {
+      content: "Nie przegap najbliższych wydarzeń";
+      display:block;
+      font-size:0.65em;
+      margin-top:4px;
+      color: var(--forest-green);
+      animation: fade-slide 4s infinite alternate;
+    }
+    @keyframes fade-slide {
+      0% { opacity:1; transform:translateX(0); }
+      100% { opacity:0.7; transform:translateX(6px); }
+    }
+
+    /* Skip shake */
+    @keyframes shake {
+      0%,100% { transform: translateX(0); }
+      20% { transform: translateX(-4px); }
+      40% { transform: translateX(4px); }
+      60% { transform: translateX(-2px); }
+      80% { transform: translateX(2px); }
+    }
+    .pulse-skip { animation: shake .8s ease-in-out; }
+
+    /* Buttons */
+    .signature-btn {
+      font-family: inherit;
+      font-size: 1em;
+      background: #fff;
+      border-radius: 2.3em;
+      border: 2px solid var(--dusty-teal);
+      color: var(--charcoal);
+      padding: 0.6em 1.8em;
+      box-shadow: 0 2px 10px rgba(15,36,62,0.14);
+      cursor: pointer;
+      outline: none;
+      transition: transform .18s, box-shadow .18s;
+      position: relative;
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+    }
+    .signature-btn:hover { transform: scale(1.03); }
+    .signature-scribble {
+      width: 29px; height: 11px;
+      opacity: 0;
+      pointer-events:none;
+      position:relative;
+      display:inline-block;
+    }
+    .signature-btn:hover .signature-scribble { opacity:1; }
+    .small-caption { font-size:.85em; color: rgba(26,20,35,.65); }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .comparison { grid-template-columns:1fr; }
+      .info-grid { flex-direction:column; }
+      .event-card { flex-direction:column; align-items:flex-start; }
+      .event-actions { width:100%; justify-content:flex-start; }
+      .nav-links { display:none; position:absolute; top:56px; left:12px; right:12px; flex-direction:column; background:#fff; padding:14px; border-radius:14px; box-shadow:0 20px 60px -10px rgba(15,36,62,0.15); }
+      .hamburger { display:block; }
+    }
+
+    /* Floating background (optional small icons for texture) */
+    .floating-icon {
+      position: fixed;
+      pointer-events: none;
+      opacity: 0.16;
+      z-index: 0;
+      animation: floatIcons 18s ease-in-out infinite alternate;
+    }
+    @keyframes floatIcons {
+      0% {transform: translateY(0) scale(1);}
+      45% {transform: translateY(-17px) scale(1.03);}
+      100% {transform: translateY(31px) scale(0.97);}
+    }
+
+    /* Logo animation reused */
+    .logo-badge-large {
+      width: 110px; height: 110px;
+      border-radius: 50%;
+      background: #fff;
+      box-shadow: 0 2px 14px 0 var(--shadow-light);
+      display: flex; align-items: center; justify-content: center;
+      animation: logoPop 1.15s cubic-bezier(.7,-0.2,.27,1.7);
+      position: relative; z-index: 10;
+      margin:0 auto 12px;
+    }
+    @keyframes logoPop {
+      0% { transform: scale(0.68) translateY(-110px); opacity: 0;}
+      55% { transform: scale(1.16) translateY(17px); opacity: 0.7;}
+      85% { transform: scale(0.96) translateY(-8px);}
+      100% { transform: scale(1) translateY(0); opacity: 1;}
+    }
+
+  </style>
+</head>
 <body>
-  <header class="site-nav" style="position:fixed;top:0;left:0;right:0;display:flex;align-items:center;gap:1em;padding:12px 18px;background:rgba(255,255,255,0.95);backdrop-filter:blur(8px);z-index:50;">
-    <div class="logo" style="display:flex;align-items:center;cursor:pointer;" onclick="scrollToSection('game')">
-      <div class="logo-badge" style="width:44px;height:44px;margin:0;">
-        <!-- small badge version -->
-        <img src="ChatGPT Image Jul 26, 2025, 02_57_49 PM.png" alt="logo" style="width:24px;" />
+
+  <!-- Floating decorative icons -->
+  <svg class="floating-icon" style="left:5vw;top:15vh;width:50px;" viewBox="0 0 64 64"><path d="M32 56 Q12 40 12 24 Q12 14 24 14 Q32 14 32 24 Q32 14 40 14 Q52 14 52 24 Q52 40 32 56Z" stroke="var(--muted-gold)" stroke-width="4" fill="var(--muted-gold)"/></svg>
+  <svg class="floating-icon" style="right:8vw;top:18vh;width:38px;" viewBox="0 0 42 38"><ellipse cx="22" cy="18" rx="16" ry="13" stroke="var(--dusty-teal)" stroke-width="3.3" fill="rgba(90,139,124,0.08)"/><ellipse cx="16" cy="19" rx="2" ry="1.7" fill="var(--charcoal)"/><ellipse cx="28" cy="20" rx="2" ry="1.7" fill="var(--charcoal)"/><ellipse cx="22" cy="26" rx="7" ry="4" fill="rgba(90,139,124,0.18)"/></svg>
+  <svg class="floating-icon" style="left:44vw;top:68vh;width:38px;" viewBox="0 0 34 40"><path d="M18,10 Q20,7 24,7 Q30,7 30,14 Q30,21 18,24 Q17,30 17,32" stroke="var(--forest-green)" stroke-width="3.1" fill="none"/><ellipse cx="17" cy="36" rx="2.5" ry="2.1" fill="var(--deep-navy)"/></svg>
+
+  <!-- Navigation -->
+  <header class="site-nav">
+    <div class="logo-area" onclick="scrollToSection('game')">
+      <div class="badge-small">
+        <img src="ChatGPT Image Jul 26, 2025, 02_57_49 PM.png" alt="logo" style="width:22px;"/>
       </div>
-      <span style="margin-left:6px;font-weight:700;">collectiv</span>
+      <div style="font-weight:700;">collectiv</div>
     </div>
-    <nav style="flex:1;display:flex;gap:14px;font-size:0.9em;">
-      <a href="#game" onclick="scrollToSection('game')">Gra</a>
-      <a href="#pitch" onclick="scrollToSection('pitch')">Kim jesteśmy</a>
-      <a href="#about" onclick="scrollToSection('about')">O nas</a>
-      <a href="#why" onclick="scrollToSection('why')">Dlaczego my?</a>
-      <a href="#events" onclick="scrollToSection('events')">Wydarzenia</a>
+    <nav style="display:flex;align-items:center;gap:10px;position:relative;">
+      <div class="nav-links" id="navLinks">
+        <a href="#game" onclick="scrollToSection('game')">Gra</a>
+        <a href="#pitch" onclick="scrollToSection('pitch')">Kim jesteśmy</a>
+        <a href="#about" onclick="scrollToSection('about')">O nas</a>
+        <a href="#why" onclick="scrollToSection('why')">Dlaczego my?</a>
+        <a href="#events" onclick="scrollToSection('events')">Wydarzenia</a>
+      </div>
+      <button class="hamburger" aria-label="menu" onclick="toggleNav()">
+        <div style="width:22px;height:3px;background:var(--charcoal);margin:4px 0;border-radius:2px;"></div>
+        <div style="width:22px;height:3px;background:var(--charcoal);margin:4px 0;border-radius:2px;"></div>
+        <div style="width:22px;height:3px;background:var(--charcoal);margin:4px 0;border-radius:2px;"></div>
+      </button>
+      <button id="ctaEvents" onclick="scrollToSection('events')">
+        Zobacz wydarzenia
+        <span class="pulse-ring"></span>
+      </button>
     </nav>
-    <button onclick="scrollToSection('events')" style="padding:8px 16px;border-radius:999px;border:2px solid var(--burnt-orange);background:transparent;cursor:pointer;font-weight:600;">Zobacz wydarzenia</button>
   </header>
 
-  <main style="padding-top:78px;max-width:900px;margin:0 auto;">
-    <!-- 1. Game -->
-    <section id="game" style="padding:60px 18px;position:relative;">
-      <div class="card" style="max-width:500px;margin:0 auto;position:relative;">
-        <div id="questionCard" style="background:#fff;border-radius:1.8rem;box-shadow:0 18px 50px -10px rgba(15,36,62,0.15);padding:32px;display:flex;flex-direction:column;gap:14px;position:relative;">
-          <div style="display:flex;justify-content:space-between;align-items:center;">
-            <div id="gameProgress" style="font-size:0.8em;font-weight:500;color:var(--forest-green)">Pytanie 1 z 10</div>
-            <div><button onclick="skipGame()" style="background:none;border:none;color:var(--burnt-orange);cursor:pointer;">Pomiń</button></div>
-          </div>
-          <h1 style="margin:0;font-size:1.6rem;"> <span id="currentQuestion">Co jest najtrudniejsze w Twojej samotności?</span></h1>
-          <textarea id="answerInput" rows="3" placeholder="Napisz krótko..." style="resize:none;border:2px solid var(--muted-gold);border-radius:12px;padding:12px;font-size:1em;font-family:inherit;outline:none;"></textarea>
-          <div style="display:flex;justify-content:space-between;align-items:center;">
-            <div id="feedback" style="opacity:0;font-size:0.85em;color:var(--dusty-teal);">Dzięki, to pomaga spersonalizować.</div>
-            <button id="nextQuestionBtn" onclick="nextQuestion()" style="padding:10px 22px;border:none;border-radius:30px;background:var(--burnt-orange);color:#fff;cursor:pointer;font-weight:600;">Dalej</button>
-          </div>
+  <main>
+    <!-- 1. Game / Icebreaker -->
+    <section id="game">
+      <div class="card" style="position:relative; overflow:visible;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+          <div id="gameProgress" style="font-size:.75em;font-weight:600;color:var(--forest-green);">Pytanie 1 z 10</div>
+          <button id="skipBtn" onclick="skipGame()" style="background:none;border:none;color:var(--burnt-orange);cursor:pointer;font-weight:600;">Pomiń</button>
+        </div>
+        <h1 style="font-size:1.6rem;margin-bottom:4px;"> <span id="currentQuestion">...</span></h1>
+        <svg class="scribble-underline" viewBox="0 0 110 18">
+          <path d="M8 12 Q35 17 105 9 Q85 8 80 16 Q60 4 35 9 Q18 12 8 12Z" stroke="var(--burnt-orange)" stroke-width="2.4" fill="none" />
+        </svg>
+        <textarea id="answerInput" rows="3" placeholder="Napisz krótko..." aria-label="Odpowiedź" style="margin-top:4px;"></textarea>
+        <div style="display:flex;justify-content:space-between;align-items:center;">
+          <div id="feedback" style="opacity:0;font-size:.85em;color:var(--dusty-teal);">Dzięki, to pomaga spersonalizować.</div>
+          <button id="nextQuestionBtn" class="signature-btn" onclick="nextQuestion()">
+            Dalej
+            <svg class="signature-scribble" viewBox="0 0 32 12"><path d="M2,6 Q11,11 25,2 Q26,6 31,6" stroke="var(--burnt-orange)" stroke-width="2.2" fill="none" stroke-dasharray="68" stroke-dashoffset="68"/></svg>
+          </button>
+        </div>
+        <div id="gameHint">
+          <div>Odpowiedz, żeby spersonalizować →</div>
+          <div class="hint-arrow">➜</div>
         </div>
       </div>
     </section>
 
     <!-- 2. Elevator Pitch -->
-    <section id="pitch" style="padding:60px 18px;">
-      <div style="max-width:720px;margin:0 auto;text-align:center;">
+    <section id="pitch">
+      <div style="text-align:center; max-width:740px; margin:0 auto 6px;">
+        <div class="logo-badge-large">
+          <img src="ChatGPT Image Jul 26, 2025, 02_57_49 PM.png" alt="logo" style="width:50px;">
+        </div>
         <h2>Kim jesteśmy</h2>
-        <p style="margin:8px 0 24px;">Pomagamy ludziom wchodzić w realne relacje poprzez strukturalne, ludzkie spotkania które przełamują lody bez sztuczności.</p>
-        <div style="display:flex;gap:14px;flex-wrap:wrap;justify-content:center;">
-          <div class="info-card" onclick="flip(this)" style="cursor:pointer;flex:1 1 180px;min-width:160px;position:relative;border-radius:1rem;padding:18px;background:#fff;box-shadow:0 14px 40px -8px rgba(15,36,62,0.1);">
-            <div class="front">
-              <strong>Obietnica</strong>
-              <div style="margin-top:6px;">Rozmowy, które zostają.</div>
-            </div>
+        <p style="margin-bottom:4px;">Pomagamy ludziom wchodzić w realne relacje poprzez strukturalne, ludzkie spotkania które przełamują lody bez sztuczności.</p>
+        <div style="position:relative;">
+          <div class="nudge-bubble" id="pitchNudge">
+            Przewiń dalej ➜
           </div>
-          <div class="info-card" onclick="flip(this)" style="cursor:pointer;flex:1 1 180px;min-width:160px;position:relative;border-radius:1rem;padding:18px;background:#fff;box-shadow:0 14px 40px -8px rgba(15,36,62,0.1);">
-            <div class="front">
-              <strong>Dlaczego działa</strong>
-              <div style="margin-top:6px;">Struktura + empatia + wspólna gra.</div>
-            </div>
-          </div>
-          <div class="info-card" onclick="flip(this)" style="cursor:pointer;flex:1 1 180px;min-width:160px;position:relative;border-radius:1rem;padding:18px;background:#fff;box-shadow:0 14px 40px -8px rgba(15,36,62,0.1);">
-            <div class="front">
-              <strong>Efekt</strong>
-              <div style="margin-top:6px;">Nowe połączenia, mniej samotności.</div>
-            </div>
-          </div>
+        </div>
+      </div>
+      <div class="info-grid">
+        <div class="info-card" onclick="flipCard(this)">
+          <strong>Obietnica</strong>
+          <div style="margin-top:6px;">Rozmowy, które zostają.</div>
+        </div>
+        <div class="info-card" onclick="flipCard(this)">
+          <strong>Dlaczego działa</strong>
+          <div style="margin-top:6px;">Struktura + empatia + wspólna gra.</div>
+        </div>
+        <div class="info-card" onclick="flipCard(this)">
+          <strong>Efekt</strong>
+          <div style="margin-top:6px;">Nowe połączenia, mniej samotności.</div>
         </div>
       </div>
     </section>
 
     <!-- 3. O nas -->
-    <section id="about" style="padding:60px 18px;background:rgba(240,230,210,0.3);">
-      <div style="max-width:800px;margin:0 auto;">
+    <section id="about" style="background: rgba(240,230,210,0.3);">
+      <div style="max-width:820px; margin:0 auto;">
         <h2>O nas</h2>
-        <p>Krótka historia, misja, wartości. Interaktywnie: przesuń suwak, by zobaczyć etapy rozwoju.</p>
-        <!-- placeholder for timeline/values -->
-        <div style="display:flex;gap:12px;overflow-x:auto;padding:12px 0;">
-          <div class="step" style="min-width:160px;background:#fff;border-radius:14px;padding:16px;box-shadow:0 10px 30px -5px rgba(15,36,62,0.08);">
+        <p>Krótka historia, misja, wartości. Przesuń, by zobaczyć etapy rozwoju.</p>
+        <div class="timeline">
+          <div class="step">
             <strong>Start</strong>
-            <div style="font-size:0.85em;margin-top:6px;">Pomysł z potrzeby prawdziwych relacji.</div>
+            <div style="font-size:.85em;margin-top:6px;">Pomysł z potrzeby prawdziwych relacji.</div>
           </div>
-          <div class="step" style="min-width:160px;background:#fff;border-radius:14px;padding:16px;box-shadow:0 10px 30px -5px rgba(15,36,62,0.08);">
+          <div class="step">
             <strong>Testy</strong>
-            <div style="font-size:0.85em;margin-top:6px;">Pierwsze spotkania, feedback.</div>
+            <div style="font-size:.85em;margin-top:6px;">Pierwsze spotkania, feedback.</div>
           </div>
-          <div class="step" style="min-width:160px;background:#fff;border-radius:14px;padding:16px;box-shadow:0 10px 30px -5px rgba(15,36,62,0.08);">
+          <div class="step">
             <strong>Rozwój</strong>
-            <div style="font-size:0.85em;margin-top:6px;">Skalowanie i lepsze dopasowanie.</div>
+            <div style="font-size:.85em;margin-top:6px;">Skalowanie i lepsze dopasowanie.</div>
+          </div>
+          <div class="step">
+            <strong>Teraz</strong>
+            <div style="font-size:.85em;margin-top:6px;">Spotkania z sensem w Twoim mieście.</div>
           </div>
         </div>
       </div>
     </section>
 
     <!-- 4. Dlaczego my? -->
-    <section id="why" style="padding:60px 18px;">
-      <div style="max-width:840px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:start;">
+    <section id="why">
+      <div class="comparison">
         <div>
           <h2>Dlaczego my?</h2>
           <p>Różnica w praktyce:</p>
-          <div style="display:flex;gap:12px;flex-wrap:wrap;">
-            <div style="flex:1;min-width:160px;background:#fff;border-radius:12px;padding:14px;box-shadow:0 12px 34px -6px rgba(15,36,62,0.1);">
+          <div style="display:flex; gap:12px; flex-wrap:wrap;">
+            <div style="flex:1; min-width:140px; background:#fff; border-radius:12px; padding:12px; box-shadow:0 12px 34px -6px rgba(15,36,62,0.1);">
               <strong>Standardowe</strong>
-              <div style="margin-top:6px;font-size:0.85em;">Rozmowy bez kierunku, mija szybko.</div>
+              <div style="margin-top:6px;font-size:.85em;">Rozmowy bez kierunku, mija szybko.</div>
             </div>
-            <div style="flex:1;min-width:160px;background:#fff;border-radius:12px;padding:14px;box-shadow:0 12px 34px -6px rgba(15,36,62,0.1);">
+            <div style="flex:1; min-width:140px; background:#fff; border-radius:12px; padding:12px; box-shadow:0 12px 34px -6px rgba(15,36,62,0.1);">
               <strong>Nasze</strong>
-              <div style="margin-top:6px;font-size:0.85em;">Struktura + gra = głębia bez sztuczności.</div>
+              <div style="margin-top:6px;font-size:.85em;">Struktura + gra = głębia bez sztuczności.</div>
             </div>
           </div>
-          <div style="margin-top:18px;">
-            <div style="display:flex;gap:8px;">
+          <div style="margin-top:16px;">
+            <div style="display:flex; gap:18px;">
               <div style="flex:1;">
-                <div style="font-size:0.75em;color:gray;">Poziom połączenia</div>
+                <div style="font-size:.7em;color:rgba(26,20,35,.6);">Poziom połączenia</div>
                 <div>★★★★☆</div>
               </div>
               <div style="flex:1;">
-                <div style="font-size:0.75em;color:gray;">Łatwość startu</div>
+                <div style="font-size:.7em;color:rgba(26,20,35,.6);">Łatwość startu</div>
                 <div>★★★★★</div>
               </div>
             </div>
           </div>
         </div>
         <div>
-          <!-- testimonial / dynamic proof -->
-          <div style="background:rgba(248,244,239,1);border-radius:14px;padding:18px;box-shadow:0 14px 40px -8px rgba(15,36,62,0.08);">
+          <div class="card" style="padding:18px;">
             <strong>„Na początku nie wiedziałem, co powiedzieć. Po 30 minutach czułem, że znam kilku ludzi lepiej niż po tygodniu na innych eventach.”</strong>
-            <div style="margin-top:10px;font-size:0.85em;">— uczestnik</div>
+            <div style="margin-top:10px;font-size:.85em;">— uczestnik</div>
           </div>
         </div>
       </div>
     </section>
 
     <!-- 5. Event List -->
-    <section id="events" style="padding:60px 18px;background:#f9f7f2;">
-      <div style="max-width:900px;margin:0 auto;position:relative;">
-        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;">
-          <div>
+    <section id="events" style="background:#f9f7f2;">
+      <div style="max-width:920px;margin:0 auto;position:relative;">
+        <div style="display:flex; flex-wrap:wrap; justify-content:space-between; align-items:start; gap:14px;">
+          <div style="flex:1; min-width:240px;">
             <h2>Wydarzenia</h2>
-            <p style="margin:4px 0;">Wybierz spotkanie, do którego chcesz dołączyć. Krótko: <em>kolejne: 3 maja, 10 maja...</em></p>
+            <p style="margin-top:4px;">Wybierz spotkanie. Krótko: kolejne: 3 maja, 10 maja...</p>
           </div>
-          <div style="display:flex;gap:10px;">
-            <input id="filterInput" placeholder="Szukaj..." style="padding:8px 14px;border-radius:999px;border:1px solid var(--muted-gold);outline:none;" oninput="filterEvents()" />
+          <div style="display:flex; gap:10px; align-items:center;">
+            <input id="filterInput" placeholder="Szukaj..." aria-label="filtruj" oninput="filterEvents()" style="max-width:180px;" />
+            <button class="pill-btn" onclick="openEmailPanel()" style="background: var(--dusty-teal); color:#fff; border:none;">Zostaw email</button>
           </div>
-        </div>
-        <div id="pitchSticky" style="background:#fff;border-left:4px solid var(--burnt-orange);padding:12px 16px;border-radius:8px;box-shadow:0 10px 30px -5px rgba(15,36,62,0.08);margin-bottom:18px;">
-          <strong>Krótko:</strong> Spotkania z sensem, żeby poznawać ludzi inaczej niż na powierzchownych scrollach. Zostaw email, przypomnimy. <button onclick="openEmailPanel()" style="margin-left:12px;padding:6px 14px;border:none;border-radius:999px;background:var(--dusty-teal);color:#fff;cursor:pointer;">Zostaw email</button>
         </div>
 
-        <div id="eventsContainer" style="display:grid;gap:16px;">
-          <!-- example event card -->
-          <div class="event-card" style="background:#fff;border-radius:16px;display:flex;justify-content:space-between;align-items:center;padding:16px;box-shadow:0 18px 50px -10px rgba(15,36,62,0.08);">
-            <div>
+        <div id="pitchSticky">
+          <strong>Krótko:</strong> Spotkania z sensem, żeby poznawać ludzi inaczej niż na powierzchownych scrollach. Zostaw email — przypomnimy. <button onclick="openEmailPanel()" style="margin-left:10px;padding:6px 14px;border:none;border-radius:999px;background:var(--burnt-orange);color:#fff;cursor:pointer;">Zostaw email</button>
+        </div>
+
+        <div id="eventsContainer">
+          <!-- sample event card -->
+          <div class="event-card">
+            <div class="event-info">
               <div style="font-weight:600;">Spotkanie: Połączenia</div>
-              <div style="font-size:0.85em;margin-top:4px;">3 maja • Warszawa • 6–8 osób</div>
+              <div style="font-size:.85em;margin-top:4px;">3 maja • Warszawa • 6–8 osób</div>
             </div>
-            <div style="display:flex;gap:12px;align-items:center;">
-              <button onclick="signupEvent('połączenia')" style="padding:10px 18px;border-radius:999px;border:2px solid var(--forest-green);background:var(--forest-green);color:#fff;cursor:pointer;">Zapisz się</button>
-              <button style="background:none;border:none;cursor:pointer;font-size:0.8em;color:var(--deep-navy);">Dodaj do kalendarza</button>
+            <div class="event-actions">
+              <button class="pill-btn" style="background: var(--forest-green); color:#fff;" onclick="signupEvent('Połączenia')">Zapisz się</button>
+              <button class="pill-btn" style="background:transparent; border:1px solid var(--deep-navy); color: var(--deep-navy); font-size:.85em;">Dodaj do kalendarza</button>
             </div>
           </div>
-          <!-- repeat -> would be generated dynamically -->
+          <div class="event-card">
+            <div class="event-info">
+              <div style="font-weight:600;">Spotkanie: Nowe początki</div>
+              <div style="font-size:.85em;margin-top:4px;">10 maja • Kraków • 8–12 osób</div>
+            </div>
+            <div class="event-actions">
+              <button class="pill-btn" style="background: var(--forest-green); color:#fff;" onclick="signupEvent('Nowe początki')">Zapisz się</button>
+              <button class="pill-btn" style="background:transparent; border:1px solid var(--deep-navy); color: var(--deep-navy); font-size:.85em;">Dodaj do kalendarza</button>
+            </div>
+          </div>
+          <!-- more would be injected dynamically -->
         </div>
       </div>
     </section>
 
-    <!-- Email / RODO Panel -->
-    <div id="emailPanel" style="position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(26,20,35,0.65);display:none;align-items:center;justify-content:center;z-index:200;">
-      <div style="background:#fff;border-radius:18px;max-width:440px;width:100%;padding:28px;position:relative;box-shadow:0 30px 80px -10px rgba(15,36,62,0.25);">
-        <button onclick="closeEmailPanel()" style="position:absolute;top:12px;right:12px;border:none;background:none;font-size:1.2em;cursor:pointer;">×</button>
+    <!-- Leave email panel -->
+    <div class="overlay" id="emailPanel">
+      <div class="panel">
+        <button class="close-btn" onclick="closeEmailPanel()">×</button>
         <h3>Zostaw email</h3>
-        <p style="margin:6px 0 14px;">Będziemy przypominać o najbliższych wydarzeniach. Dane używamy tylko w celu kontaktu. <br><small>RODO: podajesz zgodę na przetwarzanie danych.</small></p>
+        <p style="margin:6px 0 14px;">Będziemy przypominać o najbliższych wydarzeniach. Dane używamy tylko do kontaktu. <br><span class="small">RODO: zgoda na przetwarzanie danych.</span></p>
         <form id="emailForm" onsubmit="submitEmail(event)">
-          <input type="email" id="emailInput" required placeholder="Twój email" style="width:100%;padding:12px;border:2px solid var(--muted-gold);border-radius:10px;font-size:1em;margin-bottom:10px;outline:none;" />
+          <input type="email" id="emailInput" required placeholder="Twój email" aria-label="email"/>
           <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
             <input type="checkbox" id="consentCheckbox" required />
-            <label for="consentCheckbox" style="font-size:0.85em;">Zgadzam się na przetwarzanie danych zgodnie z RODO.</label>
+            <label for="consentCheckbox" style="font-size:.85em;">Zgadzam się na przetwarzanie danych zgodnie z RODO.</label>
           </div>
-          <button type="submit" style="width:100%;padding:12px;border:none;border-radius:999px;background:var(--burnt-orange);color:#fff;font-weight:600;cursor:pointer;">Zapisz mnie</button>
+          <button type="submit" class="pill-btn" style="width:100%; background: var(--burnt-orange); color:#fff; border:none;">Zapisz mnie</button>
         </form>
         <div id="emailSuccess" style="display:none;margin-top:14px;color:var(--forest-green);font-weight:600;">Dzięki! Będziemy przypominać.</div>
       </div>
     </div>
 
-    <!-- Event Signup deeper form -->
-    <div id="eventSignupPanel" style="position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(26,20,35,0.65);display:none;align-items:center;justify-content:center;z-index:200;">
-      <div style="background:#fff;border-radius:18px;max-width:500px;width:100%;padding:28px;position:relative;box-shadow:0 30px 80px -10px rgba(15,36,62,0.25);">
-        <button onclick="closeEventSignup()" style="position:absolute;top:12px;right:12px;border:none;background:none;font-size:1.2em;cursor:pointer;">×</button>
+    <!-- Full event signup -->
+    <div class="overlay" id="eventSignupPanel">
+      <div class="panel">
+        <button class="close-btn" onclick="closeEventSignup()">×</button>
         <h3>Zapisz się na wydarzenie</h3>
-        <p id="selectedEventTitle" style="margin:6px 0 14px;font-weight:500;"></p>
+        <p id="selectedEventTitle" style="margin:6px 0 14px;font-weight:600;"></p>
         <form id="fullSignupForm" onsubmit="submitFullSignup(event)">
-          <input type="email" id="eventEmail" required placeholder="Email" style="width:100%;padding:12px;border:2px solid var(--muted-gold);border-radius:10px;font-size:1em;margin-bottom:10px;outline:none;" />
-          <input type="tel" id="eventPhone" required placeholder="Telefon" style="width:100%;padding:12px;border:2px solid var(--muted-gold);border-radius:10px;font-size:1em;margin-bottom:10px;outline:none;" />
+          <input type="email" id="eventEmail" required placeholder="Email" aria-label="email" />
+          <input type="tel" id="eventPhone" required placeholder="Telefon" aria-label="telefon" />
           <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
             <input type="checkbox" id="eventConsent" required />
-            <label for="eventConsent" style="font-size:0.85em;">Zgadzam się na przetwarzanie danych zgodnie z RODO.</label>
+            <label for="eventConsent" style="font-size:.85em;">Zgadzam się na przetwarzanie danych zgodnie z RODO.</label>
           </div>
-          <button type="submit" style="width:100%;padding:12px;border:none;border-radius:999px;background:var(--forest-green);color:#fff;font-weight:600;cursor:pointer;">Dołącz</button>
+          <button type="submit" class="pill-btn" style="width:100%; background: var(--forest-green); color:#fff; border:none;">Dołącz</button>
         </form>
         <div id="signupSuccess" style="display:none;margin-top:14px;color:var(--dusty-teal);font-weight:600;">Jesteś zapisany. Wyślemy potwierdzenie.</div>
       </div>
     </div>
+
   </main>
 
   <script>
-    // question pool
+    // Nav toggle
+    function toggleNav() {
+      const nav = document.getElementById('navLinks');
+      nav.style.display = nav.style.display === 'flex' ? 'none' : 'flex';
+    }
+
+    // Question pool
     const questions = [
       "Co jest najtrudniejsze w Twojej samotności?",
       "Dlaczego potrzebujesz przyjaciół?",
@@ -214,9 +640,13 @@
     ];
     let gameIndex = 0;
     let answers = [];
+    let userName = sessionStorage.getItem('collectiv_name') || '';
     const currentQuestionEl = document.getElementById('currentQuestion');
     const progressEl = document.getElementById('gameProgress');
     const answerInput = document.getElementById('answerInput');
+    const feedbackEl = document.getElementById('feedback');
+    const skipBtn = document.getElementById('skipBtn');
+
     function randomizePool() {
       for (let i = questions.length -1; i>0; i--) {
         const j = Math.floor(Math.random()* (i+1));
@@ -227,17 +657,22 @@
       currentQuestionEl.textContent = questions[gameIndex];
       progressEl.textContent = `Pytanie ${gameIndex+1} z ${questions.length}`;
       answerInput.value = '';
-      document.getElementById('feedback').style.opacity = 0;
+      feedbackEl.style.opacity = 0;
+      document.getElementById('gameHint').classList.remove('show');
+      startIdleHint();
     }
     function nextQuestion() {
       const ans = answerInput.value.trim();
       if(ans) {
         answers[gameIndex] = ans;
-        document.getElementById('feedback').style.opacity = 1;
+        feedbackEl.style.opacity = 1;
+        if (!userName) {
+          userName = ans.split(' ')[0];
+          sessionStorage.setItem('collectiv_name', userName);
+        }
       }
       gameIndex++;
       if (gameIndex >= questions.length) {
-        // proceed to pitch
         scrollToSection('pitch');
       } else {
         showQuestion();
@@ -247,8 +682,11 @@
       scrollToSection('pitch');
     }
     function scrollToSection(id) {
-      document.getElementById(id).scrollIntoView({behavior:'smooth',block:'start'});
+      const el = document.getElementById(id);
+      if (!el) return;
+      el.scrollIntoView({behavior:'smooth', block:'start'});
     }
+
     function filterEvents() {
       const q = document.getElementById('filterInput').value.toLowerCase();
       document.querySelectorAll('.event-card').forEach(card => {
@@ -257,6 +695,34 @@
       });
     }
 
+    // Elevator pitch nudge
+    setTimeout(() => {
+      document.getElementById('pitchNudge').classList.add('show');
+    }, 2200);
+
+    // Idle hint for game
+    let idleTimer;
+    function startIdleHint() {
+      clearTimeout(idleTimer);
+      idleTimer = setTimeout(() => {
+        document.getElementById('gameHint').classList.add('show');
+      }, 3200);
+    }
+    answerInput.addEventListener('input', () => {
+      document.getElementById('gameHint').classList.remove('show');
+      startIdleHint();
+    });
+    document.getElementById('nextQuestionBtn').addEventListener('click', () => {
+      document.getElementById('gameHint').classList.remove('show');
+    });
+
+    // Skip button hint
+    let skipHintTimer = setTimeout(() => {
+      skipBtn.classList.add('pulse-skip');
+      setTimeout(()=> skipBtn.classList.remove('pulse-skip'), 1200);
+    }, 5000);
+    answerInput.addEventListener('input', () => clearTimeout(skipHintTimer));
+
     // Email panel
     function openEmailPanel() { document.getElementById('emailPanel').style.display='flex'; }
     function closeEmailPanel() { document.getElementById('emailPanel').style.display='none'; }
@@ -264,9 +730,12 @@
       e.preventDefault();
       const email = document.getElementById('emailInput').value.trim();
       if(!email) return;
-      // persist, send to backend, etc.
+      sessionStorage.setItem('collectiv_email', email);
       document.getElementById('emailSuccess').style.display='block';
-      setTimeout(closeEmailPanel, 1200);
+      setTimeout(() => {
+        closeEmailPanel();
+      }, 1200);
+      // backend call placeholder
     }
 
     // Event signup
@@ -274,26 +743,53 @@
     function signupEvent(eventName) {
       currentEvent = eventName;
       document.getElementById('selectedEventTitle').textContent = `Wydarzenie: ${eventName}`;
+      const storedEmail = sessionStorage.getItem('collectiv_email') || '';
+      if (storedEmail) document.getElementById('eventEmail').value = storedEmail;
       document.getElementById('eventSignupPanel').style.display='flex';
     }
     function closeEventSignup() { document.getElementById('eventSignupPanel').style.display='none'; }
     function submitFullSignup(e) {
       e.preventDefault();
-      // collect email/phone, send
+      const email = document.getElementById('eventEmail').value.trim();
+      const phone = document.getElementById('eventPhone').value.trim();
+      if (!email || !phone) return;
+      sessionStorage.setItem('collectiv_email', email);
       document.getElementById('signupSuccess').style.display='block';
-      setTimeout(closeEventSignup, 1400);
+      setTimeout(() => {
+        closeEventSignup();
+      }, 1400);
+      // backend submission placeholder
     }
 
-    // Entry flow detection
+    // Flip card stub (visual hint only)
+    function flipCard(el) {
+      el.style.transform = 'scale(1.02)';
+      setTimeout(()=> el.style.transform='', 220);
+    }
+
+    // Flow init
     function initFlow() {
       randomizePool();
       showQuestion();
       const params = new URLSearchParams(window.location.search);
-      if (params.get('entry') === 'events') {
-        scrollToSection('events');
-      }
+      if (params.get('entry') === 'events') scrollToSection('events');
     }
     initFlow();
+
+    // Sticky callout animation on arrival
+    document.addEventListener('DOMContentLoaded', () => {
+      const sticky = document.getElementById('pitchSticky');
+      sticky.classList.add('callout');
+      setTimeout(()=> sticky.classList.remove('callout'), 3800);
+    });
+
+    // Close mobile nav when clicking outside
+    document.addEventListener('click', (e) => {
+      const nav = document.getElementById('navLinks');
+      if (!nav.contains(e.target) && !e.target.closest('.hamburger')) {
+        if (window.innerWidth <= 900) nav.style.display = 'none';
+      }
+    });
   </script>
 </body>
 </html>

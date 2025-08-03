@@ -2,17 +2,16 @@
 <html lang="pl">
 <head>
 <meta charset="UTF-8" />
-<title>Collectiv Smart Micro-Games</title>
+<title>Collectiv Micro-Game Playground – Simple Edition</title>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
 <style>
   :root {
     --bg:#f7f3ed;
     --dark:#3b2c24;
     --accent:#c25e32;
-    --teal:#5a8b7c;
+    --muted:#866b57;
     --radius:14px;
-    --shadow:0 20px 70px -10px rgba(59,44,36,.15);
-    --transition:.3s cubic-bezier(.25,.1,.25,1);
+    --shadow:0 18px 50px -10px rgba(59,44,36,.15);
     font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",serif;
   }
   *{box-sizing:border-box;}
@@ -22,25 +21,25 @@
     color:var(--dark);
     -webkit-font-smoothing:antialiased;
     line-height:1.45;
-    min-width:320px;
+    padding-bottom:60px;
   }
-  h1{margin:0;font-size:1.75rem;font-weight:700;}
-  h2{margin:0;font-size:1.3rem;font-weight:600;}
+  h1{margin:0;font-size:1.7rem;font-weight:700;}
+  h2{margin:0;font-size:1.25rem;font-weight:600;}
   p{margin:6px 0 14px;font-size:1rem;}
   small{font-size:.75em;color:rgba(59,44,36,.65);}
-  .container{max-width:1060px;margin:0 auto;padding:80px 16px;}
+  .container{max-width:1020px;margin:0 auto;padding:80px 14px;}
   .card{
     background:#fff;
     border-radius:var(--radius);
-    padding:20px 18px;
-    margin-bottom:24px;
+    padding:18px 16px;
+    margin-bottom:22px;
     box-shadow:var(--shadow);
     position:relative;
     overflow:hidden;
-    transition:var(--transition);
+    transition:transform .2s;
   }
   .card:hover{transform:translateY(-1px);}
-  .flex{display:flex;gap:16px;flex-wrap:wrap;}
+  .flex{display:flex;gap:14px;flex-wrap:wrap;}
   .btn{
     padding:10px 16px;
     border-radius:999px;
@@ -52,14 +51,13 @@
     display:inline-flex;
     align-items:center;
     gap:6px;
-    transition:filter .2s,transform .2s;
+    transition:filter .2s;
   }
   .btn-secondary{
     background:#3b2c24;
-    color:#fff;
   }
   .pill{background:rgba(194,94,50,.1);padding:6px 12px;border-radius:999px;font-size:.65em;display:inline-block;margin:3px 3px 3px 0;}
-  .input, select, textarea{
+  input, textarea, select{
     width:100%;
     padding:10px 14px;
     border-radius:10px;
@@ -70,39 +68,17 @@
     resize:vertical;
     margin-top:6px;
     transition:border .2s;
-    background:#fff;
   }
-  .input:focus, select:focus, textarea:focus{border-color:var(--accent);}
-  .badge{background:var(--teal);padding:6px 12px;border-radius:999px;color:#fff;font-size:.65em;display:inline-block;margin-right:6px;margin-bottom:4px;}
-  .small{font-size:.8em;color:rgba(59,44,36,.6);}
+  input:focus, textarea:focus, select:focus{border-color:var(--accent);}
+  .small-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px;margin-top:8px;}
+  .badge{background:var(--accent);padding:6px 12px;border-radius:999px;color:#fff;font-size:.65em;display:inline-block;margin-right:6px;margin-bottom:4px;}
+  .timer{font-weight:700;font-size:1.1rem;display:inline-block;margin-top:6px;}
+  .gray{color:rgba(59,44,36,.6);}
+  .divider{height:1px;background:rgba(59,44,36,.08);margin:16px 0;}
   .tag{background:rgba(194,94,50,.15);padding:6px 12px;border-radius:8px;margin:4px;display:inline-block;font-size:.85em;}
   .pill-choice{background:rgba(59,44,36,.08);padding:8px 14px;border-radius:999px;cursor:pointer;margin:4px;display:inline-block;user-select:none;transition:background .2s;}
   .pill-choice.active{background:var(--accent);color:#fff;}
-  .hint{background:rgba(248,244,239,1);padding:10px 14px;border-radius:12px;font-size:.75em;display:inline-block;margin-top:6px;}
-  .section-title{display:flex;align-items:center;gap:12px;margin-bottom:6px;}
-  .metric-box{background:rgba(240,230,210,.9);padding:10px;border-radius:10px;font-size:.9em;display:inline-block;margin-top:4px;}
-  canvas{border-radius:12px;display:block;}
-  .grid{display:grid;gap:16px;}
-  .commit-box{display:flex;flex-wrap:wrap;gap:14px;align-items:center;margin-top:8px;}
-  .timer{font-weight:700;font-size:1.1rem;display:inline-block;}
-  .contrast-wrapper{position:relative;overflow:hidden;border-radius:12px;margin-top:10px;}
-  .digital-layer{
-    position:relative;
-    padding:18px;
-    background:linear-gradient(135deg,#f8f4f1 0%,#fff 60%);
-  }
-  .real-layer{
-    position:absolute;
-    inset:0;
-    mix-blend-mode:overlay;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    pointer-events:none;
-  }
-  .heatmap-overlay{
-    position:fixed;top:80px;right:12px;background:#fff;border-radius:12px;padding:12px;box-shadow:0 30px 90px -10px rgba(59,44,36,.25);font-size:.8em;max-width:260px;z-index:500;
-  }
+  .hint{background:rgba(248,244,239,1);padding:8px 12px;border-radius:10px;font-size:.75em;display:inline-block;margin-top:6px;}
   @media (max-width:900px){
     h1{font-size:1.5rem;}
   }
@@ -111,729 +87,398 @@
 <body>
   <div class="container">
     <div class="card">
-      <div class="section-title"><h1>Collectiv Smart Micro-Games</h1></div>
-      <p>10 zaktualizowanych, bardziej spójnych interakcji łączących technologię i psychologię. Każda działa lokalnie: adaptuje, reflektuje, zachęca do działania.</p>
-      <small>Nie wymaga backendu, można rozszerzyć później (np. synchronizacja, zapis, A/B).</small>
+      <h1>10 prostych gier / sygnałów dla połączeń</h1>
+      <p>Technologia + psychologia. Krótkie, angażujące, nieinwazyjne. Nie zapisujemy poza sesją (chyba że chcesz rozszerzyć).</p>
+      <small>Każda sekcja to pomysł, który możesz wykorzystać niezależnie.</small>
     </div>
 
-    <!-- 1. Empathy Pulse Advanced -->
-    <div class="card" id="empathyPulse">
-      <div class="section-title"><h2>1. Empathy Pulse</h2></div>
-      <p>Wpisz, co czujesz w relacjach. System analizuje ton (heurystycznie), adaptuje nagłówek, pokazuje intensywność i daje krótki plan w twoim języku.</p>
-      <div class="flex" style="gap:18px;">
-        <div style="flex:1;min-width:220px;">
-          <textarea id="inputEmpathy" rows="3" placeholder="Np. Czuję, że nikt mnie nie słucha..." class="input"></textarea>
-          <div style="margin-top:8px;">
-            <div id="headlineEmpathy" style="font-weight:700;font-size:1.1rem;">Masz dość powierzchownych kontaktów?</div>
-            <div class="small">Interfejs reaguje natychmiast: język, puls, sugestia.</div>
-          </div>
-        </div>
-        <div style="flex:1;min-width:220px;">
-          <div class="metric-box">
-            <div><strong>Intensywność emocji:</strong></div>
-            <div id="intensityBar" style="height:10px;background:rgba(194,94,50,.2);border-radius:6px;overflow:hidden;margin-top:6px;">
-              <div id="intensityFill" style="height:100%;width:20%;background:var(--accent);transition:width .35s;"></div>
-            </div>
-          </div>
-          <div style="margin-top:12px;">
-            <div><strong>Mały plan:</strong> <span id="planEmpathy">—</span></div>
-          </div>
-        </div>
+    <!-- 1. Emotion Tagging -->
+    <div class="card" id="game1">
+      <h2>1. Emotion Tagging</h2>
+      <p>Wybierz słowa opisujące, co czujesz w relacjach. Zobacz, co dominuje i dostaniesz sugestię.</p>
+      <div id="emotionTags" class="small-grid">
+        <!-- auto-generated -->
       </div>
-      <div class="hint">Mirroring + mikro-plan. Jeśli dominują izolacja / odległość, daj pierwszy bezpieczny krok.</div>
-    </div>
-
-    <!-- 2. Affinity Field -->
-    <div class="card" id="affinityField">
-      <div class="section-title"><h2>2. Affinity Field</h2></div>
-      <p>Twoje „ja” w środku. Wokół krążą wartości / krótkie historie. Ruch kursora wprawia w ruch relacje; kliknięcie ujawnia co z tobą rezonuje.</p>
-      <canvas id="canvasAffinity" style="width:100%;height:180px;margin-top:6px;"></canvas>
+      <div class="hint">Najczęściej wybrane emocje pokazują, gdzie warto zacząć.</div>
       <div style="margin-top:8px;">
-        <div><strong>Ostatnio wybrana historia:</strong> <span id="affinityRecent">—</span></div>
+        <strong>Dominujące:</strong> <span id="dominantEmotion">—</span>
       </div>
-      <div class="hint">Dotykaj i klikaj; to, co przyciąga twoją uwagę, kształtuje sugestie dalej.</div>
+      <div style="margin-top:8px;">
+        <em>Sugestia:</em> <span id="emotionSuggestion">Odpowiedz na jedno pytanie, które łamie lody.</span>
+      </div>
     </div>
 
-    <!-- 3. Value Compass -->
-    <div class="card" id="valueCompass">
-      <div class="section-title"><h2>3. Value Compass</h2></div>
-      <p>Rozwiąż napięcie między głębią, tempem i bezpieczeństwem. Wybór pokazuje, gdzie jesteś oraz dostosowuje rekomendację.</p>
-      <div class="flex" style="gap:20px;">
-        <div style="flex:1;min-width:200px;">
-          <div style="margin-bottom:4px;"><strong>Głębokość vs Tempo</strong></div>
-          <input type="range" id="sliderDepth" min="0" max="100" value="50" class="input"/>
-          <div style="display:flex;justify-content:space-between;font-size:.75em;margin-top:4px;">
-            <div>Głębia</div><div>Tempo</div>
-          </div>
-          <div style="margin-top:10px;">
-            <div><strong>Interpretacja:</strong> <span id="valueDesc">Zrównoważone</span></div>
-          </div>
+    <!-- 2. Quick Connection Prompt -->
+    <div class="card" id="game2">
+      <h2>2. Szybkie pytanie do połączenia</h2>
+      <p>Losowe, krótkie pytania do rozmowy lub refleksji. Zagraj, odpowiadając głośno lub pisemnie.</p>
+      <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:center;">
+        <div style="flex:1;min-width:180px;">
+          <div id="promptText" style="font-weight:600;">Co ostatnio sprawiło, że poczułeś się zauważony?</div>
         </div>
-        <div style="flex:1;min-width:200px;position:relative;">
-          <canvas id="compassCanvas" style="width:100%;height:160px;"></canvas>
-          <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;font-size:.75em;">
-            Ty
-          </div>
-        </div>
+        <button class="btn" onclick="nextPrompt()">Nowe pytanie</button>
       </div>
-      <div class="hint">Wewnętrzne napięcia widoczne. Np. wysoka głębia sugeruje dłuższe sesje; szybkość → krótkie wejścia.</div>
+      <div style="margin-top:10px;">
+        <textarea id="promptAnswer" rows="2" placeholder="Napisz lub powiedz..." ></textarea>
+      </div>
+      <div class="hint">Zapisz odpowiedź w myślach. To start rozmowy lub refleksji.</div>
     </div>
 
-    <!-- 4. Commitment Ladder -->
-    <div class="card" id="commitLadder">
-      <div class="section-title"><h2>4. Commitment Ladder</h2></div>
-      <p>Zobowiąż się do małego kroku. Jeśli zrobisz — odblokowujesz kolejny. Jeśli nie — widzisz “echo” utraconej możliwości i możesz spróbować ponownie.</p>
-      <div class="commit-box">
-        <div style="flex:1;min-width:200px;">
-          <div><strong>Wybierz krok:</strong></div>
-          <select id="commitChoice" class="input">
-            <option value="write">Napiszę wiadomość</option>
-            <option value="check">Sprawdzę wydarzenie</option>
-            <option value="share">Podzielę się refleksją</option>
+    <!-- 3. Value Slider -->
+    <div class="card" id="game3">
+      <h2>3. Wartości w napięciu</h2>
+      <p>Przesuń suwak między głębią a tempem. Zrozum, czego teraz bardziej potrzebujesz.</p>
+      <div>
+        <div style="display:flex;justify-content:space-between;font-size:.75em;">
+          <div>Głębia</div><div>Tempo</div>
+        </div>
+        <input type="range" id="valueSlider" min="0" max="100" value="50" />
+        <div style="margin-top:8px;">
+          <span class="badge" id="valueInterpretation">Zrównoważone</span>
+        </div>
+      </div>
+      <div class="hint">Twój wybór sugeruje typ następnej interakcji.</div>
+    </div>
+
+    <!-- 4. Commitment Button -->
+    <div class="card" id="game4">
+      <h2>4. Małe zobowiązanie</h2>
+      <p>Wybierz prosty krok. Zablokuj go na 12 godzin. Zrób, kliknij "Wykonałem".</p>
+      <div style="display:flex;gap:12px;flex-wrap:wrap;">
+        <div style="flex:1;min-width:180px;">
+          <select id="commitSelect">
+            <option value="write_message">Napiszę wiadomość do jednej osoby</option>
+            <option value="join_event">Sprawdzę najbliższe wydarzenie</option>
+            <option value="share_thought">Podzielę się refleksją</option>
           </select>
         </div>
-        <div style="flex:1;min-width:200px;">
-          <div><strong>Status:</strong> <span id="commitStatus">Brak</span></div>
+        <div style="flex:1;min-width:180px;">
+          <div id="commitDesc">Napiszę wiadomość do jednej osoby.</div>
         </div>
         <div style="flex:1;min-width:160px;">
-          <div class="timer" id="commitTimer">—</div>
+          <div class="timer" id="commitTimer">Brak zobowiązania</div>
+        </div>
+      </div>
+      <div style="margin-top:10px;display:flex;gap:8px;">
+        <button class="btn" id="startCommitBtn">Zablokuj 12h</button>
+        <button class="btn-secondary" id="completeCommitBtn" style="display:none;">Wykonałem</button>
+      </div>
+      <div class="hint">Zobowiązanie z małą presją pomaga realnie wykonać.</div>
+    </div>
+
+    <!-- 5. Gratitude Spinner -->
+    <div class="card" id="game5">
+      <h2>5. Gratitude Spinner</h2>
+      <p>Obróć koło (losuj) — wybierz osobę, której powiesz „dziękuję” lub wyślesz krótką wiadomość.</p>
+      <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:center;">
+        <div style="flex:1;">
+          <div id="spinnerResult" style="font-weight:600;font-size:1.1rem;">—</div>
+        </div>
+        <button class="btn" onclick="spinGratitude()">Losuj</button>
+      </div>
+      <div style="margin-top:8px;">
+        <small>Propozycja wiadomości:</small>
+        <div id="gratitudeTemplate" style="margin-top:4px;font-style:italic;">—</div>
+      </div>
+    </div>
+
+    <!-- 6. Reflection Snapshot -->
+    <div class="card" id="game6">
+      <h2>6. Reflection Snapshot</h2>
+      <p>Napisz jedno zdanie o tym, co cię ostatnio ruszyło. Zobacz najważniejsze słowa.</p>
+      <textarea id="reflectionInput" rows="2" placeholder="Np. Czuję, że brakuje mi czasu na prawdziwe rozmowy."></textarea>
+      <div style="margin-top:8px;">
+        <div id="wordCloud" ></div>
+      </div>
+      <div class="hint">Wyciągnij kluczowe tematy z własnych słów.</div>
+    </div>
+
+    <!-- 7. Digital Detox Meter -->
+    <div class="card" id="game7">
+      <h2>7. Digital Detox Meter</h2>
+      <p>Ustaw, ile minut dziennie planujesz poświęcić na realne, offline’owe połączenia. Zobacz kontrast z czasem online.</p>
+      <div style="display:flex;gap:14px;flex-wrap:wrap;align-items:center;">
+        <div style="flex:1;min-width:180px;">
+          <label>Offline (min): <span id="offlineVal">30</span></label>
+          <input type="range" id="offlineRange" min="5" max="120" value="30" />
+        </div>
+        <div style="flex:1;min-width:180px;">
+          <label>Online (min/day estimate): <span id="onlineEst">120</span></label>
+          <input type="range" id="onlineRange" min="30" max="300" value="120" />
+        </div>
+      </div>
+      <div style="margin-top:10px;">
+        <div><strong>Prosty wniosek:</strong> Spędzając <span id="ratioText">25%</span> czasu offline, kończysz z większym sensem.</div>
+      </div>
+    </div>
+
+    <!-- 8. Social Norm Feed -->
+    <div class="card" id="game8">
+      <h2>8. Social Norm Feed</h2>
+      <p>Widok: co robią inni (symulowane). Mały efekt „nie jesteś sam” i pociąg do działania.</p>
+      <div id="normFeed">
+        <!-- rotating messages -->
+      </div>
+      <div class="hint">Widząc innych, łatwiej się zaangażować.</div>
+    </div>
+
+    <!-- 9. Micro-Intent List -->
+    <div class="card" id="game9">
+      <h2>9. Małe intencje</h2>
+      <p>Wybierz trzy intencje z listy. Zobacz zwięzłą listę do odhaczenia.</p>
+      <div id="intents" class="small-grid">
+        <div class="pill-choice" data-intent="Poznać kogoś nowego">Poznać kogoś nowego</div>
+        <div class="pill-choice" data-intent="Porozmawiać szczerze">Porozmawiać szczerze</div>
+        <div class="pill-choice" data-intent="Zrobić przerwę od scrollowania">Zrobić przerwę od scrollowania</div>
+        <div class="pill-choice" data-intent="Zaproponować spotkanie">Zaproponować spotkanie</div>
+        <div class="pill-choice" data-intent="Zadbać o siebie">Zadbać o siebie</div>
+        <div class="pill-choice" data-intent="Podzielić się opinią">Podzielić się opinią</div>
+      </div>
+      <div style="margin-top:10px;">
+        <strong>Wybrane:</strong> <span id="selectedIntents">—</span>
+      </div>
+      <div class="hint">Zacznij od najprostszej z nich.</div>
+    </div>
+
+    <!--10. Reminder Nudge -->
+    <div class="card" id="game10">
+      <h2>10. Przypomnienie</h2>
+      <p>Wybierz, kiedy chcesz dostać delikatne przypomnienie o tym, co zaplanowałeś (lokalnie, sesja przeglądarki).</p>
+      <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:center;">
+        <div style="flex:1;min-width:160px;">
+          <label>Za ile minut?</label>
+          <input type="number" id="reminderMinutes" min="1" max="120" value="15" />
+        </div>
+        <div style="flex:none;align-self:flex-end;">
+          <button class="btn" id="setReminderBtn">Ustaw przypomnienie</button>
         </div>
       </div>
       <div style="margin-top:8px;">
-        <button class="btn" id="startCommit">Zablokuj 12h</button>
-        <button class="btn-secondary" id="markDone" style="margin-left:8px;display:none;">Wykonałem</button>
+        <div id="reminderStatus">Brak przypomnienia.</div>
       </div>
-      <div class="hint">Małe sekwencyjne zwycięstwa budują momentum. „Echo” pokazuje: co by było, gdybyś zrobił vs nie zrobił.</div>
+      <div class="hint">Drobna zewnętrzna sygnalizacja pomaga dokończyć.</div>
     </div>
 
-    <!-- 5. Reflection Mirror -->
-    <div class="card" id="reflectionMirror">
-      <div class="section-title"><h2>5. Reflection Mirror</h2></div>
-      <p>Powiedz lub wpisz krótką myśl. System wyciąga kluczowe słowa, identyfikuje wzorce i proponuje konkretny if–then plan.</p>
-      <div class="flex" style="gap:18px;">
-        <div style="flex:1;min-width:220px;">
-          <textarea id="mirrorInput" rows="2" placeholder="Np. Czuję, że nikt mnie nie rozumie..." class="input"></textarea>
-          <div style="margin-top:8px;">
-            <div><strong>Wyróżnione:</strong></div>
-            <div id="mirrorTags"></div>
-          </div>
-        </div>
-        <div style="flex:1;min-width:220px;">
-          <div><strong>Wzorzec:</strong> <span id="detectedPattern">—</span></div>
-          <div style="margin-top:6px;"><strong>Propozycja:</strong> <span id="mirrorPlan">—</span></div>
-        </div>
-      </div>
-      <div class="hint">Externalizacja: zobacz, co mówisz, i dostaniesz prosty następny ruch.</div>
-    </div>
-
-    <!-- 6. Attention Heatmap -->
-    <div class="card" id="attentionMap">
-      <div class="section-title"><h2>6. Attention Heatmap</h2></div>
-      <p>Pasively obserwujemy, gdzie patrzysz / na co najdłużej najedziesz kursorem. Na koniec pokazujemy ci, co przykuło uwagę i co przegapiłeś. Krótka refleksja wzmacnia świadomość.</p>
-      <div style="display:flex;gap:16px;flex-wrap:wrap;">
-        <div style="flex:1;min-width:260px;">
-          <div><strong>Najdłużej śledzone sekcje:</strong> <span id="topAttention">—</span></div>
-          <div style="margin-top:6px;"><strong>Przegapione:</strong> <span id="missedAttention">—</span></div>
-          <div style="margin-top:10px;">
-            <button class="btn" onclick="promptReflection()">Zastanów się</button>
-          </div>
-        </div>
-        <div style="flex:1;min-width:260px;">
-          <div class="metric-box">
-            <div>Twoja uwaga to feedback. Co pominąłeś mówi coś o priorytetach.</div>
-          </div>
-        </div>
-      </div>
-      <div class="hint">Meta-cognition: zobacz swój własny wzorzec uwagi.</div>
-    </div>
-
-    <!-- 7. Digital Contrast Slider -->
-    <div class="card" id="contrastSlider">
-      <div class="section-title"><h2>7. Digital vs Real Contrast</h2></div>
-      <p>Przeciągnij suwak, by zobaczyć kontrast między hałasem online a chwilą autentycznej obecności. Zobacz, co tracisz / zyskujesz w prostym porównaniu.</p>
-      <div style="margin-top:8px;">
-        <input type="range" id="contrast" min="0" max="100" value="50" class="input"/>
-      </div>
-      <div class="contrast-wrapper">
-        <div class="digital-layer" id="digitalContent">
-          <div style="display:flex;gap:12px;flex-wrap:wrap;">
-            <div style="flex:1;min-width:180px;">
-              <div class="small"><strong>Scroll feed:</strong> infinite, szybkie, powierzchowne</div>
-              <p>Powiadomienia. Przerzucasz się, nic nie zostaje. Czujesz zmęczenie.</p>
-            </div>
-            <div style="flex:1;min-width:180px;">
-              <div class="small"><strong>Notifications:</strong> 23 nowe</div>
-              <p>Przerywane odczucia, zero koncentracji.</p>
-            </div>
-          </div>
-        </div>
-        <div class="real-layer" id="realOverlay">
-          <div style="display:flex;gap:20px;flex-wrap:wrap;">
-            <div style="flex:1;min-width:180px;">
-              <div class="small"><strong>Spotkanie na żywo</strong></div>
-              <p>Słuchasz naprawdę. Jesteś obecny. Czas ma znaczenie.</p>
-            </div>
-            <div style="flex:1;min-width:180px;">
-              <div class="small"><strong>Rozmowa z sensem</strong></div>
-              <p>Głębia zamiast scrolla.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="hint">Kontrast pomaga podjąć decyzję: co wybrać teraz.</div>
-    </div>
-
-    <!-- 8. Peer Pulse Feed -->
-    <div class="card" id="peerPulse">
-      <div class="section-title"><h2>8. Peer Pulse</h2></div>
-      <p>Symulowany feed: "inni tacy jak ty" – normy społeczne łagodnie pchają do działania. Widzisz, co robią inni, i dostajesz delikatny wariant rekomendacji.</p>
-      <div id="peerFeed" style="padding:12px;background:rgba(59,44,36,.04);border-radius:10px;display:flex;flex-direction:column;gap:8px;">
-        <!-- messages -->
-      </div>
-      <div style="margin-top:8px;">
-        <div><strong>Rekomendacja:</strong> <span id="peerSuggestion">Zacznij od krótkiego zaproszenia.</span></div>
-      </div>
-      <div class="hint">Social proof: widząc, że inni działają, łatwiej wykonać pierwszy krok.</div>
-    </div>
-
-    <!-- 9. Future Self Snapshot -->
-    <div class="card" id="futureSelf">
-      <div class="section-title"><h2>9. Future Self Snapshot</h2></div>
-      <p>Napisz krótką wiadomość do przyszłej wersji siebie. Wybierz: jeśli wykonałeś → co zyskałeś, jeśli nie → co straciłeś. Wizualne porównanie wzmacnia odpowiedzialność.</p>
-      <div>
-        <textarea id="futureInput" rows="2" placeholder="Np. Za 24h chcę czuć, że spróbowałem poznać kogoś nowego..." class="input"></textarea>
-      </div>
-      <div style="display:flex;gap:14px;flex-wrap:wrap;margin-top:8px;">
-        <div style="flex:1;min-width:220px;">
-          <div><strong>Jeśli zrobisz:</strong></div>
-          <div id="futureIfDone" class="metric-box">Poczujesz się bardziej połączony.</div>
-        </div>
-        <div style="flex:1;min-width:220px;">
-          <div><strong>Jeśli nie zrobisz:</strong></div>
-          <div id="futureIfNot" class="metric-box">Zostanie poczucie powtórki starego wzorca.</div>
-        </div>
-      </div>
-      <div style="margin-top:8px;">
-        <button class="btn" id="lockFuture">Zablokuj jako przypomnienie (w sesji)</button>
-        <div id="futureStatus" style="margin-top:6px;font-size:.9em;">Brak blokady.</div>
-      </div>
-      <div class="hint">Future self-continuity: kontrast między wersjami wzmacnia zrobienie kroku.</div>
-    </div>
-
-    <!-- 10. Breath Sync Micro-Ritual -->
-    <div class="card" id="breathSync">
-      <div class="section-title"><h2>10. Breath Sync</h2></div>
-      <p>Synchronizuj oddech z wizualnym przewodnikiem. Po sesji widzisz zmianę rytmu i dostajesz sugestię z odpowiednim tonem.</p>
-      <div style="display:flex;gap:16px;flex-wrap:wrap;">
-        <div style="flex:1;min-width:200px;">
-          <div style="margin-bottom:6px;"><strong>Wdech / Wydech</strong></div>
-          <div id="breathCircle" style="width:140px;height:140px;border-radius:50%;background:rgba(194,94,50,.1);margin:0 auto;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;">
-            <div id="circleInner" style="width:80px;height:80px;border-radius:50%;background:var(--accent);transition:all .6s;"></div>
-          </div>
-          <div style="margin-top:8px;text-align:center;">
-            <div id="breathLabel">Zacznij</div>
-          </div>
-        </div>
-        <div style="flex:1;min-width:220px;">
-          <div><strong>Koherencja:</strong> <span id="breathScore">—</span></div>
-          <div style="margin-top:6px;">
-            <button class="btn" id="startBreath">Rozpocznij 60s</button>
-          </div>
-          <div style="margin-top:10px;">
-            <div id="breathSuggestion">—</div>
-          </div>
-        </div>
-      </div>
-      <div class="hint">Ucieleśniona regulacja: uspokój się przed trudniejszą refleksją.</div>
-    </div>
-
-    <!-- Final CTA -->
+    <!-- Summary / Call to action -->
     <div class="card">
-      <div class="section-title"><h2>Co dalej?</h2></div>
-      <p>Połącz: np. zrób Breath Sync, potem Empathy Pulse, zobacz backlog w Commitment Ladder, zapisz future self i zaproś kogoś z Affinity Field. Zobacz, jak układają się sygnały.</p>
+      <h2>Co dalej?</h2>
+      <p>Z tych 10: wybierz 1–2, zrób mały krok, odczekaj chwilę, wróć i zobacz różnicę. Można je połączyć: np. zrób Commitment, potem Reflection Snapshot, potem Gratitude.</p>
       <div style="display:flex;gap:14px;flex-wrap:wrap;">
-        <button class="btn" onclick="document.getElementById('breathSync').scrollIntoView({behavior:'smooth'})">Zacznij od oddechu</button>
-        <button class="btn-secondary" onclick="document.getElementById('empathyPulse').scrollIntoView({behavior:'smooth'})">Powiedz, co czujesz</button>
-        <button class="btn" onclick="document.getElementById('commitLadder').scrollIntoView({behavior:'smooth'})">Zobowiąż się</button>
+        <button class="btn" onclick="document.getElementById('game4').scrollIntoView({behavior:'smooth'})">Zobowiąż się</button>
+        <button class="btn-secondary" onclick="document.getElementById('game6').scrollIntoView({behavior:'smooth'})">Zrób refleksję</button>
+        <button class="btn" onclick="document.getElementById('game5').scrollIntoView({behavior:'smooth'})">Powiedz dziękuję</button>
       </div>
     </div>
 
   </div>
 
-  <div class="heatmap-overlay" id="heatOverlay">
-    <div><strong>Twoja uwaga:</strong></div>
-    <div style="margin-top:6px;">
-      <div><strong>Top:</strong> <span id="attentionTop">—</span></div>
-      <div><strong>Pominięte:</strong> <span id="attentionMissed">—</span></div>
-    </div>
-    <div style="margin-top:8px;"><em>Co to mówi o tym, co naprawdę ważne?</em></div>
-  </div>
-
-  <script>
-    // --- Empathy Pulse Advanced ---
-    const inputEmpathy = document.getElementById('inputEmpathy');
-    const headlineEmpathy = document.getElementById('headlineEmpathy');
-    const intensityFill = document.getElementById('intensityFill');
-    const planEmpathy = document.getElementById('planEmpathy');
-
-    function analyzeEmpathy(text){
-      const lengthScore = Math.min(1, text.length / 80);
-      let intensity = lengthScore;
-      let plan = "Zastanów się nad jedną osobą, do której możesz się odezwać.";
-      if(/samotn|odl|oddal/i.test(text)) {
-        plan = "Napisz: 'Cześć, myślałem o Tobie i chciałem sprawdzić, jak się masz.'";
-        headlineEmpathy.textContent = "Czujesz dystans — to da się zmienić.";
-      } else if(/przyjac|blisk|pozn/i.test(text)) {
-        plan = "Zaproś kogoś: 'Masz chwilę? Chciałbym porozmawiać.'";
-        headlineEmpathy.textContent = "Chcesz połączeń? Zrób pierwszy krok.";
-      } else if(/zmęcz|pust/i.test(text)) {
-        plan = "Zrób 60s oddechu, a potem napisz jedną krótką refleksję.";
-        headlineEmpathy.textContent = "Zmęczenie widoczne — zacznij od resetu.";
-      } else if(text.trim()) {
-        headlineEmpathy.textContent = "Jesteś widziany.";
-      } else {
-        headlineEmpathy.textContent = "Masz dość powierzchownych kontaktów?";
-        plan = "Napisz, co teraz czujesz.";
-      }
-      intensityFill.style.width = (20 + intensity * 60) + "%";
-      planEmpathy.textContent = plan;
-      updateCombinedSuggestion();
-    }
-    inputEmpathy.addEventListener('input', e => analyzeEmpathy(e.target.value));
-
-    // --- Affinity Field ---
-    const canvas = document.getElementById('canvasAffinity');
-    const ctx = canvas.getContext('2d');
-    let cw, ch;
-    let nodes = [];
-    function resizeAffinity(){
-      cw = canvas.clientWidth;
-      ch = canvas.clientHeight;
-      canvas.width = cw * devicePixelRatio;
-      canvas.height = ch * devicePixelRatio;
-      ctx.setTransform(devicePixelRatio,0,0,devicePixelRatio,0,0);
-    }
-    function initAffinity(){
-      nodes = [];
-      const stories = [
-        "Czuję się zauważony, gdy ktoś pyta o mnie.",
-        "Prawdziwa rozmowa daje oddech.",
-        "Czasem trudno się otworzyć.",
-        "Chcę budować głębię, ale zaczynam od małych kroków.",
-        "Bycie sobą jest trudne w sieci."
-      ];
-      for(let i=0;i<7;i++){
-        nodes.push({
-          x: Math.random()*(cw-40)+20,
-          y: Math.random()*(ch-40)+20,
-          vx: (Math.random()-0.5)*1,
-          vy: (Math.random()-0.5)*1,
-          r: 8 + Math.random()*4,
-          story: stories[i % stories.length],
-          hits:0,
-          isCenter:false
-        });
-      }
-      nodes.push({
-        x:cw/2, y:ch/2, vx:0, vy:0, r:16,
-        story: "To jesteś Ty. Kliknij inne kropki.",
-        hits:0,
-        isCenter:true
-      });
-    }
-    let pointer = {x:null,y:null};
-    canvas.addEventListener('mousemove', e=>{
-      const rect=canvas.getBoundingClientRect();
-      pointer.x = e.clientX - rect.left;
-      pointer.y = e.clientY - rect.top;
+<script>
+  // Idea 1: Emotion tagging
+  const emotions = ["samotność","zaufanie","niepewność","bliskość","radość","zmęczenie","ciekawość","otwartość","wstyd","spokój"];
+  const emotionTagsContainer = document.getElementById('emotionTags');
+  const dominantEmotionEl = document.getElementById('dominantEmotion');
+  const emotionSuggestionEl = document.getElementById('emotionSuggestion');
+  const emotionCount = {};
+  emotions.forEach(e=>{
+    const btn = document.createElement('div');
+    btn.textContent = e;
+    btn.className='pill';
+    btn.style.cursor='pointer';
+    btn.addEventListener('click', ()=>{
+      emotionCount[e]=(emotionCount[e]||0)+1;
+      updateDominantEmotion();
     });
-    canvas.addEventListener('mouseleave', ()=>{pointer.x=null;pointer.y=null;});
-    canvas.addEventListener('click', e=>{
-      const rect=canvas.getBoundingClientRect();
-      const mx=e.clientX-rect.left;
-      const my=e.clientY-rect.top;
-      for(const n of nodes){
-        const dx=mx-n.x, dy=my-n.y;
-        if(Math.hypot(dx,dy) < n.r+6 && !n.isCenter){
-          n.hits++;
-          document.getElementById('affinityRecent').textContent = n.story;
-          updateCombinedSuggestion();
-          return;
-        }
-      }
-    });
-    function updateAffinity(){
-      for(const n of nodes){
-        if(!n.isCenter){
-          const center = nodes.find(o=>o.isCenter);
-          const dx=center.x - n.x;
-          const dy=center.y - n.y;
-          const d=Math.hypot(dx,dy);
-          if(d>0){
-            n.vx += (dx/d)*0.002;
-            n.vy += (dy/d)*0.002;
-          }
-        }
-        if(pointer.x!=null){
-          const dx=pointer.x - n.x;
-          const dy=pointer.y - n.y;
-          const dist=Math.hypot(dx,dy);
-          if(dist<70 && !n.isCenter){
-            const push=(70-dist)/70*0.3;
-            n.vx -= (dx/dist)*push;
-            n.vy -= (dy/dist)*push;
-          }
-        }
-        n.x += n.vx; n.y += n.vy;
-        n.vx *= 0.9; n.vy *= 0.9;
-        // bounds
-        if(n.x < n.r) n.x = n.r;
-        if(n.x > cw - n.r) n.x = cw - n.r;
-        if(n.y < n.r) n.y = n.r;
-        if(n.y > ch - n.r) n.y = ch - n.r;
-      }
+    emotionTagsContainer.appendChild(btn);
+  });
+  function updateDominantEmotion(){
+    const sorted = Object.entries(emotionCount).sort((a,b)=>b[1]-a[1]);
+    if(sorted.length){
+      dominantEmotionEl.textContent=sorted[0][0];
+      emotionSuggestionEl.textContent = `Spróbuj odpowiedzieć na pytanie: "Kiedy ostatnio czułeś się ${sorted[0][0]} w rozmowie?"`;
     }
-    function drawAffinity(){
-      ctx.clearRect(0,0,cw,ch);
-      nodes.forEach(a=>{
-        nodes.forEach(b=>{
-          if(a===b) return;
-          const dx=a.x-b.x, dy=a.y-b.y;
-          const d=Math.hypot(dx,dy);
-          if(d<100){
-            ctx.strokeStyle = `rgba(90,139,124,${(100-d)/140 * 0.15})`;
-            ctx.lineWidth=1;
-            ctx.beginPath();
-            ctx.moveTo(a.x,a.y);
-            ctx.lineTo(b.x,b.y);
-            ctx.stroke();
-          }
-        });
-      });
-      nodes.forEach(n=>{
-        ctx.save();
-        if(n.isCenter){
-          ctx.fillStyle = 'rgba(194,94,50,.9)';
-          ctx.shadowBlur=14; ctx.shadowColor='rgba(194,94,50,.3)';
-        } else {
-          ctx.fillStyle = 'rgba(31,74,54,.85)';
-          ctx.shadowBlur=6; ctx.shadowColor='rgba(31,74,54,.2)';
-        }
-        ctx.beginPath();
-        ctx.arc(n.x,n.y,n.r,0,Math.PI*2);
-        ctx.fill();
-        ctx.restore();
-      });
-    }
-    function loopAffinity(){
-      updateAffinity();
-      drawAffinity();
-      requestAnimationFrame(loopAffinity);
-    }
-    function setupAffinity(){
-      resizeAffinity();
-      initAffinity();
-      loopAffinity();
-    }
-    function resizeAffinity(){
-      cw=canvas.clientWidth;
-      ch=canvas.clientHeight;
-      canvas.width = cw * devicePixelRatio;
-      canvas.height = ch * devicePixelRatio;
-      ctx.setTransform(devicePixelRatio,0,0,devicePixelRatio,0,0);
-    }
-    window.addEventListener('resize', ()=>{ resizeAffinity(); });
-    setupAffinity();
+  }
 
-    // --- Value Compass ---
-    const sliderDepth = document.getElementById('sliderDepth');
-    const valueDesc = document.getElementById('valueDesc');
-    const compassCanvas = document.getElementById('compassCanvas');
-    const cctx = compassCanvas.getContext('2d');
-    function resizeCompass(){
-      compassCanvas.width = compassCanvas.clientWidth * devicePixelRatio;
-      compassCanvas.height = compassCanvas.clientHeight * devicePixelRatio;
-      cctx.setTransform(devicePixelRatio,0,0,devicePixelRatio,0,0);
-      drawCompass();
-    }
-    function drawCompass(){
-      cctx.clearRect(0,0,compassCanvas.clientWidth,compassCanvas.clientHeight);
-      const w=compassCanvas.clientWidth, h=compassCanvas.clientHeight;
-      const cx=w/2, cy=h/2;
-      // base circle
-      cctx.fillStyle="rgba(248,244,239,1)";
-      cctx.beginPath();
-      cctx.arc(cx,cy,60,0,Math.PI*2);
-      cctx.fill();
-      // pointer
-      const depthVal = Number(sliderDepth.value)/100;
-      const angle = (135 - depthVal*90) * Math.PI/180; // 135 deep, 45 fast
-      const len=50;
-      cctx.strokeStyle="rgba(194,94,50,0.9)";
-      cctx.lineWidth=8;
-      cctx.lineCap="round";
-      cctx.beginPath();
-      cctx.moveTo(cx,cy);
-      cctx.lineTo(cx + Math.cos(angle)*len, cy - Math.sin(angle)*len);
-      cctx.stroke();
-      // label
-      cctx.fillStyle= "#3b2c24";
-      cctx.font="12px serif";
-      cctx.textAlign="center";
-      cctx.fillText(depthVal>0.6?"Głębia":"Tempo", cx, cy+80);
-    }
-    sliderDepth.addEventListener('input', ()=>{
-      const v=Number(sliderDepth.value);
-      if(v<40) valueDesc.textContent="Wolisz tempo";
-      else if(v>60) valueDesc.textContent="Wolisz głębię";
-      else valueDesc.textContent="Zrównoważone";
-      drawCompass();
-      updateCombinedSuggestion();
-    });
-    window.addEventListener('resize', resizeCompass);
-    resizeCompass();
+  // Idea 2: prompts
+  const prompts = [
+    "Co ostatnio sprawiło, że poczułeś się zauważony?",
+    "Kiedy ostatnio kogoś naprawdę wysłuchałeś?",
+    "Czego brakuje w twoich codziennych rozmowach?",
+    "Jak wygląda idealna chwila rozmowy dla ciebie?",
+    "Co powstrzymuje cię przed głębszym połączeniem?",
+    "Jak możesz zrobić pierwszy krok dziś?",
+    "Co cię zaskoczyło w ostatniej relacji?",
+    "Jak się czujesz, gdy ktoś naprawdę zwraca uwagę?",
+    "Czego chcesz więcej: słów czy obecności?",
+    "Kogo chciałbyś lepiej zrozumieć?"
+  ];
+  let currentPrompt = 0;
+  function nextPrompt(){
+    currentPrompt = (currentPrompt +1) % prompts.length;
+    document.getElementById('promptText').textContent = prompts[currentPrompt];
+    document.getElementById('promptAnswer').value='';
+  }
 
-    // --- Commitment Ladder ---
-    let commitDeadline = null;
-    let commitInterval;
-    const commitChoice = document.getElementById('commitChoice');
-    const commitStatus = document.getElementById('commitStatus');
-    const commitTimerEl = document.getElementById('commitTimer');
-    const startCommitBtn = document.getElementById('startCommit');
-    const markDoneBtn = document.getElementById('markDone');
+  // Idea 3: value slider
+  const valueSlider = document.getElementById('valueSlider');
+  const valueInterpretation = document.getElementById('valueInterpretation');
+  valueSlider.addEventListener('input', ()=>{
+    const v = Number(valueSlider.value);
+    if(v < 40) valueInterpretation.textContent = "Wolisz tempo";
+    else if(v > 60) valueInterpretation.textContent = "Wolisz głębię";
+    else valueInterpretation.textContent = "Zrównoważone";
+  });
 
-    function updateCommitDisplay(){
-      if(!commitDeadline){
-        commitStatus.textContent="Brak aktywnego zobowiązania";
-        commitTimerEl.textContent="—";
-        commitTimerEl.style.color='inherit';
-        return;
-      }
+  // Idea 4: commitment
+  let commitDeadline = null;
+  let commitTimerInterval = null;
+  const commitSelect = document.getElementById('commitSelect');
+  const commitDesc = document.getElementById('commitDesc');
+  const commitTimer = document.getElementById('commitTimer');
+  const startCommitBtn = document.getElementById('startCommitBtn');
+  const completeCommitBtn = document.getElementById('completeCommitBtn');
+
+  function updateCommitDesc(){
+    const map = {
+      write_message: "Napiszę wiadomość do jednej osoby.",
+      join_event: "Sprawdzę najbliższe wydarzenie.",
+      share_thought: "Podzielę się refleksją."
+    };
+    commitDesc.textContent = map[commitSelect.value] || "";
+  }
+  commitSelect.addEventListener('change', updateCommitDesc);
+  updateCommitDesc();
+
+  startCommitBtn.addEventListener('click', ()=>{
+    if(commitDeadline) return;
+    commitDeadline = Date.now() + 12*60*60*1000;
+    completeCommitBtn.style.display='inline-flex';
+    startCommitBtn.disabled=true;
+    commitTimerInterval = setInterval(()=>{
       const diff = commitDeadline - Date.now();
       if(diff <=0){
-        clearInterval(commitInterval);
-        commitStatus.textContent="Niewykonane (echo pokazane)";
-        commitTimerEl.textContent="Stracone";
-        commitTimerEl.style.color='red';
-        markDoneBtn.style.display='none';
+        clearInterval(commitTimerInterval);
+        commitTimer.textContent = "Stracone";
+        commitTimer.style.color='red';
+        commitDeadline = null;
+        completeCommitBtn.style.display='none';
         startCommitBtn.disabled=false;
-        commitDeadline=null;
         return;
       }
-      const hrs=Math.floor(diff/3600000);
-      const mins=Math.floor((diff%3600000)/60000);
-      commitTimerEl.textContent=`${hrs}h ${mins}m`;
-      commitStatus.textContent=`Zobowiązany: ${commitChoice.value}`;
-    }
+      const hrs = Math.floor(diff/3600000);
+      const mins = Math.floor((diff%3600000)/60000);
+      commitTimer.textContent = `${hrs}h ${mins}m pozostało`;
+    },500);
+  });
 
-    startCommitBtn.addEventListener('click', ()=>{
-      if(commitDeadline) return;
-      commitDeadline = Date.now() + 12*60*60*1000;
-      markDoneBtn.style.display='inline-flex';
-      startCommitBtn.disabled=true;
-      updateCommitDisplay();
-      commitInterval = setInterval(updateCommitDisplay,500);
+  completeCommitBtn.addEventListener('click', ()=>{
+    if(!commitDeadline) return;
+    clearInterval(commitTimerInterval);
+    commitTimer.textContent = "Zrobione ✓";
+    commitTimer.style.color='green';
+    completeCommitBtn.style.display='none';
+    commitDeadline=null;
+    startCommitBtn.disabled=false;
+  });
+
+  // Idea 5: gratitude spinner
+  const names = ["Ania","Michał","Ola","Tomek","Kasia","Krzysztof","Julia","Łukasz","Magda","Bartek"];
+  function spinGratitude(){
+    const pick = names[Math.floor(Math.random()*names.length)];
+    document.getElementById('spinnerResult').textContent = `Powiedz "dziękuję" do ${pick}`;
+    document.getElementById('gratitudeTemplate').textContent = `Cześć ${pick}, chciałem tylko podziękować za to, że... (napisz coś konkretnego).`;
+  }
+
+  // Idea 6: reflection snapshot
+  const reflectionInput = document.getElementById('reflectionInput');
+  const wordCloud = document.getElementById('wordCloud');
+  reflectionInput.addEventListener('input', ()=>{
+    const text = reflectionInput.value.toLowerCase();
+    const words = text.match(/\b\w{2,}\b/g) || [];
+    const freq = {};
+    words.forEach(w=>{ freq[w]= (freq[w]||0)+1; });
+    wordCloud.innerHTML = '';
+    Object.entries(freq).sort((a,b)=>b[1]-a[1]).slice(0,6).forEach(([w,c])=>{
+      const span = document.createElement('span');
+      span.textContent = `${w} (${c})`;
+      span.className='tag';
+      wordCloud.appendChild(span);
     });
-    markDoneBtn.addEventListener('click', ()=>{
-      if(!commitDeadline) return;
-      clearInterval(commitInterval);
-      commitStatus.textContent="Wykonane ✓";
-      commitTimerEl.textContent="Zrobione";
-      commitTimerEl.style.color='green';
-      markDoneBtn.style.display='none';
-      commitDeadline=null;
-      startCommitBtn.disabled=false;
-      updateCombinedSuggestion();
-    });
+  });
 
-    // --- Reflection Mirror ---
-    const mirrorInput = document.getElementById('mirrorInput');
-    const mirrorTags = document.getElementById('mirrorTags');
-    const detectedPattern = document.getElementById('detectedPattern');
-    const mirrorPlan = document.getElementById('mirrorPlan');
+  // Idea 7: digital detox
+  const offlineRange = document.getElementById('offlineRange');
+  const onlineRange = document.getElementById('onlineRange');
+  const offlineVal = document.getElementById('offlineVal');
+  const onlineEst = document.getElementById('onlineEst');
+  const ratioText = document.getElementById('ratioText');
+  function updateDetox(){
+    const off = Number(offlineRange.value);
+    const on = Number(onlineRange.value);
+    offlineVal.textContent = off;
+    onlineEst.textContent = on;
+    const ratio = ((off / Math.max(on,1)) *100).toFixed(0);
+    ratioText.textContent = ratio + "%";
+  }
+  offlineRange.addEventListener('input', updateDetox);
+  onlineRange.addEventListener('input', updateDetox);
+  updateDetox();
 
-    const patternMap = [
-      {regex:/samotn/i, pattern:"Poczucie izolacji", plan:"Napisz jednej osobie: 'Myślałem o Tobie, chciałem zapytać jak się masz.'"},
-      {regex:/zmęcz/i, pattern:"Zmęczenie powierzchownością", plan:"Zrób 60s oddechu, potem zapisz krótką refleksję."},
-      {regex:/blisk|przyjac/i, pattern:"Chęć połączenia", plan:"Zaproś kogoś: 'Masz chwilę? Chciałbym pogadać.'"}
-    ];
+  // Idea 8: social norm feed
+  const normFeed = document.getElementById('normFeed');
+  const normMessages = [
+    "47% osób zrobiło dziś mały krok w relacji.",
+    "32% napisało do kogoś szczerą wiadomość.",
+    "61% przyznało, że potrzebuje więcej obecności.",
+    "19% wybrało głębię zamiast szybkości.",
+    "70% powtarzało refleksję z poprzedniego tygodnia."
+  ];
+  let normIndex=0;
+  function rotateNorm(){
+    normFeed.textContent = normMessages[normIndex];
+    normIndex = (normIndex +1) % normMessages.length;
+  }
+  setInterval(rotateNorm,3000);
+  rotateNorm();
 
-    function analyzeMirror(text){
-      mirrorTags.innerHTML="";
-      let foundPattern="—", foundPlan="—";
-      patternMap.forEach(p=>{
-        if(p.regex.test(text)){
-          foundPattern=p.pattern;
-          foundPlan=p.plan;
+  // Idea 9: micro-intent list
+  const intentEls = document.querySelectorAll('.pill-choice');
+  const selectedIntentsEl = document.getElementById('selectedIntents');
+  const selectedIntents = new Set();
+  intentEls.forEach(el=>{
+    el.addEventListener('click', ()=>{
+      const val = el.dataset.intent;
+      if(selectedIntents.has(val)){
+        selectedIntents.delete(val);
+        el.classList.remove('active');
+      } else {
+        if(selectedIntents.size < 3){
+          selectedIntents.add(val);
+          el.classList.add('active');
         }
-      });
-      // highlight words
-      const words=text.match(/\b\w{2,}\b/g) || [];
-      words.slice(0,6).forEach(w=>{
-        const span=document.createElement('span');
-        span.textContent=w;
-        span.className='tag';
-        mirrorTags.appendChild(span);
-      });
-      detectedPattern.textContent=foundPattern;
-      mirrorPlan.textContent=foundPlan;
-      updateCombinedSuggestion();
-    }
-    mirrorInput.addEventListener('input', e => analyzeMirror(e.target.value));
-
-    // --- Attention Heatmap ---
-    let attention = {buckets:{}, lastScroll:0};
-    function recordMouse(e){
-      const bucket = Math.floor(e.clientY / 150);
-      attention.buckets[bucket] = (attention.buckets[bucket]||0)+1;
-    }
-    function processAttention(){
-      const entries = Object.entries(attention.buckets).map(([k,v])=>[Number(k),v]);
-      entries.sort((a,b)=>b[1]-a[1]);
-      const top = entries.slice(0,2).map(e=>`sekcja ${e[0]+1}`).join(', ') || '—';
-      const all = Array.from({length:6},(_,i)=>i);
-      const seen = Object.keys(attention.buckets).map(n=>Number(n));
-      const missed = all.filter(i=>!seen.includes(i)).slice(0,3).map(i=>`sekcja ${i+1}`).join(', ') || '—';
-      document.getElementById('attentionTop').textContent=top;
-      document.getElementById('attentionMissed').textContent=missed;
-    }
-    document.addEventListener('mousemove', recordMouse);
-    document.addEventListener('scroll', ()=>{
-      clearTimeout(attention._timer);
-      attention._timer=setTimeout(processAttention,1000);
+      }
+      selectedIntentsEl.textContent = selectedIntents.size ? Array.from(selectedIntents).join(', ') : '—';
     });
-    setTimeout(processAttention,1500);
+  });
 
-    function promptReflection(){
-      const top = document.getElementById('attentionTop').textContent;
-      alert(`Zastanów się: dlaczego zwracasz uwagę na ${top}? Czy to odpowiada temu, co naprawdę chcesz?`);
-    }
+  // Idea 10: reminder nudge
+  const setReminderBtn = document.getElementById('setReminderBtn');
+  const reminderMinutes = document.getElementById('reminderMinutes');
+  const reminderStatus = document.getElementById('reminderStatus');
+  let reminderTimeout = null;
+  setReminderBtn.addEventListener('click', ()=>{
+    const minutes = Number(reminderMinutes.value);
+    if(isNaN(minutes) || minutes <=0){ return; }
+    if(reminderTimeout) clearTimeout(reminderTimeout);
+    reminderStatus.textContent = `Przypomnienie za ${minutes} min...`;
+    reminderTimeout = setTimeout(()=>{
+      alert("To jest przypomnienie: wróć do działania.");
+      reminderStatus.textContent = "Przypomnienie dostarczone.";
+    }, minutes * 60000);
+  });
 
-    // --- Digital Contrast Slider ---
-    const contrast = document.getElementById('contrast');
-    const realOverlay = document.getElementById('realOverlay');
-    const digitalContent = document.getElementById('digitalContent');
-    function updateContrast(){
-      const v = Number(contrast.value) / 100;
-      realOverlay.style.opacity = (1 - v*0.8).toString();
-      digitalContent.style.filter = `blur(${(1-v)*4}px) brightness(${1 - (1-v)*0.15})`;
-    }
-    contrast.addEventListener('input', updateContrast);
-    updateContrast();
+  // initial prompt
+  nextPrompt();
 
-    // --- Peer Pulse Feed ---
-    const peerFeed = document.getElementById('peerFeed');
-    const peerSuggestion = document.getElementById('peerSuggestion');
-    const peerMsgs = [
-      "54% innych napisało dziś krótką refleksję.",
-      "39% zapisało się na wydarzenie po małym zobowiązaniu.",
-      "62% zrobiło breath sync przed wejściem w rozmowę.",
-      "28% ustawiło wartości i dostosowało ścieżkę.",
-      "45% przypomniało sobie przyszłe ja."
-    ];
-    let peerIdx=0;
-    function rotatePeer(){
-      peerFeed.textContent = peerMsgs[peerIdx];
-      peerIdx = (peerIdx +1) % peerMsgs.length;
-      // adapt suggestion lightly
-      if(peerIdx %2 ===0) peerSuggestion.textContent="Spróbuj oddechu, potem złóż zobowiązanie.";
-      else peerSuggestion.textContent="Zacznij od krótkiego zaproszenia.";
-    }
-    setInterval(rotatePeer,3500);
-    rotatePeer();
-
-    // --- Future Self Snapshot ---
-    const futureInput = document.getElementById('futureInput');
-    const futureIfDone = document.getElementById('futureIfDone');
-    const futureIfNot = document.getElementById('futureIfNot');
-    const lockFuture = document.getElementById('lockFuture');
-    const futureStatus = document.getElementById('futureStatus');
-    let futureLocked=false;
-    futureInput.addEventListener('input', ()=>{
-      const t=futureInput.value.trim();
-      futureIfDone.textContent = t ? "Jeśli zrobisz: poczujesz postęp." : "Wpisz, co chcesz osiągnąć.";
-      futureIfNot.textContent = t ? "Jeśli nie: może zostać stagnacja." : "Zacznij od sformułowania intencji.";
-    });
-    lockFuture.addEventListener('click', ()=>{
-      if(!futureInput.value.trim()) return;
-      futureLocked=true;
-      futureStatus.textContent="Zablokowane w tej sesji. Przypomnienie: sprawdź za 24h.";
-      setTimeout(()=>{ alert("Przyszłe ja: czy zrobiłeś krok?"); }, 24*60*60*1000); // best-effort in session
-    });
-
-    // --- Breath Sync ---
-    const startBreath = document.getElementById('startBreath');
-    const circleInner = document.getElementById('circleInner');
-    const breathLabel = document.getElementById('breathLabel');
-    const breathScore = document.getElementById('breathScore');
-    const breathSuggestion = document.getElementById('breathSuggestion');
-    let breathInterval, breathPhase=0, breathStart;
-    startBreath.addEventListener('click', ()=>{
-      clearInterval(breathInterval);
-      breathPhase=0;
-      breathStart=Date.now();
-      breathLabel.textContent="Wdech";
-      let cycles=0;
-      breathInterval = setInterval(()=>{
-        const elapsed = (Date.now() - breathStart)/1000;
-        // simple 4s in, 6s out pacing
-        const period = 10;
-        const mod = elapsed % period;
-        if(mod < 4){
-          // inhale
-          circleInner.style.transform="scale(1.1)";
-          breathLabel.textContent="Wdech";
-        } else {
-          circleInner.style.transform="scale(0.8)";
-          breathLabel.textContent="Wydech";
-        }
-        if(elapsed >= 60){
-          clearInterval(breathInterval);
-          breathLabel.textContent="Gotowe";
-          // naive coherence: measure variability of period (fake)
-          const score=Math.round(70 + Math.random()*30);
-          breathScore.textContent=score + "/100";
-          breathSuggestion.textContent = score > 80 ? "Jesteś zrelaksowany — kontynuuj rozmowę." : "Zrób jeszcze 30s oddechu przed kolejnym krokiem.";
-          updateCombinedSuggestion();
-        }
-      },200);
-    });
-
-    // --- Combined suggestion (simple fusion) ---
-    const combinedEl = document.getElementById('peerSuggestion'); // reuse for brevity
-    function updateCombinedSuggestion(){
-      const suggestions = [];
-      if(inputEmpathy.value.trim()){
-        suggestions.push("Zacznij od krótkiego zaproszenia.");
-      }
-      if(mirrorInput.value.trim()){
-        suggestions.push("Zapisz refleksję i podeślij ją komuś.");
-      }
-      if(commitStatus.textContent.includes("Wykonane")){
-        suggestions.push("Zbuduj kolejny mały krok.");
-      }
-      if(sliderDepth.value > 65){
-        suggestions.push("Wybierz głębsze spotkanie.");
-      } else if(sliderDepth.value < 35){
-        suggestions.push("Zacznij od krótkiej integracji.");
-      }
-      if(suggestions.length){
-        document.getElementById('combinedSuggestion').querySelector('#suggestionText').textContent = suggestions[0];
-        finalRecommendationUpdate(suggestions[0]);
-      }
-    }
-    function finalRecommendationUpdate(text){
-      const finalRec = document.getElementById('finalRecommendation');
-      if(finalRec) finalRec.textContent = text;
-    }
-
-    // initial triggers
-    analyzeEmpathy('');
-    analyzeMirror('');
-    updateCombinedSuggestion();
-    rotatePeer();
-    resizeCompass();
-
-  </script>
+</script>
 </body>
 </html>

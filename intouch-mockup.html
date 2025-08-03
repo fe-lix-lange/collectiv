@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>intouch collective – landing mockup</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin:0; line-height:1.6; color:#333; }
+    .section { padding:4rem 1rem; max-width:900px; margin:auto; }
+    h1, h2 { margin-bottom:1rem; }
+    #game { position:fixed; inset:0; background:#f2efe9; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; }
+    #game.hidden { display:none; }
+    .choices button { margin:0.5rem; padding:0.8rem 1.2rem; font-size:1rem; cursor:pointer; }
+    #hero.hidden { display:none; }
+    .hidden { display:none; }
+    form { margin-top:1rem; }
+    input[type=email] { padding:0.5rem; font-size:1rem; }
+    button { padding:0.5rem 1rem; font-size:1rem; }
+  </style>
+</head>
+<body class="no-scroll">
+  <div id="game">
+    <h1>Zacznijmy...</h1>
+    <p>Czego teraz najbardziej potrzebujesz?</p>
+    <div class="choices">
+      <button data-choice="people">Spotkać ludzi</button>
+      <button data-choice="nature">Być bliżej natury</button>
+      <button data-choice="both">Jedno i drugie</button>
+    </div>
+  </div>
+
+  <header id="hero" class="section hidden">
+    <h1>intouch collective</h1>
+    <p id="hero-tagline"></p>
+  </header>
+
+  <section id="about" class="section">
+    <h2>O nas</h2>
+    <p>Nie jesteśmy rewolucją, ale łączymy sprawdzone metody facylitacji z twórczym podejściem. W intouch collective spotkania są bardziej kreatywne niż czysto psychologiczne.</p>
+  </section>
+
+  <section id="who" class="section">
+    <h2>Kim jesteśmy</h2>
+    <ul>
+      <li>Psycholog z doświadczeniem pracy z grupami, projektami społecznymi i rozwojem pracowników.</li>
+      <li>Psycholog oraz nauczyciel prowadzący warsztaty z kreatywności.</li>
+    </ul>
+  </section>
+
+  <section id="offer" class="section">
+    <h2>Co oferujemy</h2>
+    <p>Pillar 1: Meet-ups and Events – przestrzeń do spotkań, wymiany i wzajemnego wsparcia.</p>
+  </section>
+
+  <section id="plan" class="section">
+    <h2>Co planujemy</h2>
+    <p>Pillar 2: Group Journeys, Trips, Retreats – wspólne wyprawy i doświadczenia bliżej natury.</p>
+  </section>
+
+  <section id="events" class="section">
+    <h2>Nadchodzące wydarzenia</h2>
+    <ul id="eventList"></ul>
+    <div id="noEvents" class="hidden">
+      <p>Obecnie nie ma ogłoszonych wydarzeń.</p>
+      <p>Zostaw nam swój email, a damy znać gdy pojawi się coś interesującego.</p>
+      <form id="emailForm">
+        <label for="email">Email:</label>
+        <input type="email" id="email" required />
+        <button type="submit">Wyślij</button>
+      </form>
+      <small>Twoje dane wykorzystamy wyłącznie do kontaktu w sprawie wydarzeń (RODO).</small>
+    </div>
+  </section>
+
+  <script>
+    const choices = document.querySelectorAll('#game button');
+    const hero = document.getElementById('hero');
+    const taglineEl = document.getElementById('hero-tagline');
+    choices.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const choice = btn.dataset.choice;
+        document.getElementById('game').classList.add('hidden');
+        hero.classList.remove('hidden');
+        let tagline = '';
+        if(choice === 'people') tagline = 'Spotkania, które zbliżają.';
+        else if(choice === 'nature') tagline = 'Przestrzeń, by dotknąć natury.';
+        else tagline = 'Ludzie i natura w jednym.';
+        taglineEl.textContent = tagline;
+        document.body.classList.remove('no-scroll');
+      });
+    });
+
+    const events = [];
+    const eventList = document.getElementById('eventList');
+    if(events.length){
+      events.forEach(ev => {
+        const li = document.createElement('li');
+        li.textContent = ev;
+        eventList.appendChild(li);
+      });
+    } else {
+      document.getElementById('noEvents').classList.remove('hidden');
+    }
+
+    document.getElementById('emailForm').addEventListener('submit', e => {
+      e.preventDefault();
+      alert('Dziękujemy!');
+    });
+  </script>
+</body>
+</html>

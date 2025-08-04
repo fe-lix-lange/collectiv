@@ -2,448 +2,285 @@
 <html lang="pl">
 <head>
 <meta charset="UTF-8" />
-<title>Collectiv Design Delights</title>
-<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>InTouch Collective — Refined Journey</title>
+<meta name="viewport" content="width=device-width,initial-scale=1.0" />
+<link href="https://fonts.googleapis.com/css2?family=Recursive:opsz,wght@400;700&family=Plus+Jakarta+Sans:wght@400;600&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg:#f7f3ed;
-    --paper:#fff;
-    --line:#c5e1ff;
-    --margin:#e07a5f;
+    --quick:#3568c1;
+    --deep:#285942;
+    --earth:#7a5130;
+    --neutral:#f7f3ed;
+    --text:#1f242c;
+    --radius:18px;
+    --transition:.45s cubic-bezier(.22,.12,.35,1);
+    --shadow:0 32px 140px -20px rgba(31,36,44,.2);
     --accent:#c25e32;
-    --teal:#5a8b7c;
-    --dark:#2f2a28;
-    --shadow:0 26px 85px -10px rgba(47,42,40,.12);
-    --radius:14px;
-    --transition:.35s cubic-bezier(.25,.1,.25,1);
-    font-family: "Patrick Hand", "Segoe UI", system-ui, serif;
+    --bg-quick:rgba(53,104,193,0.15);
+    --bg-deep:rgba(40,89,66,0.15);
+    --mix:0.5; /* 0=quick,1=deep */
+    font-family:'Plus Jakarta Sans',system-ui,-apple-system,BlinkMacSystemFont,sans-serif;
   }
   *{box-sizing:border-box;}
-  body{
-    margin:0;
-    background:linear-gradient(135deg,#f7f3ed 0%,#ede8e1 100%);
-    color:var(--dark);
-    -webkit-font-smoothing:antialiased;
-    padding:40px 16px;
-    line-height:1.4;
-  }
-  h1{margin:0;font-size:2.2rem;letter-spacing:0.5px;}
-  h2{margin:4px 0;font-size:1.6rem;position:relative;display:inline-block;cursor:default;}
-  p{margin:6px 0 14px;font-size:1rem;}
-  small{font-size:.7em;color:rgba(47,42,40,.65);}
-  .container{max-width:1080px;margin:0 auto;display:grid;gap:40px;}
-  .section-title{display:flex;align-items:center;gap:12px;margin-bottom:8px;}
-  .label{background:rgba(194,94,50,.1);padding:6px 14px;border-radius:999px;font-size:.65em;display:inline-block;margin-right:6px;}
-  /* Notebook mockup */
-  .notebook {
-    position:relative;
-    background:var(--paper);
-    padding:32px 28px 36px 60px;
-    border-radius:8px;
-    box-shadow:var(--shadow);
-    overflow:hidden;
-    font-family: "Courier New", Courier, monospace;
-    background-image:
-      repeating-linear-gradient(to bottom, transparent 0px, transparent 26px, var(--line) 26px, var(--line) 28px),
-      linear-gradient(to right, var(--margin) 3px, transparent 3px);
-  }
-  .notebook h2{font-family: 'Patrick Hand', cursive;font-size:1.8rem;margin-bottom:6px;}
-  .underline {
-    position:relative;
-    display:inline-block;
-  }
-  .underline:after {
-    content:'';
-    position:absolute;
-    left:0; bottom:-4px;
-    width:100%; height:6px;
-    background:rgba(194,94,50,.15);
-    border-radius:4px;
-    transform:scaleX(0);
-    transform-origin:left;
-    transition:transform .45s ease-out;
-  }
-  .underline.hovered:after {transform:scaleX(1);}
-  .note-meta {font-size:.65em;color:rgba(47,42,40,.5);margin-bottom:4px;}
-  .sticky-cluster{display:flex;flex-wrap:wrap;gap:16px;}
-  .sticky{
-    position:relative;
-    background:#fff9d6;
-    padding:18px 16px;
-    width:220px;
-    border-radius:8px;
-    box-shadow:0 16px 58px -8px rgba(47,42,40,.18);
-    transform:rotate(calc(var(--r) * 1deg));
-    transition:transform .25s ease, box-shadow .25s ease;
-    font-family: "Patrick Hand", cursive;
-    cursor:grab;
-  }
-  .sticky:hover{transform:scale(1.04) rotate(calc(var(--r) * 1deg));box-shadow:0 26px 98px -4px rgba(47,42,40,.25);}
-  .polaroid {
-    background:#fff;
-    padding:14px 14px 30px;
-    border-radius:12px;
-    position:relative;
-    width:180px;
-    box-shadow:0 22px 68px -6px rgba(47,42,40,.2);
-    font-size:.85em;
-    margin:12px;
-  }
-  .polaroid:before {
-    content:'';
-    position:absolute;
-    bottom:0; left:0; right:0;
-    height:16px;
-    background:rgba(0,0,0,.03);
-  }
-  .watercolor {
-    position:relative;
-    padding:22px 20px;
-    background:#fff;
-    border-radius:18px;
-    overflow:hidden;
-    box-shadow:var(--shadow);
-    margin:8px 0;
-  }
-  .watercolor:before {
-    content:'';
-    position:absolute;
-    inset:0;
-    background:radial-gradient(circle at 30% 40%,rgba(194,94,50,.17),rgba(255,255,255,0) 60%), radial-gradient(circle at 70% 60%,rgba(90,139,124,.12),rgba(255,255,255,0) 55%);
-    filter:blur(16px);
-    mix-blend-mode: multiply;
-    pointer-events:none;
-  }
-  .folded {
-    position:relative;
-    background:var(--paper);
-    padding:22px 18px;
-    border-radius:10px;
-    box-shadow:var(--shadow);
-    overflow:hidden;
-  }
-  .folded:after {
-    content:'';
-    position:absolute;
-    top:0; right:0;
-    width:68px; height:68px;
-    background:linear-gradient(135deg,#fff,#f0e6d2);
-    clip-path:polygon(100% 0,100% 45%,55% 100%,0 100%,0 0);
-    transform:translate(10px,-6px) rotate(5deg);
-    box-shadow:0 8px 20px rgba(47,42,40,.12);
-  }
-  .ribbon-nav {
-    display:flex;
-    gap:12px;
-    flex-wrap:wrap;
-    margin-bottom:12px;
-  }
-  .ribbon {
-    position:relative;
-    padding:10px 18px;
-    background:var(--teal);
-    color:#fff;
-    border-radius:8px 8px 0 0;
-    font-weight:600;
-    clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 50%, calc(100% - 12px) 100%, 0 100%);
-    box-shadow:0 12px 48px -6px rgba(47,42,40,.25);
-    cursor:pointer;
-    transition:transform .2s;
-  }
-  .ribbon.active{background:var(--accent);}
-  .ribbon:hover{transform:translateY(-2px);}
-  .input-reflect {
-    position:relative;
-    margin-top:6px;
-  }
-  .inkblot {
-    position:absolute;
-    top:50%; left:50%;
-    width:0; height:0;
-    background:rgba(194,94,50,.2);
-    border-radius:50%;
-    transform:translate(-50%,-50%) scale(0);
-    pointer-events:none;
-    filter:blur(8px);
-    transition:all .35s ease-out;
-  }
-  .callout {
-    position:relative;
-    padding:10px 14px;
-    margin:6px 0;
-    background:#fffef8;
-    border-left:4px solid var(--accent);
-    border-radius:6px;
-    font-size:.9em;
-    display:flex;
-    gap:12px;
-  }
-  .scribble-underline{
-    position:relative;
-    display:inline-block;
-  }
-  .scribble-underline svg{
-    position:absolute;
-    left:0; bottom:-6px;
-    width:100%; height:14px;
-    pointer-events:none;
-    stroke:var(--accent);
-    stroke-width:2.4;
-    stroke-linecap:round;
-    stroke-linejoin:round;
-    fill:none;
-    stroke-dasharray:120;
-    stroke-dashoffset:120;
-    transition:stroke-dashoffset .6s cubic-bezier(.6,.1,.3,1);
-  }
-  .scribble-underline:hover svg{
-    stroke-dashoffset:0;
-  }
-  .button-light {
-    background:rgba(194,94,50,.08);
-    color:var(--dark);
-    border:2px solid var(--accent);
-    padding:10px 18px;
-    border-radius:999px;
-    cursor:pointer;
-    font-weight:600;
-    transition:all var(--transition);
-  }
+  body{margin:0;background:linear-gradient(135deg,var(--dynamic-bg-start,#e6f1fc) 0%,var(--dynamic-bg-end,#f2ece3) 80%);transition:background .3s;color:var(--text);min-height:100%;-webkit-font-smoothing:antialiased;font-size:16px;}
+  h1{margin:0;font-family:'Recursive',system-ui;font-size:2.2rem;font-weight:700;line-height:1.1;}
+  h2{margin:0;font-family:'Recursive',system-ui;font-size:1.5rem;font-weight:700;line-height:1.15;}
+  p{margin:8px 0 16px;line-height:1.5;}
+  small{font-size:.65em;color:rgba(31,36,44,.6);}
+  .wrap{max-width:1000px;margin:0 auto;padding:16px 12px;}
+  .flow-step{display:flex;flex-wrap:wrap;gap:18px;margin-bottom:36px;align-items:start;}
+  .card{position:relative;background:#fff;border-radius:20px;padding:22px 24px;box-shadow:var(--shadow);overflow:hidden;}
+  /* varied shapes */
+  .notebook{background:#fff;position:relative;border-radius:24px;padding:36px 28px 26px;clip-path:polygon(0 0,100% 4%,100% 96%,0 100%);margin-bottom:18px;}
+  .scribble-underline{position:relative;display:inline-block;}
+  .scribble-underline svg{position:absolute;left:0;bottom:-6px;width:100%;height:20px;pointer-events:none;stroke:var(--accent);stroke-width:3;fill:none;stroke-dasharray:140;stroke-dashoffset:140;transition:stroke-dashoffset .4s;}
+  .scribble-underline:hover svg{stroke-dashoffset:0;}
+  .name-entry{display:flex;flex-wrap:wrap;gap:16px;}
+  .input-large{flex:1;min-width:140px;border:none;font-size:1.2rem;padding:14px 16px;border-radius:999px;box-shadow:inset 0 0 8px rgba(31,36,44,.07);} 
+  .btn{padding:12px 20px;border:none;border-radius:999px;cursor:pointer;font-weight:600;display:inline-flex;align-items:center;gap:8px;transition:all var(--transition);position:relative;font-family:'Plus Jakarta Sans';}
+  .btn-primary{background:linear-gradient(135deg,var(--deep),var(--accent));color:#fff;}
+  .btn-accent{background:var(--accent);color:#fff;}
+  .badge{display:inline-block;background:var(--accent);color:#fff;padding:6px 14px;border-radius:999px;font-size:.55em;margin-bottom:6px;}
+  .breath-box{background:rgba(255,255,255,.96);border-radius:22px;padding:18px;display:flex;flex-wrap:wrap;gap:16px;position:relative;overflow:hidden;}
+  .breath-visual{flex:none;position:relative;width:120px;height:120px;border-radius:999px;display:flex;align-items:center;justify-content:center;}
+  .breath-ring{position:absolute;inset:0;border-radius:999px;box-shadow:0 0 0 0 rgba(194,94,50,.5);transition:box-shadow .3s;}
+  .breath-inner{width:70px;height:70px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;transition:transform .4s;}
+  .slider-section{position:relative;margin-top:4px;}
+  .slider{width:100%;-webkit-appearance:none;height:14px;border-radius:8px;background:rgba(31,36,44,.1);outline:none;}
+  .slider::-webkit-slider-thumb{-webkit-appearance:none;width:28px;height:28px;border-radius:50%;background:var(--accent);border:4px solid #fff;box-shadow:0 0 30px rgba(194,94,50,.6);cursor:pointer;}
+  .split{display:flex;flex-wrap:wrap;gap:18px;}
+  .events{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;margin-top:12px;}
+  .event-card{background:#fff;border-radius:18px;padding:14px 16px;position:relative;clip-path:polygon(4% 0,100% 5%,100% 95%,0 100%);box-shadow:0 40px 120px -20px rgba(31,36,44,.08);display:flex;flex-direction:column;gap:6px;}
+  .event-tag{font-size:.55em;padding:4px 10px;border-radius:999px;background:rgba(194,94,50,.1);display:inline-block;margin-bottom:4px;}
+  .event-title{font-weight:700;}
+  .event-meta{font-size:.65em;color:rgba(31,36,44,.6);}
+  .email-invite{background:rgba(255,255,255,.95);border-radius:20px;padding:20px;display:flex;flex-wrap:wrap;gap:18px;margin-top:8px;box-shadow:0 50px 160px -30px rgba(31,36,44,.15);}
+  .email-left{flex:2;min-width:200px;}
+  .email-right{flex:1;min-width:160px;display:flex;flex-direction:column;gap:10px;}
+  .email-input{padding:12px 14px;border-radius:12px;border:2px solid rgba(31,36,44,.12);width:100%;}
+  .final-cta{margin-top:32px;display:flex;flex-wrap:wrap;gap:24px;}
+  .cta-box{flex:1;min-width:240px;background:#fff;border-radius:22px;padding:20px;box-shadow:var(--shadow);position:relative;}
+  .underline-small{position:relative;display:inline-block;margin-bottom:6px;}
+  .underline-small:after{content:'';position:absolute;left:0;bottom:1px;width:100%;height:6px;background:rgba(194,94,50,.25);border-radius:3px;}
+  .mobile-only{display:none;}
+  @media (max-width:900px){h1{font-size:1.8rem;} .flow-step{flex-direction:column;} .mobile-only{display:block;} }
 </style>
 </head>
 <body>
-
-  <div class="container">
-    <!-- Navigation ideas -->
-    <div>
-      <div class="section-title">
-        <div class="label">Design Delight</div>
-        <h1>Estetyczne mockupy — mniej funkcji, więcej emocji</h1>
-      </div>
-      <p style="max-width:820px;">Zamiast pudełek i prostych bloków: kartki z zeszytu, karteczki samoprzylepne, Polaroidy, smugi akwareli, zagięte rogi, ręczne podkreślenia. Użytkownik czuje, że uczestniczy w tworzeniu, nie tylko klika.</p>
-    </div>
-
-    <!-- Ribbon navigation concept -->
-    <div class="ribbon-nav">
-      <div class="ribbon active">Start</div>
-      <div class="ribbon">Empatia</div>
-      <div class="ribbon">Refleksja</div>
-      <div class="ribbon">Wartości</div>
-      <div class="ribbon">Zobowiązanie</div>
-      <div class="ribbon">Przyszłe Ja</div>
-    </div>
-
-    <!-- 1. Notebook Paper Base -->
-    <div class="notebook">
-      <div class="label">1 / Zeszyt</div>
-      <h2 class="underline">Zacznij od wpisania tego, co czujesz</h2>
-      <div class="note-meta">Ręcznie pisane, linie pomagają kierować wzrok, margines sugeruje miejsce notatek</div>
-      <p>Delikatna struktura kartki, nie czysta płaska powierzchnia. Typografia imituje notatki z lekcji — autentyczność, nie perfekcja.</p>
-      <div style="display:flex;gap:18px;flex-wrap:wrap;">
-        <div style="flex:1;min-width:220px;">
-          <div style="position:relative;">
-            <textarea rows="4" style="width:100%;border:none;background:transparent;resize:none;font-family:inherit;font-size:1rem;line-height:1.3;outline:none;" placeholder="Np. Czuję, że nikt mnie nie słyszy..."></textarea>
-            <div style="position:absolute;top:6px;right:6px;font-size:.65em;color:rgba(47,42,40,.5);">1:23 PM • dzisiaj</div>
+  <div class="wrap">
+    <!-- Name entry hero, simple and visually appealing -->
+    <div class="flow-step" id="stepName">
+      <div style="flex:1;min-width:260px;">
+        <div class="notebook">
+          <div class="scribble-underline"><h1 id="greeting">Cześć, jak masz na imię?</h1><svg viewBox="0 0 160 24"><path d="M6 16 Q80 2 154 16" stroke-linecap="round" stroke-width="4"/></svg></div>
+          <p style="font-size:1rem;">Zacznij od wpisania imienia — nie pytamy więcej, to pierwszy drobny krok. Po nim przechodzimy do rytuału oddechu i dalej.</p>
+          <div class="name-entry">
+            <input type="text" id="nameField" class="input-large" placeholder="Twoje imię..." aria-label="Imię" />
+            <button class="btn btn-primary" id="continueName">Dalej</button>
           </div>
+          <div style="margin-top:6px;"><small>Imię zostaje tylko w tej sesji, jeśli chcesz je zapisać później — doprecyzujemy.</small></div>
         </div>
-        <div style="flex:none;min-width:160px;">
-          <div class="callout">
-            <div style="flex:1;">
-              <strong>Podpowiedź:</strong>
-              <div>Spróbuj opisać jedno konkretne doświadczenie z ostatnich 3 dni.</div>
+      </div>
+      <div style="flex:none;min-width:120px;display:flex;align-items:center;justify-content:center;">
+        <div style="font-size:.75em;">Lekko, personalnie, bez zbędnych pól. Pamięć to początek relacji.</div>
+      </div>
+    </div>
+
+    <!-- Core: Breath + slider (varied layout with layered feel) -->
+    <div class="flow-step" id="stepCore" style="margin-top:24px;">
+      <div style="flex:1;min-width:260px;order:2;">
+        <div class="card" style="clip-path:polygon(0 0,100% 8%,100% 92%,0 100%);">
+          <div class="badge">Rytuał</div>
+          <div class="scribble-underline"><h2>Oddech</h2><svg viewBox="0 0 160 24"><path d="M6 16 Q80 2 154 16" stroke-linecap="round" stroke-width="4"/></svg></div>
+          <p>Wdech, wydech. Pięć pełnych cykli; to kotwica obecności. Możesz dalej scrollować — rytm to tło, nie blokada.</p>
+          <div class="breath-box">
+            <div style="flex:1;min-width:140px;">
+              <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;">
+                <button class="btn btn-primary" id="startBreath">Zacznij</button>
+                <div id="breathStatus" style="font-weight:600;">Gotowy</div>
+              </div>
+              <div style="margin-top:6px;"><small>Podczas rytuału tło lekko się adaptuje, potem zobaczysz rekomendację.</small></div>
+            </div>
+            <div style="flex:none;display:flex;align-items:center;justify-content:center;position:relative;">
+              <div class="breath-visual">
+                <div class="breath-ring" id="breathRing"></div>
+                <div class="breath-inner" id="breathInner">—</div>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-
-    <!-- 2. Sticky Note Cluster -->
-    <div class="watercolor">
-      <div class="label">2 / Karteczki</div>
-      <h2 class="scribble-underline">Pomysły i przypomnienia</h2>
-      <p>Luźny zestaw notatek naklejonych, każda ma nieco inny obrót, cienie i teksturę. Użytkownik może „dotknąć” i przytrzymać — karteczka lekko podskakuje.</p>
-      <div class="sticky-cluster">
-        <div class="sticky" style="--r:2;">Zapisz się na wydarzenie. To mały krok.</div>
-        <div class="sticky" style="--r:-3;">Napisz do kogoś: „Co u Ciebie?”</div>
-        <div class="sticky" style="--r:5;">Zrób 60s oddechu przed rozmową.</div>
-        <div class="sticky" style="--r:-1;">Zanotuj, co Cię zdenerwowało dziś rano.</div>
-      </div>
-    </div>
-
-    <!-- 3. Polaroid-style Testimonials / Stories -->
-    <div class="watercolor">
-      <div class="label">3 / Polaroidy</div>
-      <h2 class="underline">Historie innych</h2>
-      <p>Każda opowieść wygląda jak zdjęcie zrobione na Polaroidzie: lekko przekrzywiona, z szerokim spodem na notatkę. Użytkownik może przeciągnąć i ułożyć swoje „kolekcje doświadczeń”.</p>
-      <div style="display:flex;gap:12px;flex-wrap:wrap;">
-        <div class="polaroid">
-          <div style="font-weight:700;">„Zacząłem od małego zaproszenia, i to zadziałało.”</div>
-          <div style="margin-top:6px;"><small>— Marta, Warszawa</small></div>
-        </div>
-        <div class="polaroid">
-          <div style="font-weight:700;">„Czułem się widziany po pierwszej rozmowie.”</div>
-          <div style="margin-top:6px;"><small>— Tomek, Warszawa</small></div>
-        </div>
-        <div class="polaroid">
-          <div style="font-weight:700;">„Refleksja na kartce pomogła mi zrozumieć, czego naprawdę chcę.”</div>
-          <div style="margin-top:6px;"><small>— Kasia, Warszawa</small></div>
+      <div style="flex:1;min-width:260px;order:1;">
+        <div class="card" style="background:rgba(255,255,255,.98);clip-path:polygon(2% 0,100% 4%,100% 96%,0 100%);">
+          <div class="badge">Personalizacja</div>
+          <div class="scribble-underline"><h2>Głębokość ↔ Tempo</h2><svg viewBox="0 0 160 24"><path d="M6 16 Q80 2 154 16" stroke-linecap="round" stroke-width="4"/></svg></div>
+          <p>Wybierz: szybki start czy głębokie zanurzenie. Przesunięcie suwaka zmienia rekomendacje i tło — bądź świadomy wyboru.</p>
+          <div class="slider-section">
+            <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;">
+              <input type="range" id="depthRange" class="slider" min="0" max="100" value="50" />
+              <div class="value-display" id="depthValue">Zrównoważone</div>
+            </div>
+            <div style="margin-top:4px;"><small>Im bardziej w głąb, tym ziemista, cięższa energia. Im szybciej — chłodniejsza, jasna.</small></div>
+          </div>
         </div>
       </div>
     </div>
 
-    <!-- 4. Handwritten Callouts & Underlines -->
-    <div class="watercolor">
-      <div class="label">4 / Ręczne akcenty</div>
-      <h2 class="scribble-underline">Podkreślenia, notatki, dymki</h2>
-      <p>Ręcznie rysowane podkreślenia pojawiają się na hover; krótkie callouty sugerują, co zrobić dalej. Elementy nie są perfekcyjne — to daje zaufanie.</p>
-      <div style="display:flex;gap:24px;flex-wrap:wrap;">
-        <div style="flex:1;min-width:260px;">
-          <div class="callout">
-            <div>
-              <div style="font-weight:700;">Zobacz wzorzec:</div>
-              <div>Jeśli powtarzasz „samotność”, może zaproszenie jedna osoba zmieni kierunek?</div>
+    <!-- Info + events (not block uniform, mixed layout) -->
+    <div class="flow-step" id="stepInfo" style="margin-top:12px;">
+      <div style="flex:1;min-width:260px;order:1;">
+        <div class="card" style="clip-path:polygon(0 2%,100% 5%,100% 93%,0 100%);">
+          <div class="badge">Kim jesteśmy</div>
+          <div class="scribble-underline"><h2>InTouch Collective</h2><svg viewBox="0 0 160 24"><path d="M6 16 Q80 2 154 16" stroke-linecap="round" stroke-width="4"/></svg></div>
+          <p>Dwóch przyjaciół z psychologiczną wrażliwością tworzy kameralne spotkania offline w Warszawie. W zamian za powierzchowność dajemy autentyczne połączenia.</p>
+        </div>
+      </div>
+      <div style="flex:1;min-width:260px;order:2;">
+        <div class="card" style="background:rgba(255,255,255,.95);clip-path:polygon(4% 0,100% 6%,100% 94%,0 100%);">
+          <div class="badge">Dlaczego my?</div>
+          <div class="scribble-underline"><h2>Co nas wyróżnia</h2><svg viewBox="0 0 160 24"><path d="M6 16 Q80 2 154 16" stroke-linecap="round" stroke-width="4"/></svg></div>
+          <p>Autorskie gry, facylitacja, uważna przestrzeń. Ludzie przestają czuć się samotni i zaczynają budować relacje w bezpiecznym tempie.</p>
+          <ul style="padding-left:18px;margin:6px 0;"><li>Małe grupy & bezpieczeństwo</li><li>Ćwiczenia dopasowane ręcznie</li><li>Refleksja i autentyczność</li></ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Events and email invite, layered, varied shapes -->
+    <div class="flow-step" id="stepEvents">
+      <div style="flex:2;min-width:300px;order:2;">
+        <div class="card" style="clip-path:polygon(0 4%,100% 6%,100% 94%,0 100%);">
+          <div class="badge">Wydarzenia</div>
+          <div class="scribble-underline"><h2>Nadchodzące sesje</h2><svg viewBox="0 0 160 24"><path d="M6 16 Q80 2 154 16" stroke-linecap="round" stroke-width="4"/></svg></div>
+          <p>Wybierz to, co rezonuje. Możesz też zostać na liście powiadomień — przypomnimy.</p>
+          <div class="events" id="eventsList">
+            <div class="event-card">
+              <div class="event-tag">5 sierpnia</div>
+              <div class="event-meta">Warszawa • limit 12</div>
+              <div class="event-title">Prawdziwe rozmowy</div>
+              <p>Małe grupy, uważne ćwiczenia, naturalne połączenia.</p>
+              <div style="margin-top:6px;"><button class="btn btn-primary" data-event="1">Zapisz się</button></div>
+              <div style="font-size:.55em;margin-top:4px;">Rekomendacja: głębia</div>
+            </div>
+            <div class="event-card">
+              <div class="event-tag">12 sierpnia</div>
+              <div class="event-meta">Warszawa • limit 18</div>
+              <div class="event-title">Głębia i tempo</div>
+              <p>Balans między szybkim startem a relacją z sensem.</p>
+              <div style="margin-top:6px;"><button class="btn btn-primary" data-event="2">Zapisz się</button></div>
+              <div style="font-size:.55em;margin-top:4px;">Rekomendacja: hybrydowa</div>
+            </div>
+            <div class="event-card">
+              <div class="event-tag">19 sierpnia</div>
+              <div class="event-meta">Warszawa • limit 14</div>
+              <div class="event-title">Budowanie zaufania</div>
+              <p>Parowe i grupowe ćwiczenia pogłębiające relacje.</p>
+              <div style="margin-top:6px;"><button class="btn btn-primary" data-event="3">Zapisz się</button></div>
+              <div style="font-size:.55em;margin-top:4px;">Efekt: bezpieczeństwo</div>
+            </div>
+            <div class="event-card">
+              <div class="event-tag">26 sierpnia</div>
+              <div class="event-meta">Warszawa • limit 20</div>
+              <div class="event-title">Mikro-spotkania</div>
+              <p>Szybki start, głęboka kontynuacja — poznaj kilka osób.</p>
+              <div style="margin-top:6px;"><button class="btn btn-primary" data-event="4">Zapisz się</button></div>
+              <div style="font-size:.55em;margin-top:4px;">Szybko + jakościowo</div>
+            </div>
+            <div class="event-card">
+              <div class="event-tag">2 września</div>
+              <div class="event-meta">Warszawa • limit 10</div>
+              <div class="event-title">Retreat: Autentyczna obecność</div>
+              <p>Cały dzień offline, refleksja i głęboki kontakt z grupą.</p>
+              <div style="margin-top:6px;"><button class="btn btn-primary" data-event="5">Zapisz się</button></div>
+              <div style="font-size:.55em;margin-top:4px;">Tempo: przemyślane</div>
             </div>
           </div>
         </div>
-        <div style="flex:1;min-width:260px;">
-          <div class="scribble-underline"><h2 style="margin:0;">Zrób mały krok</h2>
-            <svg viewBox="0 0 110 18"><path d="M8 12 Q35 17 105 9 Q85 8 80 16 Q60 4 35 9 Q18 12 8 12Z"/></svg>
-          </div>
-          <p>Animacja podkreślenia pokazuje że to ważne, ale nie agresywne.</p>
-        </div>
       </div>
-    </div>
-
-    <!-- 5. Ink Blot Reflection -->
-    <div class="notebook" style="padding:40px 28px 36px 60px;">
-      <div class="label">5 / Plama atramentu</div>
-      <h2 class="underline">Twoja refleksja zostaje</h2>
-      <p>Wpisz krótko myśl. Każde wpisanie powoduje pojawienie się plamy atramentu za tekstem — rośnie jeśli temat się powtarza. Wizualna „rezonancja” z tym, co wraca.</p>
-      <div style="position:relative;margin-top:12px;">
-        <div class="inkblot" id="blot"></div>
-        <div class="input-reflect">
-          <textarea id="reflectInput" rows="3" style="width:100%;border:none;background:transparent;resize:none;font-size:1rem;line-height:1.3;outline:none;" placeholder="Np. Czuję się..."></textarea>
-        </div>
-      </div>
-      <div style="margin-top:6px;"><small>Powtórz wpis, aby zobaczyć, jak plama się pogłębia — sygnał „to wraca”.</small></div>
-    </div>
-
-    <!-- 6. Value Tension Slider (simplified aesthetic) -->
-    <div class="watercolor">
-      <div class="label">6 / Napięcie wartości</div>
-      <h2 class="underline">Głębokość ↔ Tempo</h2>
-      <p>Użytkownik przesuwa suwak. W tle łagodnie zmienia się akwarelowy gradient odpowiadający preferencji: więcej teal = głębia, więcej ciepła = tempo.</p>
-      <div style="display:flex;gap:24px;flex-wrap:wrap;align-items:center;">
-        <div style="flex:1;min-width:260px;">
-          <input type="range" id="tension" min="0" max="100" value="50" style="width:100%;"/>
-          <div style="margin-top:6px;">
-            <div><strong>Twoja równowaga:</strong> <span id="tensionLabel">Zrównoważone</span></div>
+      <div style="flex:1;min-width:220px;order:1;">
+        <div class="email-invite">
+          <div class="email-left">
+            <div class="badge">Nie przegap</div>
+            <h2 style="margin:4px 0;">Chcesz powiadomienia?</h2>
+            <p>Zostaw email, a przypomnimy o nowościach i damy szybki dostęp do zapisu.</p>
           </div>
-        </div>
-        <div style="flex:1;min-width:260px;position:relative;">
-          <div style="width:100%;height:120px;border-radius:14px;overflow:hidden;position:relative;">
-            <div id="tensionBg" style="position:absolute;inset:0;background:linear-gradient(135deg,var(--teal) 0%,rgba(90,139,124,.6) 60%);transition:background .45s;"></div>
-            <div style="position:absolute;inset:0;display:flex;justify-content:center;align-items:center;font-weight:700;font-size:1.1rem;color:#fff;">Twoje napięcie</div>
+          <div class="email-right">
+            <input type="email" id="notifyEmail" placeholder="Twój email" class="email-input" />
+            <button class="btn btn-primary" id="notifyBtn">Powiadom mnie</button>
+            <div style="font-size:.55em;">RODO: tylko przypomnienia, zero spam.</div>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- 7. Folded Future-Self Note -->
-    <div class="folded">
-      <div class="label">7 / Przyszłe ja</div>
-      <h2 class="underline">Zablokuj intencję</h2>
-      <p>Kartka z zaokrąglonym rogiem imitującym zagięcie (page curl). Użytkownik pisze krótką notatkę do siebie; przypomnienie posiada estetyczne „zagięcie czasu”.</p>
-      <div style="display:flex;gap:18px;flex-wrap:wrap;">
-        <div style="flex:1;min-width:200px;">
-          <textarea id="futureNote" rows="3" style="width:100%;border:none;background:transparent;resize:none;font-size:1rem;line-height:1.3;outline:none;" placeholder="Za 24h chcę poczuć, że..."></textarea>
-          <div style="margin-top:6px;"><small>Twoje „ja” zobaczy to ponownie.</small></div>
+    <!-- Final engagement CTA -->
+    <div class="flow-step" id="stepFinal">
+      <div class="final-cta">
+        <div class="cta-box">
+          <div class="scribble-underline"><h2>Zostań w kontakcie</h2><svg viewBox="0 0 160 24"><path d="M6 16 Q80 2 154 16" stroke-linecap="round" stroke-width="4"/></svg></div>
+          <p>Otrzymuj przypomnienia, małe refleksje, zaproszenia. Wybierz swój rytm.</p>
+          <div style="display:flex;gap:14px;flex-wrap:wrap;align-items:center;">
+            <input type="email" id="finalEmail" placeholder="Twój email" class="email-input" />
+            <button class="btn btn-primary" id="finalSignup">Zapisz się</button>
+          </div>
+          <div style="font-size:.55em;">RODO: tylko powiadomienia.</div>
         </div>
-        <div style="flex:none;min-width:180px;display:flex;flex-direction:column;gap:12px;align-items:flex-start;">
-          <button class="button-light" id="lockBtn">Zablokuj</button>
-          <div id="futureEcho" style="font-size:.85em;color:rgba(47,42,40,.55);">—</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- 8. Call-to-action synthesis -->
-    <div class="watercolor">
-      <div class="label">8 / Syntetyczny CTA</div>
-      <div style="display:flex;gap:18px;flex-wrap:wrap;align-items:center;">
-        <div style="flex:1;min-width:260px;">
-          <h2>Co teraz?</h2>
-          <p>Wszystkie estetyczne sygnały — notatki, plamy, napięcia — składają się na jedną rekomendację. Narysuj, zapisz, zrób mały krok.</p>
-        </div>
-        <div style="flex:none;min-width:180px;">
-          <button class="btn" style="background:var(--teal);">Zrób krok</button>
+        <div class="cta-box">
+          <div><strong>Dlaczego warto</strong></div>
+          <ul style="padding-left:18px;margin:6px 0;">
+            <li>Kameralne spotkania w Warszawie</li>
+            <li>Autorskie gry + facylitacja</li>
+            <li>Osobiste przypomnienia</li>
+          </ul>
         </div>
       </div>
     </div>
-
   </div>
 
   <script>
-    // Underline hover activation
-    document.querySelectorAll('.underline').forEach(el=>{
-      el.addEventListener('mouseenter',()=> el.classList.add('hovered'));
-      el.addEventListener('mouseleave',()=> el.classList.remove('hovered'));
+    // name flow
+    const nameField=document.getElementById('nameField');
+    const continueName=document.getElementById('continueName');
+    const greeting=document.getElementById('greeting');
+    continueName.addEventListener('click',()=>{
+      const v=nameField.value.trim(); if(!v) return; greeting.textContent=`Cześć, ${v}!`;
+      // reveal next sections
+      document.getElementById('stepCore').scrollIntoView({behavior:'smooth'});
     });
-
-    // Ink blot reflection growth
-    const reflectInput = document.getElementById('reflectInput');
-    const blot = document.getElementById('blot');
-    let repeatCount=0;
-    let lastText="";
-    reflectInput.addEventListener('input',e=>{
-      const text = e.target.value.trim();
-      if(!text) return;
-      if(text === lastText){
-        repeatCount++;
-      } else {
-        lastText = text;
-        repeatCount = 1;
-      }
-      // scale blot based on repeat
-      const size = Math.min(220, 60 + repeatCount * 30);
-      blot.style.width = size + 'px';
-      blot.style.height = size + 'px';
-      blot.style.background = `rgba(194,94,50,${Math.min(.3, .1 + repeatCount*0.05)})`;
-      blot.style.transform = `translate(-50%,-50%) scale(1)`;
-      setTimeout(()=>{
-        blot.style.transform = 'translate(-50%,-50%) scale(.9)';
-      },300);
+    // breathing
+    let breathState=false; let inhale=true; let cycle=0; const startBreath=document.getElementById('startBreath'); const breathInner=document.getElementById('breathInner'); const breathRing=document.getElementById('breathRing'); const breathStatus=document.getElementById('breathStatus');
+    startBreath.addEventListener('click',()=>{
+      if(breathState) return; breathState=true; cycle=0; inhale=true; breathStatus.textContent='Wdech';
+      const interval=setInterval(()=>{
+        if(inhale){ breathInner.style.transform='scale(1.2)'; breathInner.textContent='Wdech'; breathRing.style.boxShadow='0 0 40px 12px rgba(194,94,50,.6)'; }
+        else{ breathInner.style.transform='scale(.9)'; breathInner.textContent='Wydech'; breathRing.style.boxShadow='0 0 10px 4px rgba(194,94,50,.3)'; }
+        inhale=!inhale; cycle++;
+        if(cycle>=8){ clearInterval(interval); breathStatus.textContent='Gotowe'; updateDepth(); }
+      },1200);
     });
-
-    // Tension slider visual
-    const tension = document.getElementById('tension');
-    const tensionLabel = document.getElementById('tensionLabel');
-    const tensionBg = document.getElementById('tensionBg');
-    tension.addEventListener('input',e=>{
-      const v=Number(e.target.value);
-      if(v < 40){
-        tensionLabel.textContent='Tempo';
-        tensionBg.style.background = 'linear-gradient(135deg,#ffba08 0%,rgba(194,94,50,.6) 60%)';
-      } else if(v > 60){
-        tensionLabel.textContent='Głębia';
-        tensionBg.style.background = 'linear-gradient(135deg,var(--teal) 0%,rgba(90,139,124,.7) 60%)';
-      } else {
-        tensionLabel.textContent='Zrównoważone';
-        tensionBg.style.background = 'linear-gradient(135deg,var(--teal) 0%,rgba(194,94,50,.4) 60%)';
-      }
-    });
-    tension.dispatchEvent(new Event('input'));
-
-    // Future self note lock
-    const lockBtn = document.getElementById('lockBtn');
-    const futureEcho = document.getElementById('futureEcho');
-    const futureNote = document.getElementById('futureNote');
-    lockBtn.addEventListener('click',()=>{
-      const text = futureNote.value.trim();
-      if(!text) return;
-      futureEcho.textContent = `Zapisano: "${text}" — przypomnienie za 24h.`;
-      lockBtn.textContent = 'Zablokowane ✓';
-      setTimeout(()=>{ futureEcho.textContent = `Czy zrobiłeś: "${text}"?`; }, 24*60*60*1000);
-    });
+    // depth slider influences background aggressively
+    const depthRange=document.getElementById('depthRange');
+    const depthValue=document.getElementById('depthValue');
+    function updateDepth(){
+      const v=Number(depthRange.value)/100; // 0 quick,1 deep
+      if(v<0.35){ depthValue.textContent='Tempo'; }
+      else if(v>0.65){ depthValue.textContent='Głębia'; }
+      else{ depthValue.textContent='Zrównoważone'; }
+      // dynamic background interpolation
+      const quickStart='#dce9fb';
+      const deepStart='#f0ebe2';
+      // more aggressive mix: use easing
+      const mix=v;
+      function blend(a,b,t){ const ah=a.replace('#',''); const bh=b.replace('#',''); const ar=parseInt(ah.substring(0,2),16), ag=parseInt(ah.substring(2,4),16), ab=parseInt(ah.substring(4,6),16); const br=parseInt(bh.substring(0,2),16), bg=parseInt(bh.substring(2,4),16), bb=parseInt(bh.substring(4,6),16); const rr=Math.round(ar + (br-ar)*t).toString(16).padStart(2,'0'); const rg=Math.round(ag + (bg-ag)*t).toString(16).padStart(2,'0'); const rb=Math.round(ab + (bb-ab)*t).toString(16).padStart(2,'0'); return `#${rr}${rg}${rb}`; }
+      const start = blend(quickStart, deepStart, mix);
+      const end = mix < 0.5 ? '#ffffff' : blend('#faf5f0', '#e6efe4', (mix-0.5)*2);
+      document.body.style.background = `linear-gradient(135deg, ${start} 0%, ${end} 85%)`;
+    }
+    depthRange.addEventListener('input',updateDepth); updateDepth();
+    // notify and final signups
+    document.getElementById('notifyBtn').addEventListener('click',()=>{ const e=document.getElementById('notifyEmail').value.trim(); if(!e||!e.includes('@')){ alert('Poprawny email'); return;} document.getElementById('notifyBtn').textContent='Dziękujemy ✓'; });
+    document.getElementById('finalSignup').addEventListener('click',()=>{ const e=document.getElementById('finalEmail').value.trim(); if(!e||!e.includes('@')){ alert('Poprawny email'); return;} document.getElementById('finalSignup').textContent='Zapisano ✓'; });
+    // event signup scroll
+    document.querySelectorAll('[data-event]').forEach(b=>{ b.addEventListener('click',()=>{ document.getElementById('stepFinal').scrollIntoView({behavior:'smooth'}); }); });
   </script>
 </body>
 </html>

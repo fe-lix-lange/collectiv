@@ -2,314 +2,288 @@
 <html lang="pl">
 <head>
 <meta charset="UTF-8" />
-<title>Collectiv Smart Micro-Games</title>
+<title>InTouch Collective — Journey</title>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<link href="https://fonts.googleapis.com/css2?family=Clash+Display:wght@600;700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:opsz,wght@24..72,700&family=Inter:wght@400;600&family=Kalam:wght@400;700&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --bg:#F0E6D2;
-    --dark:#1A1423;
-    --quick:#4f8edb;
-    --deep:#5a8b7c;
-    --earth:#8b6a3a;
-    --accent: #C25E32;
-    --card-gradient: 200deg,rgba(255,255,255,1) 0%,rgba(250,245,240,1) 60%;
-    --radius:16px;
-    --shadow:0 28px 100px -16px rgba(26,20,35,.15);
-    --ease:.35s cubic-bezier(.25,.1,.25,1);
-    font-family:'Inter',system-ui,-apple-system,sans-serif;
-  }
+  :root { --deep-blue:#2d6cdf; --earth:#6b3e1a; --neutral:#f3efe8; --text:#1f1f26; --radius:18px; --transition:.45s cubic-bezier(.22,.12,.35,1); --shadow:0 32px 120px -20px rgba(31,31,38,.18); --accent:#c25e32; --bg-mix:1; }
   *{box-sizing:border-box;}
-  body{margin:0;background:var(--bg);color:var(--dark);-webkit-font-smoothing:antialiased;transition:background .5s;font-size:1rem;}
-  h1{margin:0;font-size:2rem;font-weight:700;line-height:1.1;font-family:'Clash Display',sans-serif;}
-  h2{margin:0;font-size:1.6rem;font-weight:700;font-family:'Clash Display',sans-serif;}
-  p{margin:6px 0 14px;font-size:1rem;line-height:1.45;}
-  small{font-size:.65em;color:rgba(26,20,35,.7);}
-  .container{max-width:1024px;margin:0 auto;padding:16px 12px;}
-  .journey{display:flex;gap:8px;overflow-x:auto;margin-bottom:16px;padding:6px 0;font-size:.65em;}
-  .step{flex:none;position:relative;padding:10px 14px;border-radius:999px;background:rgba(255,255,255,.9);border:1px solid rgba(26,20,35,.12);cursor:pointer;display:inline-flex;align-items:center;gap:6px;font-weight:600;}
-  .step.active{background:var(--accent);color:#fff;border-color:var(--accent);}
-  .card{position:relative;background:linear-gradient(var(--card-gradient));border-radius:16px;padding:22px 24px;margin-bottom:24px;box-shadow:var(--shadow);overflow:hidden;transition:all var(--ease);display:flex;flex-wrap:wrap;gap:18px;}
-  .card.alt{flex-direction:row-reverse;}
-  .panel{flex:1;min-width:260px;}
-  .btn{padding:12px 18px;border-radius:999px;border:none;cursor:pointer;font-weight:600;display:inline-flex;align-items:center;gap:8px;transition:all var(--ease);position:relative;font-family:'Inter',sans-serif;}
-  .primary{background:var(--accent);color:#fff;}
-  .secondary{background:var(--quick);color:#fff;}
-  .pill{background:rgba(26,20,35,.08);padding:6px 14px;border-radius:999px;font-size:.65em;display:inline-block;margin-right:6px;}
-  .input{padding:14px 16px;border:2px solid rgba(26,20,35,.15);border-radius:12px;width:100%;font-size:1rem;outline:none;transition:border .2s;background:#fff;}
-  .value-slider{width:100%;-webkit-appearance:none;height:14px;border-radius:8px;background:rgba(26,20,35,.08);outline:none;position:relative;margin-top:6px;}
-  .value-slider::-webkit-slider-thumb{-webkit-appearance:none;height:28px;width:28px;border-radius:50%;background:var(--accent);box-shadow:0 0 30px rgba(194,94,50,.6);cursor:pointer;border:4px solid #fff;margin-top:-7px;transition:transform .2s;}
-  .underline{position:relative;display:inline-block;}
-  .underline svg{position:absolute;left:0;bottom:-4px;width:100%;height:18px;pointer-events:none;stroke:var(--accent);stroke-width:3;fill:none;stroke-dasharray:150;stroke-dashoffset:150;transition:stroke-dashoffset .5s ease-out;}
+  body{margin:0;background:radial-gradient(circle at 30% 40%,rgba(45,110,223,var(--blue)) 0%,rgba(107,62,26,var(--earthalpha)) 70%), var(--base,#f3efe8);transition:background 0.4s;min-height:100%;color:var(--text);font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,sans-serif;}
+  h1{margin:0;font-family:'Playfair Display',serif;font-size:2.4rem;font-weight:700;line-height:1.05;}
+  h2{margin:0;font-family:'Playfair Display',serif;font-size:1.6rem;font-weight:700;line-height:1.1;}
+  p{margin:6px 0 16px;}
+  small{font-size:.65em;color:rgba(31,31,38,.6);}
+  .app{max-width:900px;margin:0 auto;padding:16px 12px;}
+  .stage{position:relative;display:flex;flex-wrap:wrap;gap:18px;margin-bottom:32px;}
+  .panel{flex:1;min-width:260px;position:relative;}
+  .name-entry{background:#fff;position:relative;border-radius:24px;padding:48px 32px;box-shadow:0 40px 140px -30px rgba(31,31,38,.2);display:flex;flex-direction:column;gap:18px;overflow:hidden;}
+  .name-input{display:flex;gap:12px;flex-wrap:wrap;align-items:flex-start;}
+  .input-large{font-size:1.35rem;padding:14px 18px;border-radius:999px;border:2px solid rgba(31,31,38,.12);flex:1;min-width:140px;}
+  .cta{margin-top:12px;display:inline-flex;gap:14px;align-items:center;}
+  .button-main{background:linear-gradient(135deg,#f29f52,#c25e32);color:#fff;border:none;padding:14px 22px;border-radius:999px;font-weight:600;cursor:pointer;position:relative;overflow:hidden;display:inline-flex;align-items:center;gap:8px;transition:transform var(--transition),filter var(--transition);}
+  .button-main:focus{outline:2px solid rgba(255,255,255,.8);}
+  .button-main:hover{transform:scale(1.03);filter:brightness(1.05);}
+  .scribble{font-family:'Kalam',cursive;display:inline-block;position:relative;}
+  .underline{position:relative;display:inline-block;margin-bottom:6px;}
+  .underline svg{position:absolute;left:0;bottom:-4px;width:100%;height:18px;pointer-events:none;stroke:var(--accent);stroke-width:3;fill:none;stroke-dasharray:160;stroke-dashoffset:160;transition:stroke-dashoffset .4s ease-out;}
   .underline:hover svg{stroke-dashoffset:0;}
-  .notebook{background:#fff;position:relative;padding:22px 24px;border-radius:14px;border:1px solid rgba(26,20,35,.1);font-weight:600;margin-top:8px;}
-  .notebook:before{content:'';position:absolute;inset:0;background-image:repeating-linear-gradient(to bottom, transparent 0px, transparent 30px, rgba(196,94,50,.08) 30px, rgba(196,94,50,.08) 32px),linear-gradient(to right, #d88b7a 4px, transparent 4px);pointer-events:none;border-radius:14px;}
-  .postit{background:#fff9d6;padding:14px 16px;border-radius:12px;box-shadow:0 24px 100px -10px rgba(171,136,98,.35);display:inline-block;position:relative;font-weight:600;margin-top:6px;}
-  .event-list{display:grid;gap:18px;margin-top:6px;}
-  .event-card{background:#fff;border-radius:14px;box-shadow:0 22px 90px -10px rgba(26,20,35,.12);padding:16px;display:flex;flex-wrap:wrap;gap:14px;position:relative;}
-  .event-info{flex:1;min-width:200px;}
-  .event-meta{font-size:.65em;color:rgba(26,20,35,.6);margin-bottom:6px;}
-  .signup-small{background:linear-gradient(135deg,var(--deep),var(--quick));color:#fff;border:none;padding:10px 16px;border-radius:999px;cursor:pointer;font-weight:600;}
-  .email-box{display:flex;gap:12px;flex-wrap:wrap;margin-top:8px;}
-  .email-invite{background:rgba(255,255,255,.95);padding:16px;border-radius:14px;box-shadow:0 22px 80px -8px rgba(26,20,35,.15);display:flex;flex-wrap:wrap;gap:16px;align-items:center;}
-  .email-invite .left{flex:2;min-width:220px;}
-  .email-invite .right{flex:1;min-width:180px;}
-  .signup-form{margin-top:10px;border-top:1px solid rgba(26,20,35,.1);padding-top:10px;}
-  .rodo{font-size:.55em;color:rgba(26,20,35,.6);margin-top:4px;}
-  .badge{background:var(--accent);color:#fff;padding:4px 12px;border-radius:999px;font-size:.55em;display:inline-block;margin-right:6px;}
-  @media (max-width:900px){
-    .card{flex-direction:column;}
-    h1{font-size:1.7rem;}
-    h2{font-size:1.4rem;}
-  }
+  .breath-module{background:rgba(255,255,255,0.96);border-radius:20px;padding:24px;position:relative;clip-path:polygon(0 0,100% 3%,100% 97%,0 100%);box-shadow:0 40px 140px -30px rgba(31,31,38,.15);display:flex;flex-wrap:wrap;gap:18px;}
+  .breath-visual{width:140px;height:140px;border-radius:50%;background:rgba(194,94,50,.9);display:flex;align-items:center;justify-content:center;position:relative;}
+  .breath-inner{width:80px;height:80px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;font-weight:600;color:var(--text);transition:transform .4s;}
+  .slider-container{background:rgba(255,255,255,.95);padding:22px;border-radius:20px;position:relative;overflow:hidden;box-shadow:0 32px 110px -18px rgba(31,31,38,.12);}
+  .slider-wrapper{display:flex;gap:14px;flex-wrap:wrap;align-items:center;}
+  .value-display{font-weight:600;margin-top:6px;}
+  .event-grid{display:grid;gap:18px;margin-top:8px;}
+  .event-card{position:relative;background:#fff;border-radius:18px;padding:16px 18px;overflow:hidden;clip-path:polygon(2% 0,100% 6%,100% 94%,0 100%);box-shadow:0 36px 120px -20px rgba(31,31,38,.1);display:flex;flex-wrap:wrap;gap:10px;}
+  .event-badge{background:var(--accent);color:#fff;padding:6px 14px;border-radius:999px;font-size:.55em;display:inline-block;margin-bottom:6px;}
+  .event-meta{font-size:.65em;color:rgba(31,31,38,.6);margin-bottom:4px;}
+  .email-invite{margin-top:16px;background:rgba(255,255,255,.9);padding:16px;border-radius:18px;display:flex;gap:16px;flex-wrap:wrap;box-shadow:0 30px 100px -20px rgba(31,31,38,.15);}
+  .email-invite .left{flex:2;min-width:200px;}
+  .email-invite .right{flex:1;min-width:160px;display:flex;flex-direction:column;gap:8px;}
+  .email-field{padding:12px 16px;border-radius:12px;border:2px solid rgba(31,31,38,.12);width:100%;}
+  .final-signup{background:rgba(255,255,255,.95);border-radius:20px;padding:24px;display:flex;flex-wrap:wrap;gap:22px;box-shadow:0 40px 140px -30px rgba(31,31,38,.18);}
+  .why-list{margin:0;padding-left:18px;}
+  .floating{position:absolute;pointer-events:none;mix-blend-mode:overlay;}
+  .mobile{display:none;}
+  @media (max-width:900px){ .stage{flex-direction:column;} .event-card{flex-direction:column;} }
 </style>
 </head>
 <body>
-  <div class="container" id="mainContainer">
-    <!-- Journey bar -->
-    <div class="journey" id="journeyBar">
-      <div class="step active" data-target="breathCard">1. Oddech</div>
-      <div class="step" data-target="pitchCard">2. Kim jesteśmy</div>
-      <div class="step" data-target="detailsCard">3. Dlaczego my?</div>
-      <div class="step" data-target="eventListCard">4. Wydarzenia</div>
-      <div class="step" data-target="valueCard">5. Personalizacja</div>
-      <div class="step" data-target="finalCard">6. Zapisz się</div>
-    </div>
-
-    <!-- Breath Sync Entry -->
-    <div class="card" id="breathCard">
-      <div class="panel" style="flex:1;min-width:280px;">
-        <div class="badge">Kotwica</div>
-        <h1>Oddech jako punkt wejścia</h1>
-        <p>Wdech / wydech ustawia rytm, zmniejsza opór i pozwala poruszać się dalej. Dźwięk i animacja pomagają zanurzyć się w chwilę. Po rytuale dostaniesz sugestię kolejnego kroku.</p>
-        <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin-top:8px;">
-          <button class="btn secondary" id="startBreath">Start rytuału</button>
-          <div class="breath-label" id="breathStatus">Gotowy</div>
-          <button class="btn" id="toggleSound" style="background:rgba(26,20,35,.08);color:var(--dark);">Dźwięk: ON</button>
-        </div>
-        <div class="postit">Zacznij od oddechu, potem zobacz, co możesz zrobić dalej. To Twoja pierwsza kotwica.</div>
-      </div>
-      <div class="panel" style="flex:none;min-width:160px;display:flex;justify-content:center;align-items:center;">
-        <div class="breath-circle" id="breathCircle">
-          <div class="breath-inner" id="breathInner">—</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Elevator Pitch + identity (alternating layout) -->
-    <div class="card alt" id="pitchCard">
-      <div class="panel">
-        <div class="label">Kim jesteśmy</div>
-        <h2 class="underline">Elevator Pitch</h2>
-        <p><strong>Masz dość social mediów, szybkich znajomości i płytkich rozmów?</strong></p>
-        <p><em>InTouch Collective</em> to inicjatywa dwóch przyjaciół z pasją do psychologii i budowania autentycznych relacji, organizująca spotkania offline w Warszawie.</p>
-      </div>
-      <div class="panel">
-        <p><strong>Kameralne spotkania offline, stworzone dla osób, które chcą poznać nowych ludzi, przeżyć ciekawe doświadczenia i porozmawiać na poziomie, którego brakuje w codziennych kontaktach.</strong></p>
-        <div class="postit">Łączymy autorskie gry i psychologiczne metody grupowe, by budować relacje przez wspólne doświadczenia.</div>
-      </div>
-    </div>
-
-    <!-- Detailed value sections hooked after pitch -->
-    <div class="card" id="detailsCard">
-      <div class="panel">
-        <div class="label">Dlaczego my?</div>
-        <h2 class="underline">Co nas wyróżnia</h2>
-        <p>Łączymy autorskie, starannie dopasowane gry oraz metody psychologiczne w bezpiecznym, uważnym środowisku. Uczestnicy budują wspólne doświadczenia, naturalnie tworząc relacje i rozwijają samoświadomość.</p>
-      </div>
-      <div class="panel">
-        <div style="display:flex;gap:16px;flex-wrap:wrap;">
-          <div style="flex:1;min-width:180px;">
-            <div class="pill">Autorskie gry</div>
-            <p>Projektowane pod konkretną dynamikę grupy, żeby obniżać próg wejścia i wzmacniać poczucie widzenia.</p>
-          </div>
-          <div style="flex:1;min-width:180px;">
-            <div class="pill">Psychologia grupowa</div>
-            <p>Metody facylitacyjne budujące bezpieczeństwo i obecność bez presji.</p>
-          </div>
-          <div style="flex:1;min-width:180px;">
-            <div class="pill">Autentyczność</div>
-            <p>Bez powierzchowności — realne rozmowy prowadzone z intencją.</p>
+  <div class="app" id="appRoot">
+    <!-- Entry name prompt -->
+    <div class="stage" id="stageName">
+      <div class="panel" style="flex:1;">
+        <div class="name-entry" id="nameEntry">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:12px;">
+            <div style="flex:1;min-width:180px;">
+              <div class="underline"><h1>Cześć, jak masz na imię?</h1><svg viewBox="0 0 140 20"><path d="M5 14 Q50 2 135 14" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+              <p class="scribble">Zacznij od wpisania swojego imienia — to pierwszy, lekki krok. Możesz później odetchnąć i zobaczyć, co dalej.</p>
+              <div class="name-input">
+                <input type="text" id="userName" placeholder="Twoje imię..." class="input-large" maxlength="20" aria-label="Imię" />
+                <button class="button-main" id="nextFromName">Dalej</button>
+              </div>
+            </div>
+            <div style="flex:none;min-width:120px;display:flex;align-items:center;justify-content:center;">
+              <div style="font-size:.65em;">Zrobimy to łatwo. Nie zapisujemy imienia bez zgody.</div>
+            </div>
           </div>
         </div>
-        <div style="margin-top:16px;">
-          <strong>Dla kogo?</strong>
-          <p>Dla osób zmęczonych szybkim, powierzchownym światem online; tych, którzy cenią bezpieczeństwo i chcą być sobą bez sztuczności.</p>
-          <strong>Efekt:</strong>
-          <p>Uczestnicy przełamują izolację, budują relacje z sensem i zwiększają samoświadomość.</p>
+      </div>
+    </div>
+
+    <!-- Breath + slider + pitch -->
+    <div class="stage" id="stageCore" style="display:none;">
+      <div class="panel" style="flex:1;">
+        <div class="breath-module" id="breathModule">
+          <div style="flex:1;min-width:200px;">
+            <div class="underline"><h2>Ustaw rytm</h2><svg viewBox="0 0 140 20"><path d="M5 14 Q50 2 135 14" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <p>Chwilę oddechu: wdech, wydech. To kotwica obecności. Możesz eksplorować dalej w trakcie — zaczniemy od 5 cykli.</p>
+            <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:center;">
+              <button class="button-main" id="startBreathing">Rozpocznij</button>
+              <div id="breathText" style="font-weight:600;">Gotowy</div>
+            </div>
+          </div>
+          <div style="flex:none;display:flex;align-items:center;justify-content:center;">
+            <div class="breath-visual" id="breathVisual">
+              <div class="breath-inner" id="breathInnerText">—</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="panel" style="flex:1;">
+        <div class="slider-container">
+          <div class="underline"><h2>Głębokość ↔ Tempo</h2><svg viewBox="0 0 140 20"><path d="M5 14 Q50 2 135 14" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <p>Wybierz jak chcesz wejść: szybciej i lekko, albo bardziej w głąb. Całość doświadczenia dostosuje kolory i ton.</p>
+          <div class="slider-wrapper">
+            <div style="flex:1;min-width:180px;">
+              <input type="range" id="depthSlider" min="0" max="100" value="50" class="value-slider" />
+              <div class="value-display" id="depthLabel">Zrównoważone</div>
+            </div>
+            <div style="flex:none;min-width:120px;">
+              <div style="font-size:.85em;">Suwak wpływa na tło i rekomendacje.</div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
 
-    <!-- Event list + email signup invitation -->
-    <div class="card" id="eventListCard">
-      <div class="panel">
-        <div class="label">Wydarzenia</div>
-        <h2 class="underline">Nadchodzące spotkania</h2>
-        <p>Wybierz wydarzenie, które rezonuje. Zostaw email, a przypomnimy i damy szybki dostęp do zapisu.</p>
+    <!-- Pitch & why + events + email -->
+    <div class="stage" id="stageInfo" style="display:none;">
+      <div class="stage" style="margin-bottom:28px;}">
+        <div class="panel">
+          <div class="underline"><h2>Kim jesteśmy</h2><svg viewBox="0 0 140 20"><path d="M5 14 Q50 2 135 14" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <p><strong>InTouch Collective</strong> to dwóch przyjaciół z psychologiczną wrażliwością, tworzących kameralne spotkania offline w Warszawie. Zamiast powierzchowności — autentyczne relacje.</p>
+        </div>
+        <div class="panel">
+          <div class="underline"><h2>Dlaczego my?</h2><svg viewBox="0 0 140 20"><path d="M5 14 Q50 2 135 14" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <p>Łączymy autorskie gry, facylitację i uważną przestrzeń. Efekt: ludzie przestają czuć się samotni, zaczynają mieć kontakt z innymi na poziomie.</p>
+          <ul class="why-list">
+            <li>Małe grupy, bezpieczeństwo</li>
+            <li>Autorskie ćwiczenia</li>
+            <li>Ręcznie dopasowane doświadczenie</li>
+          </ul>
+        </div>
+      </div>
+      <div class="panel" style="width:100%;">
+        <div class="underline"><h2>Wydarzenia</h2><svg viewBox="0 0 140 20"><path d="M5 14 Q50 2 135 14" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <p>Wybierz jedno lub zostań na liście powiadomień. Dostaniesz przypomnienie i dostęp do szybkiego zapisu.</p>
+        <div class="event-grid" id="eventGrid">
+          <div class="event-card">
+            <div style="flex:1;}">
+              <div class="event-badge">5 sierpnia</div>
+              <div class="event-meta">Warszawa • Limit 12</div>
+              <div style="font-weight:700;">Prawdziwe rozmowy</div>
+              <p>Małe grupy, ćwiczenia uważności i naturalne połączenia.</p>
+              <button class="button-main" data-event="1">Zapisz się</button>
+            </div>
+            <div style="flex:none;min-width:100px;display:flex;align-items:center;justify-content:center;">
+              <small>Doświadczenie: głębokie</small>
+            </div>
+          </div>
+          <div class="event-card">
+            <div style="flex:1;}">
+              <div class="event-badge">12 sierpnia</div>
+              <div class="event-meta">Warszawa • Limit 18</div>
+              <div style="font-weight:700;">Warsztat: Głębia i tempo</div>
+              <p>Zrozum siebie i swoje relacje — balans między szybkim startem a znaczącą więzią.</p>
+              <button class="button-main" data-event="2">Zapisz się</button>
+            </div>
+            <div style="flex:none;min-width:100px;display:flex;align-items:center;justify-content:center;">
+              <small>Rekomendacja: hybrydowa</small>
+            </div>
+          </div>
+          <div class="event-card">
+            <div style="flex:1;}">
+              <div class="event-badge">19 sierpnia</div>
+              <div class="event-meta">Warszawa • Limit 14</div>
+              <div style="font-weight:700;">Budowanie zaufania</div>
+              <p>Parowe i grupowe ćwiczenia pogłębiające relacje.</p>
+              <button class="button-main" data-event="3">Zapisz się</button>
+            </div>
+            <div style="flex:none;min-width:100px;display:flex;align-items:center;justify-content:center;">
+              <small>Efekt: bezpieczeństwo</small>
+            </div>
+          </div>
+          <div class="event-card">
+            <div style="flex:1;}">
+              <div class="event-badge">26 sierpnia</div>
+              <div class="event-meta">Warszawa • Limit 20</div>
+              <div style="font-weight:700;">Mikro-spotkania</div>
+              <p>Szybki start, głęboka kontynuacja. Poznaj kilka osób.</p>
+              <button class="button-main" data-event="4">Zapisz się</button>
+            </div>
+            <div style="flex:none;min-width:100px;display:flex;align-items:center;justify-content:center;">
+              <small>Szybko + jakościowo</small>
+            </div>
+          </div>
+          <div class="event-card">
+            <div style="flex:1;}">
+              <div class="event-badge">2 września</div>
+              <div class="event-meta">Warszawa • Limit 10</div>
+              <div style="font-weight:700;">Retreat: Autentyczna obecność</div>
+              <p>Cały dzień offline, refleksja i kontakt z grupą.</p>
+              <button class="button-main" data-event="5">Zapisz się</button>
+            </div>
+            <div style="flex:none;min-width:100px;display:flex;align-items:center;justify-content:center;">
+              <small>Przemyślane tempo</small>
+            </div>
+          </div>
+        </div>
         <div class="email-invite">
           <div class="left">
-            <div style="font-weight:700;">Chcesz być informowany?</div>
-            <p>Zostaw email, dostaniesz powiadomienie o nowych sesjach i przypomnienia. RODO: nie sprzedajemy danych.</p>
+            <div style="font-weight:700;">Nie znalazłeś idealnego terminu?</div>
+            <p>Zostaw email, damy znać o nowych sesjach i przypomnimy przed kolejnym.</p>
           </div>
           <div class="right">
-            <input type="email" placeholder="Twój email" id="topEmail" class="input" aria-label="Email" />
-            <button class="btn primary" id="topSignup">Zapisz się</button>
-            <div class="rodo">Zgoda RODO: akceptuję przetwarzanie emaila w celu informacji o wydarzeniach.</div>
-          </div>
-        </div>
-      </div>
-      <div class="panel" style="flex-basis:100%;">
-        <div class="event-list" id="eventList">
-          <!-- five placeholders -->
-          <div class="event-card">
-            <div class="event-info">
-              <div class="event-meta">5 sierpnia 2025 • Warszawa</div>
-              <div style="font-weight:700;">Spotkanie: Prawdziwe rozmowy</div>
-              <p>Małe grupy, ćwiczenia uważności, integracja bez presji.</p>
-              <div><button class="signup-small" data-event="1">Zapisz się</button></div>
-            </div>
-            <div style="flex:1;min-width:160px;display:flex;align-items:center;justify-content:center;">
-              <div style="font-size:.55em;">Limit miejsc: 12</div>
-            </div>
-          </div>
-          <div class="event-card">
-            <div class="event-info">
-              <div class="event-meta">12 sierpnia 2025 • Warszawa</div>
-              <div style="font-weight:700;">Warsztat: Głębia i tempo</div>
-              <p>Zrozum siebie: jak balansować między szybkim kontaktem a znaczącą relacją.</p>
-              <div><button class="signup-small" data-event="2">Zapisz się</button></div>
-            </div>
-            <div style="flex:1;min-width:160px;display:flex;align-items:center;justify-content:center;">
-              <div style="font-size:.55em;">Limit miejsc: 18</div>
-            </div>
-          </div>
-          <div class="event-card">
-            <div class="event-info">
-              <div class="event-meta">19 sierpnia 2025 • Warszawa</div>
-              <div style="font-weight:700;">Sesja: Budowanie zaufania</div>
-              <p>Ćwiczenia grupowe z elementami psychologii relacji i pracy w parach.</p>
-              <div><button class="signup-small" data-event="3">Zapisz się</button></div>
-            </div>
-            <div style="flex:1;min-width:160px;display:flex;align-items:center;justify-content:center;">
-              <div style="font-size:.55em;">Limit miejsc: 14</div>
-            </div>
-          </div>
-          <div class="event-card">
-            <div class="event-info">
-              <div class="event-meta">26 sierpnia 2025 • Warszawa</div>
-              <div style="font-weight:700;">Wieczór: Mikro-spotkania</div>
-              <p>Szybki start, głębokie follow-upy — poznaj kilka osób w krótkim czasie.</p>
-              <div><button class="signup-small" data-event="4">Zapisz się</button></div>
-            </div>
-            <div style="flex:1;min-width:160px;display:flex;align-items:center;justify-content:center;">
-              <div style="font-size:.55em;">Limit miejsc: 20</div>
-            </div>
-          </div>
-          <div class="event-card">
-            <div class="event-info">
-              <div class="event-meta">2 września 2025 • Warszawa</div>
-              <div style="font-weight:700;">Retreat: Autentyczna obecność</div>
-              <p>Cały dzień offline, praca z grupą i refleksja osobista.</p>
-              <div><button class="signup-small" data-event="5">Zapisz się</button></div>
-            </div>
-            <div style="flex:1;min-width:160px;display:flex;align-items:center;justify-content:center;">
-              <div style="font-size:.55em;">Limit miejsc: 10</div>
-            </div>
+            <input type="email" placeholder="Twój email" id="notifyEmail" class="email-field" aria-label="Email" />
+            <button class="button-main" id="notifyBtn">Powiadom mnie</button>
+            <div style="font-size:.55em;">RODO: email używany tylko do powiadomień.</div>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- Value Compass later part -->
-    <div class="card alt" id="valueCard">
-      <div class="panel">
-        <div class="label">Personalizacja</div>
-        <h2 class="underline">Głębokość vs Tempo</h2>
-        <p>Przesuń suwak. Cała strona i sugestie dostosowują się: więcej szybkiego = chłodniejsze błękity, więcej głębi = ziemiste, zielone tony.</p>
-        <div style="display:flex;gap:18px;flex-wrap:wrap;align-items:center;">
-          <div style="flex:1;min-width:240px;">
-            <input id="sliderDepth" type="range" min="0" max="100" value="55" class="value-slider" />
-            <div style="margin-top:6px;font-weight:600;">Twoja konfiguracja: <span id="valueResult">—</span></div>
+    <!-- Final call to action -->
+    <div class="stage" id="stageFinal" style="display:none;">
+      <div class="final-signup">
+        <div class="panel">
+          <div class="underline"><h2>Zostań w kontakcie</h2><svg viewBox="0 0 140 20"><path d="M5 14 Q50 2 135 14" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <p>Otrzymuj przypomnienia, małe refleksje i zaproszenia. Wybierz swoją ścieżkę.</p>
+          <div style="display:flex;gap:14px;flex-wrap:wrap;align-items:center;">
+            <input type="email" placeholder="Twój email" id="finalEmail" class="email-field" />
+            <button class="button-main" id="finalSignup">Zapisz się</button>
           </div>
-          <div style="flex:1;min-width:220px;position:relative;">
-            <div class="artifact" id="artifactDisplay">
-              <svg class="artifact-svg" viewBox="0 0 300 160" preserveAspectRatio="xMidYMid meet" id="artifactSvg">
-                <defs>
-                  <linearGradient id="gradArt" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stop-color="var(--quick)" />
-                    <stop offset="100%" stop-color="var(--deep)" />
-                  </linearGradient>
-                </defs>
-                <path id="artifactPath" d="M20,80 C80,10 220,150 280,60" stroke="url(#gradArt)" stroke-width="12" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-                <circle id="artifactDot" cx="20" cy="80" r="10" fill="var(--accent)" />
-              </svg>
-            </div>
-          </div>
+          <div style="font-size:.55em;">RODO: tylko powiadomienia, żadna sprzedaż.</div>
         </div>
-      </div>
-      <div class="panel" style="flex:1;min-width:220px;">
-        <div><strong>Rekomendacja:</strong> <div id="finalRecommendation">Zacznij od oddechu i wybierz wydarzenie.</div></div>
+        <div class="panel">
+          <div><strong>Dlaczego warto:</strong></div>
+          <ul class="why-list">
+            <li>Kameralne spotkania w Warszawie</li>
+            <li>Autorskie gry + facylitacja</li>
+            <li>Osobiste przypomnienia</li>
+          </ul>
+        </div>
       </div>
     </div>
 
-    <!-- Final signup -->
-    <div class="card" id="finalCard">
-      <div class="panel">
-        <h2 class="underline">Zapisz się</h2>
-        <p>Chcesz być w środku? Zostaw email, dostaniesz przypomnienie, szczegóły i możliwość szybkiego zapisu. RODO w stopce.</p>
-        <div class="email-box">
-          <div style="flex:1;min-width:200px;">
-            <input type="email" placeholder="Twój email" id="bottomEmail" class="input" aria-label="Email" />
-          </div>
-          <div style="flex:none;">
-            <button class="btn primary" id="bottomSignup">Zapisz się</button>
-          </div>
-        </div>
-        <div class="rodo">Zgoda RODO: akceptuję przetwarzanie emaila w celu informacji o wydarzeniach i follow-up.</div>
-      </div>
-      <div class="panel">
-        <div style="margin-top:4px;"><strong>Dlaczego warto:</strong></div>
-        <ul>
-          <li>Kameralne spotkania w Warszawie</li>
-          <li>Autorskie gry + psychologia grupowa</li>
-          <li>Osobiste przypomnienia i wsparcie</li>
-        </ul>
-      </div>
-    </div>
-
+    <!-- decorative floating shapes -->
+    <div class="floating" style="top:12%;left:5%;width:120px;height:120px;filter:blur(18px);background:rgba(194,94,50,.08);border-radius:50%;"></div>
+    <div class="floating" style="bottom:8%;right:6%;width:160px;height:160px;filter:blur(24px);background:rgba(45,110,223,.08);border-radius:50%;"></div>
   </div>
-  <script>
-    // Journey bar activation on scroll
-    const steps = Array.from(document.querySelectorAll('.step'));
-    function setActiveStep(id){ steps.forEach(s=>{ s.classList.toggle('active', s.dataset.target===id); }); }
-    const observer = new IntersectionObserver(entries=>{ entries.forEach(e=>{ if(e.isIntersecting){ setActiveStep(e.target.id); } }); },{threshold:0.5});
-    ['breathCard','pitchCard','detailsCard','eventListCard','valueCard','finalCard'].forEach(id=>{ const el=document.getElementById(id); if(el) observer.observe(el); });
-    steps.forEach(s=>{ s.addEventListener('click',()=>{ document.getElementById(s.dataset.target)?.scrollIntoView({behavior:'smooth',block:'start'}); }); });
 
-    // Theme interpolation
-    function lerpColor(a,b,t){ const ah=a.replace('#',''); const bh=b.replace('#',''); const ar=parseInt(ah.substring(0,2),16), ag=parseInt(ah.substring(2,4),16), ab=parseInt(ah.substring(4,6),16); const br=parseInt(bh.substring(0,2),16), bg=parseInt(bh.substring(2,4),16), bb=parseInt(bh.substring(4,6),16); const rr=Math.round(ar+(br-ar)*t).toString(16).padStart(2,'0'); const rg=Math.round(ag+(bg-ag)*t).toString(16).padStart(2,'0'); const rb=Math.round(ab+(bb-ab)*t).toString(16).padStart(2,'0'); return `#${rr}${rg}${rb}`; }
-    const sliderDepth=document.getElementById('sliderDepth');
-    const valueResult=document.getElementById('valueResult');
+  <script>
+    // state
+    let userName='';
+    const nameInput=document.getElementById('userName');
+    const nextBtn=document.getElementById('nextFromName');
+    const stageCore=document.getElementById('stageCore');
+    const stageInfo=document.getElementById('stageInfo');
+    const stageFinal=document.getElementById('stageFinal');
+    const depthSlider=document.getElementById('depthSlider');
+    const depthLabel=document.getElementById('depthLabel');
     const finalRecommendation=document.getElementById('finalRecommendation');
-    const artifactDot=document.getElementById('artifactDot');
-    const artifactPath=document.getElementById('artifactPath');
-    function updateDepthTheme(){ const v=Number(sliderDepth.value)/100; const quick='#4f8edb'; const deep='#5a8b7c'; const earth='#8b6a3a'; let accent=lerpColor(quick,deep,v); if(v>0.6){ accent=lerpColor(accent,earth,(v-0.6)/0.4*0.3);} document.documentElement.style.setProperty('--accent',accent); const bgQuick='#e8f2fc'; const bgDeep='#eef3ec'; const bg=v<0.5? lerpColor(bgQuick,bgDeep,v*2) : lerpColor(bgDeep,'#f2ece3',(v-0.5)*2); document.body.style.background=bg; const pathLength=artifactPath.getTotalLength(); const point=artifactPath.getPointAtLength(pathLength*v); artifactDot.setAttribute('cx',point.x); artifactDot.setAttribute('cy',point.y); if(v>0.65){ valueResult.textContent='Preferujesz głębię — sugerujemy głębokie, facylitowane spotkania.';} else if(v<0.35){ valueResult.textContent='Wolisz tempo — krótkie integracje i szybkie wejścia.';} else { valueResult.textContent='Jesteś pomiędzy — hybrydowe doświadczenia.';} finalRecommendation.textContent=valueResult.textContent; }
-    sliderDepth.addEventListener('input',updateDepthTheme); updateDepthTheme();
-    // Artifact wobble
-    const artifactSvg=document.getElementById('artifactSvg'); let artOffset=0; function animateArtifact(){ artOffset+=0.006; const dx=Math.sin(artOffset)*8; artifactSvg.style.transform=`translate(${dx}px,0)`; requestAnimationFrame(animateArtifact);} animateArtifact();
-    // Breath sync
-    let breathInterval=null; let inhale=true; let breathRunning=false; const breathInner=document.getElementById('breathInner'); const breathStatus=document.getElementById('breathStatus'); let soundOn=true; const toggleSound=document.getElementById('toggleSound');
-    toggleSound.addEventListener('click',()=>{ soundOn=!soundOn; toggleSound.textContent='Dźwięk: '+(soundOn?'ON':'OFF'); });
-    const audioCtx=new (window.AudioContext||window.webkitAudioContext)();
-    function playTone(frequency,duration){ if(!soundOn) return; const osc=audioCtx.createOscillator(); const gain=audioCtx.createGain(); osc.frequency.value=frequency; osc.type='sine'; gain.gain.setValueAtTime(0,audioCtx.currentTime); gain.gain.linearRampToValueAtTime(0.12,audioCtx.currentTime+0.05); osc.connect(gain); gain.connect(audioCtx.destination); osc.start(); gain.gain.exponentialRampToValueAtTime(0.001,audioCtx.currentTime+duration); setTimeout(()=>{osc.stop();},duration*1000+50); }
-    function startBreath(){ if(breathRunning) return; breathRunning=true; inhale=true; breathStatus.textContent='Wdech'; let cycle=0; breathInterval=setInterval(()=>{ if(inhale){ breathInner.style.transform='scale(1.3)'; breathStatus.textContent='Wdech'; if(soundOn) playTone(220,1.5);} else{ breathInner.style.transform='scale(0.85)'; breathStatus.textContent='Wydech'; if(soundOn) playTone(164,1.5);} inhale=!inhale; cycle++; if(cycle>30){ clearInterval(breathInterval); breathRunning=false; breathStatus.textContent='Zakończono'; breathInner.style.transform='scale(1)'; document.getElementById('eventListCard').style.boxShadow='0 0 0 3px rgba(194,94,50,.35)'; setTimeout(()=>{document.getElementById('eventListCard').style.boxShadow='';},1200); } },2000); }
-    document.getElementById('startBreath').addEventListener('click',()=>{ startBreath(); });
-    // Signup logic
-    document.getElementById('topSignup').addEventListener('click',()=>{ const email=document.getElementById('topEmail').value.trim(); if(!email||!email.includes('@')){ alert('Wpisz poprawny email.'); return; } document.getElementById('topSignup').textContent='Dziękujemy ✓'; });
-    document.getElementById('bottomSignup').addEventListener('click',()=>{ const email=document.getElementById('bottomEmail').value.trim(); if(!email||!email.includes('@')){ alert('Wpisz poprawny email.'); return; } document.getElementById('bottomSignup').textContent='Zapisano ✓'; });
-    // Event sign-up inline form
-    document.querySelectorAll('.signup-small').forEach(btn=>{ btn.addEventListener('click',e=>{ const card=btn.closest('.event-card'); if(card.querySelector('.signup-form')) return; const form=document.createElement('div'); form.className='signup-form'; form.innerHTML=`<div style="display:flex;gap:12px;flex-wrap:wrap;align-items:center;"><div style="flex:1;min-width:140px;"><input placeholder=\"Email\" type=\"email\" class=\"input\"/></div><div style="flex:1;min-width:120px;"><input placeholder=\"Telefon\" type=\"tel\" class=\"input\"/></div><div style=\"flex:none;\"><button class=\"btn primary\">Zapisz się</button></div></div><div class=\"rodo\">Zgoda RODO: akceptuję warunki przetwarzania danych.</div>`; card.appendChild(form); } ); });
+    const breathInnerText=document.getElementById('breathInnerText');
+    const breathText=document.getElementById('breathText');
+    const breathVisual=document.getElementById('breathVisual');
+    const startBreathing=document.getElementById('startBreathing');
+    const notifyBtn=document.getElementById('notifyBtn');
+    const finalSignup=document.getElementById('finalSignup');
+    // name flow
+    nextBtn.addEventListener('click',()=>{
+      const v=nameInput.value.trim(); if(!v) { nameInput.focus(); return;} userName=v; // personalize
+      // replace heading with name
+      const h1=document.querySelector('#stageName h1'); h1.textContent=`Cześć, ${userName}!`;
+      stageCore.style.display='flex';
+      setTimeout(()=>{stageInfo.style.display='block';},300);
+      setTimeout(()=>{stageFinal.style.display='block';},500);
+    });
+    // breathing logic
+    let breathing=false; let inhale=true; let cycles=0; let interval=null;
+    startBreathing.addEventListener('click',()=>{
+      if(breathing) return; breathing=true; cycles=0; inhale=true; breathText.textContent='Wdech'; interval=setInterval(()=>{
+        if(inhale){ breathVisual.style.background='rgba(255,255,255,1)'; breathInnerText.textContent='Wdech'; }
+        else { breathVisual.style.background='rgba(194,94,50,.9)'; breathInnerText.textContent='Wydech'; }
+        inhale=!inhale; cycles++;
+        if(cycles>=10){ clearInterval(interval); breathing=false; breathText.textContent='Zrobione'; updateRecommendation(); }
+      },1500);
+    });
+    // slider and background interplay
+    function updateRecommendation(){
+      const val=Number(depthSlider.value);
+      if(val<35){ depthLabel.textContent='Tempo'; finalRecommendation.textContent='Krótka integracja, szybki start.'; }
+      else if(val>65){ depthLabel.textContent='Głębia'; finalRecommendation.textContent='Pogłębione doświadczenie, refleksja.'; }
+      else { depthLabel.textContent='Zrównoważone'; finalRecommendation.textContent='Hybrydowe podejście.'; }
+      // background mix: more depth makes earth stronger, tempo makes blue stronger
+      const t=val/100;
+      document.body.style.setProperty('--blue',1-t);
+      document.body.style.setProperty('--earthalpha',t*.9);
+    }
+    depthSlider.addEventListener('input',updateRecommendation); updateRecommendation();
+    // event and notify
+    notifyBtn.addEventListener('click',()=>{ const email=document.getElementById('notifyEmail').value.trim(); if(!email||!email.includes('@')){ alert('Wpisz poprawny email.'); return;} notifyBtn.textContent='Powiadomione ✓'; });
+    finalSignup.addEventListener('click',()=>{ const email=document.getElementById('finalEmail').value.trim(); if(!email||!email.includes('@')){ alert('Wpisz poprawny email.'); return;} finalSignup.textContent='Dziękujemy!'; });
+    // event signup opens email form (reuse final stage)
+    document.querySelectorAll('[data-event]').forEach(btn=>{ btn.addEventListener('click',()=>{ stageFinal.scrollIntoView({behavior:'smooth'}); }); });
   </script>
 </body>
 </html>

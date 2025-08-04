@@ -65,13 +65,12 @@
   .reflection-options{display:flex;gap:14px;flex-wrap:wrap;margin-top:6px;}
   .reflection-btn{padding:12px 16px;border-radius:14px;border:2px solid rgba(31,36,44,.15);background:#fff;cursor:pointer;transition:all .3s;font-weight:600;display:inline-flex;gap:8px;}
   .reflection-btn.active{border-color:var(--accent);background:rgba(194,94,50,.07);}
-  .slicer-wrapper{display:flex;gap:24px;flex-wrap:wrap;}
-  .slicer-gradient{flex:2;min-width:260px;padding:18px;border-radius:16px;background:linear-gradient(135deg,var(--sky),var(--earth));position:relative;display:flex;flex-direction:column;gap:12px;box-shadow:0 40px 140px -10px rgba(31,36,44,.15);}
-  .slicer{display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-top:4px;background:rgba(255,255,255,.9);padding:16px;border-radius:18px;box-shadow:0 30px 120px -20px rgba(31,36,44,.12);}
-  .slicer-icon{width:54px;height:54px;display:flex;align-items:center;justify-content:center;border-radius:50%;background:rgba(255,255,255,.95);box-shadow:0 14px 70px -10px rgba(31,36,44,.1);font-size:24px;flex:none;transition:transform .2s;}
-  .slider{flex:1;appearance:none;height:12px;border-radius:6px;background:rgba(31,36,44,.08);outline:none;position:relative;}
-  .slider::-webkit-slider-thumb{appearance:none;width:24px;height:24px;border-radius:50%;background:var(--accent);border:3px solid #fff;box-shadow:0 0 25px rgba(194,94,50,.5);cursor:pointer;transition:transform .2s;}
-  .event-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px;margin-top:12px;}
+  .slicer-combined{display:flex;gap:20px;flex-wrap:wrap;margin-top:14px;}
+  .rhythm-box{flex:1;min-width:260px;background:rgba(255,255,255,.95);padding:20px;border-radius:18px;box-shadow:0 30px 120px -20px rgba(31,36,44,.12);position:relative;display:flex;flex-direction:column;gap:12px;}
+  .rhythm-slider{width:100%;height:14px;border-radius:8px;appearance:none;background:linear-gradient(90deg,#5b7a59 0%,#3f86c9 50%,#f5c158 100%);outline:none;position:relative;}
+  .rhythm-slider::-webkit-slider-thumb{appearance:none;width:24px;height:24px;border-radius:50%;background:var(--accent);border:3px solid #fff;box-shadow:0 0 25px rgba(194,94,50,.5);cursor:pointer;transition:transform .2s;}
+  .rhythm-labels{display:flex;justify-content:space-between;margin-top:6px;font-weight:600;}
+  .event-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px;margin-top:20px;}
   .event{position:relative;background:rgba(255,253,248,.95);border-radius:16px;padding:18px;clip-path:polygon(3% 0,100% 4%,100% 96%,0 100%);box-shadow:0 38px 160px -15px rgba(31,36,44,.12);display:flex;flex-direction:column;gap:8px;transition:transform .35s,box-shadow .35s;}
   .event:hover{transform:translateY(-3px);box-shadow:0 50px 180px -5px rgba(31,36,44,.18);}
   .event .tag{font-size:.55em;background:rgba(194,94,50,.12);padding:4px 12px;border-radius:999px;display:inline-block;margin-bottom:6px;letter-spacing:0.5px;}
@@ -89,13 +88,14 @@
     .breath-panel{flex-direction:column;}
     .reflection{flex-direction:column;}
     .final{flex-direction:column;}
-    .slicer-wrapper{flex-direction:column;}
+    .slicer-combined{flex-direction:column;}
     .pager{gap:8px;}
   }
 </style>
 </head>
 <body>
 
+  <!-- pager + path (preserved) -->
   <div class="pager" aria-label="Progress path">
     <div class="node" data-target="screen-breath">1</div>
     <div class="node" data-target="screen-about">2</div>
@@ -157,7 +157,7 @@
         </div>
         <div style="flex:1;min-width:260px;">
           <div class="badge">Co robimy</div>
-          <div class="underline"><h1 style="font-size:1.6rem;">Dlaczego to działa</h1></div>
+          <div class="underline"><h1>Dlaczego to działa</h1></div>
           <p>Łączymy autorskie gry, świadome rozmowy i facylitację w bezpiecznej, uważnej przestrzeni. Uczestnicy nie tylko poznają ludzi — przechodzą przez system doświadczeń prowadzących do prawdziwego połączenia.</p>
           <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:8px;">
             <div class="badge" style="background:rgba(59,44,36,.15);color:var(--text);">Autentyczność</div>
@@ -216,39 +216,40 @@
       </div>
     </section>
 
-    <!-- 5. Depth/Pace slicer + Events + Powiadom mnie combined -->
+    <!-- 5. Combined rhythm + notify + events -->
     <section id="screen-slicer-events">
       <div class="card">
-        <div class="slicer-wrapper">
-          <div id="slicerGradient" class="slicer-gradient">
-            <div class="badge">5. Głębokość ↔ Tempo</div>
-            <div class="underline"><h2>Wybierz swój rytm</h2></div>
-            <p style="margin-top:4px;">Suwak wpływa na klimat i sugestie. Głębia (🌳) oznacza wolniejsze, intymniejsze wejście. Tempo (⚡) to szybkie, energiczne integracje. Zobacz, co pasuje.</p>
-            <div class="slicer">
-              <div class="slicer-icon" aria-label="Depth">🌳</div>
-              <div style="flex:1;min-width:160px;">
-                <input type="range" id="depthSlider" class="slider" min="0" max="100" value="50" aria-label="Depth vs pace" />
-                <div id="depthLabel" style="margin-top:6px;font-weight:600;">Zrównoważone</div>
+        <div style="display:flex;flex-wrap:wrap;gap:28px;">
+          <!-- top row: rhythm (speed×depth) and notify -->
+          <div style="flex:2;min-width:300px;display:flex;gap:20px;flex-wrap:wrap;">
+            <div class="rhythm-box" style="flex:1;">
+              <div class="badge">5. Twój rytm</div>
+              <div class="underline"><h2>Wybierz swój rytm (speed × depth)</h2></div>
+              <p>Twoje ustawienie łączy tempo i głębię. Im bliżej skrajów, tym bardziej dopasowana sesja — zobacz rekomendacje poniżej.</p>
+              <div>
+                <input type="range" id="rhythmSlider" class="rhythm-slider" min="0" max="100" value="50" aria-label="Rytm"/>
+                <div class="rhythm-labels">
+                  <div>Tempo ⚡</div>
+                  <div>Zrównoważone</div>
+                  <div>Głębia 🌳</div>
+                </div>
+                <div style="margin-top:6px;font-weight:600;">Aktualnie: <span id="rhythmLabel">Zrównoważone</span></div>
               </div>
-              <div class="slicer-icon" aria-label="Pace">⚡</div>
+              <div style="margin-top:8px;font-size:.85em;">Wybór wpływa na to, które wydarzenia są podkreślone.</div>
             </div>
-          </div>
-          <div style="flex:1;min-width:260px;">
-            <div class="email-block" style="height:100%;">
-              <div class="email-left">
-                <div class="badge">Nie przegap</div>
-                <div class="underline"><h2>Powiadom mnie</h2></div>
-                <p>Zostaw email. Dostaniesz przypomnienie, małe refleksje i dostęp do szybkiego zapisu. RODO: tylko informujemy.</p>
-              </div>
-              <div class="email-right">
+            <div class="rhythm-box" style="flex:1;min-width:260px;">
+              <div class="badge">Nie przegap</div>
+              <div class="underline"><h2>Powiadom mnie</h2></div>
+              <p>Zostaw email — przypomnimy o nowych sesjach, dasz sobie priorytetowy dostęp i dostaniesz krótkie refleksje.</p>
+              <div style="display:flex;gap:14px;flex-wrap:wrap;align-items:center;">
                 <input type="email" id="notifyEmail" class="input" placeholder="Twój email" aria-label="Email powiadomień" />
                 <button class="btn btn-primary" id="notifyBtn">Powiadom mnie</button>
-                <div class="rodo">RODO: bez sprzedaży danych. Możesz zrezygnować.</div>
               </div>
+              <div class="rodo">RODO: bez sprzedaży danych. Możesz zrezygnować.</div>
             </div>
           </div>
         </div>
-        <!-- events below combined top -->
+        <!-- bottom: events -->
         <div style="margin-top:24px;">
           <div class="badge">Sesje</div>
           <div class="underline"><h2>Nadchodzące wydarzenia</h2></div>
@@ -433,9 +434,9 @@
       if(phase==='inhale'){
         gradient = `linear-gradient(135deg, ${interpolate('#dce9fb','#ffffff', progress)} 0%, ${interpolate('#f0ebe2','#ffffff', progress)} 85%)`;
       } else if(phase==='hold'){
-        gradient = `linear-gradient(135deg, ${interpolate('#ffffff','#f0ebe2', progress)} 0%, ${interpolate('#ffffff','#dce9fb', progress)} 85%)`;
-      } else {
-        gradient = `linear-gradient(135deg, ${interpolate('#f0ebe2','#dce9fb', progress)} 0%, ${interpolate('#e6ddcf','#dce9fb', progress)} 85%)`;
+        gradient = `linear-gradient(135deg, ${interpolate('#ffffff','#f0ebe2', progress)} 0%, ${interpolate('#ffffff','#e6ddcf', progress)} 85%)`;
+      } else { // exhale
+        gradient = `linear-gradient(135deg, ${interpolate('#f0ebe2','#e6ddcf', progress)} 0%, ${interpolate('#efe7dd','#e6ddcf', progress)} 85%)`;
       }
       document.body.style.background = gradient;
     }
@@ -535,7 +536,7 @@
       toggleSoundBtn.textContent = `Dźwięk: ${soundOn? 'ON':'OFF'}`;
     });
 
-    // Reflection buttons
+    // Reflection buttons (unchanged)
     document.querySelectorAll('.reflection-btn').forEach(btn=>{
       btn.addEventListener('click', ()=>{
         document.querySelectorAll('.reflection-btn').forEach(b=>b.classList.remove('active'));
@@ -555,32 +556,23 @@
       });
     });
 
-    // Depth slider affecting events highlight + gradiental slicer container
-    const depthSlider = document.getElementById('depthSlider');
-    const depthLabel = document.getElementById('depthLabel');
-    const slicerGradient = document.getElementById('slicerGradient');
-    depthSlider?.addEventListener('input', ()=>{
-      const v = Number(depthSlider.value)/100;
-      if(v < 0.35) depthLabel.textContent='Tempo';
-      else if(v > 0.65) depthLabel.textContent='Głębia';
-      else depthLabel.textContent='Zrównoważone';
+    // Rhythm slider logic + event highlighting
+    const rhythmSlider = document.getElementById('rhythmSlider');
+    const rhythmLabel = document.getElementById('rhythmLabel');
+    rhythmSlider.addEventListener('input', ()=>{
+      const v = Number(rhythmSlider.value)/100;
+      if(v < 0.35) rhythmLabel.textContent='Tempo';
+      else if(v > 0.65) rhythmLabel.textContent='Głębia';
+      else rhythmLabel.textContent='Zrównoważone';
       document.querySelectorAll('.event').forEach(ev=>{
         const reco = ev.dataset.reco;
-        ev.style.opacity = '1';
+        ev.style.opacity='1';
         if(v < 0.35){
           if(reco==='deep') ev.style.opacity='0.5';
         } else if(v > 0.65){
           if(reco==='tempo') ev.style.opacity='0.5';
         }
       });
-      // adjust gradient of slicer container: tempo=blueish, deep=earthy
-      if(v < 0.35){
-        slicerGradient.style.background = 'linear-gradient(135deg,var(--sky), #ffffff)';
-      } else if(v > 0.65){
-        slicerGradient.style.background = 'linear-gradient(135deg,#f0e7dc,var(--earth))';
-      } else {
-        slicerGradient.style.background = 'linear-gradient(135deg,var(--sky), var(--earth))';
-      }
     });
 
     // Email/signup flows

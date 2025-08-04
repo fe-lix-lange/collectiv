@@ -1,13 +1,3 @@
-Below is the updated HTML with **only** the two requested changes applied:
-
-### Changes made:
-
-1. **"Dlaczego to działa"** heading reduced: changed from `<h1>` to `<h2>` to make it smaller/fitter.
-2. **Combined journey**: "Wybierz swój rytm" + "Nadchodzące wydarzenia" + "Powiadom mnie" are now visually one continuous journey inside the same card. Added a minimal step tracker line and moved the email notify block into the same card beneath events (removed its previous separate wrapper).
-
-Everything else remains as in the previous version.
-
-```html
 <!DOCTYPE html>
 <html lang="pl">
 <head>
@@ -75,7 +65,9 @@ Everything else remains as in the previous version.
   .reflection-options{display:flex;gap:14px;flex-wrap:wrap;margin-top:6px;}
   .reflection-btn{padding:12px 16px;border-radius:14px;border:2px solid rgba(31,36,44,.15);background:#fff;cursor:pointer;transition:all .3s;font-weight:600;display:inline-flex;gap:8px;}
   .reflection-btn.active{border-color:var(--accent);background:rgba(194,94,50,.07);}
-  .slicer{display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-top:14px;background:rgba(255,255,255,.9);padding:16px;border-radius:18px;box-shadow:0 30px 120px -20px rgba(31,36,44,.12);}
+  .slicer-wrapper{display:flex;gap:24px;flex-wrap:wrap;}
+  .slicer-gradient{flex:2;min-width:260px;padding:18px;border-radius:16px;background:linear-gradient(135deg,var(--sky),var(--earth));position:relative;display:flex;flex-direction:column;gap:12px;box-shadow:0 40px 140px -10px rgba(31,36,44,.15);}
+  .slicer{display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-top:4px;background:rgba(255,255,255,.9);padding:16px;border-radius:18px;box-shadow:0 30px 120px -20px rgba(31,36,44,.12);}
   .slicer-icon{width:54px;height:54px;display:flex;align-items:center;justify-content:center;border-radius:50%;background:rgba(255,255,255,.95);box-shadow:0 14px 70px -10px rgba(31,36,44,.1);font-size:24px;flex:none;transition:transform .2s;}
   .slider{flex:1;appearance:none;height:12px;border-radius:6px;background:rgba(31,36,44,.08);outline:none;position:relative;}
   .slider::-webkit-slider-thumb{appearance:none;width:24px;height:24px;border-radius:50%;background:var(--accent);border:3px solid #fff;box-shadow:0 0 25px rgba(194,94,50,.5);cursor:pointer;transition:transform .2s;}
@@ -92,15 +84,12 @@ Everything else remains as in the previous version.
   .final{display:flex;gap:24px;flex-wrap:wrap;margin-top:4px;}
   .cta-box{flex:1;min-width:220px;background:rgba(255,255,248,.95);border-radius:20px;padding:18px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:12px;}
   .hidden{display:none!important;}
-  .journey-steps{display:flex;gap:8px;font-size:.75em;margin-bottom:10px;flex-wrap:wrap;align-items:center;}
-  .step{display:flex;align-items:center;gap:6px;padding:6px 10px;border-radius:999px;background:rgba(31,36,44,.05);}
-  .step.active{background:var(--accent);color:#fff;}
   @media (max-width:960px){
     h1{font-size:2rem;}
     .breath-panel{flex-direction:column;}
     .reflection{flex-direction:column;}
     .final{flex-direction:column;}
-    .slicer{flex-direction:column;align-items:flex-start;}
+    .slicer-wrapper{flex-direction:column;}
     .pager{gap:8px;}
   }
 </style>
@@ -168,7 +157,7 @@ Everything else remains as in the previous version.
         </div>
         <div style="flex:1;min-width:260px;">
           <div class="badge">Co robimy</div>
-          <div class="underline"><h2>Dlaczego to działa</h2></div>
+          <div class="underline"><h1 style="font-size:1.6rem;">Dlaczego to działa</h1></div>
           <p>Łączymy autorskie gry, świadome rozmowy i facylitację w bezpiecznej, uważnej przestrzeni. Uczestnicy nie tylko poznają ludzi — przechodzą przez system doświadczeń prowadzących do prawdziwego połączenia.</p>
           <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:8px;">
             <div class="badge" style="background:rgba(59,44,36,.15);color:var(--text);">Autentyczność</div>
@@ -227,22 +216,14 @@ Everything else remains as in the previous version.
       </div>
     </section>
 
-    <!-- 5. Depth/Pace slicer + Events + Notify combined journey -->
+    <!-- 5. Depth/Pace slicer + Events + Powiadom mnie combined -->
     <section id="screen-slicer-events">
       <div class="card">
-        <!-- journey steps indicator -->
-        <div class="journey-steps">
-          <div class="step active">1. Wybierz rytm</div>
-          <div class="step">→</div>
-          <div class="step">2. Wydarzenia</div>
-          <div class="step">→</div>
-          <div class="step">3. Powiadom mnie</div>
-        </div>
-        <div style="display:flex;flex-wrap:wrap;gap:28px;">
-          <div style="flex:1;min-width:260px;">
+        <div class="slicer-wrapper">
+          <div id="slicerGradient" class="slicer-gradient">
             <div class="badge">5. Głębokość ↔ Tempo</div>
             <div class="underline"><h2>Wybierz swój rytm</h2></div>
-            <p>Suwak wpływa na klimat i sugestie. Głębia (🌳) oznacza wolniejsze, intymniejsze wejście. Tempo (⚡) to szybkie, energiczne integracje. Zobacz, co pasuje.</p>
+            <p style="margin-top:4px;">Suwak wpływa na klimat i sugestie. Głębia (🌳) oznacza wolniejsze, intymniejsze wejście. Tempo (⚡) to szybkie, energiczne integracje. Zobacz, co pasuje.</p>
             <div class="slicer">
               <div class="slicer-icon" aria-label="Depth">🌳</div>
               <div style="flex:1;min-width:160px;">
@@ -252,65 +233,65 @@ Everything else remains as in the previous version.
               <div class="slicer-icon" aria-label="Pace">⚡</div>
             </div>
           </div>
-          <div style="flex:1;min-width:320px;">
-            <div class="badge">Sesje</div>
-            <div class="underline"><h2>Nadchodzące wydarzenia</h2></div>
-            <p>Po oddechu, refleksji i ustawieniu rytmu — wybierz sesję dopasowaną do Ciebie. Sugerujemy na podstawie Twojego wyboru.</p>
-            <div class="event-grid" id="events">
-              <div class="event" data-reco="deep">
-                <div class="tag">5 sierpnia</div>
-                <div class="event-title">Prawdziwe rozmowy</div>
-                <div class="event-meta">Warszawa · limit 12</div>
-                <p>Małe grupy, uważne ćwiczenia, naturalne połączenia.</p>
-                <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
-                  <button class="btn btn-primary open-signup" data-event="Prawdziwe rozmowy">Zapisz się</button>
-                  <div style="font-size:.7em;">Rekomendacja: głębia</div>
-                </div>
+          <div style="flex:1;min-width:260px;">
+            <div class="email-block" style="height:100%;">
+              <div class="email-left">
+                <div class="badge">Nie przegap</div>
+                <div class="underline"><h2>Powiadom mnie</h2></div>
+                <p>Zostaw email. Dostaniesz przypomnienie, małe refleksje i dostęp do szybkiego zapisu. RODO: tylko informujemy.</p>
               </div>
-              <div class="event" data-reco="balanced">
-                <div class="tag">12 sierpnia</div>
-                <div class="event-title">Głębia i tempo</div>
-                <div class="event-meta">Warszawa · limit 18</div>
-                <p>Balans między szybkim startem a relacją z sensem.</p>
-                <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
-                  <button class="btn btn-primary open-signup" data-event="Głębia i tempo">Zapisz się</button>
-                  <div style="font-size:.7em;">Hybrydowo</div>
-                </div>
-              </div>
-              <div class="event" data-reco="tempo">
-                <div class="tag">19 sierpnia</div>
-                <div class="event-title">Mikro-spotkania</div>
-                <div class="event-meta">Warszawa · limit 20</div>
-                <p>Szybki start i kontynuacja — poznaj kilku nowych ludzi.</p>
-                <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
-                  <button class="btn btn-primary open-signup" data-event="Mikro-spotkania">Zapisz się</button>
-                  <div style="font-size:.7em;">Tempo + jakość</div>
-                </div>
-              </div>
-              <div class="event" data-reco="deep">
-                <div class="tag">2 września</div>
-                <div class="event-title">Retreat: Autentyczna obecność</div>
-                <div class="event-meta">Warszawa · limit 10</div>
-                <p>Cały dzień offline: refleksja, relacje, obecność.</p>
-                <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
-                  <button class="btn btn-primary open-signup" data-event="Retreat">Zapisz się</button>
-                  <div style="font-size:.7em;">Tempo przemyślane</div>
-                </div>
+              <div class="email-right">
+                <input type="email" id="notifyEmail" class="input" placeholder="Twój email" aria-label="Email powiadomień" />
+                <button class="btn btn-primary" id="notifyBtn">Powiadom mnie</button>
+                <div class="rodo">RODO: bez sprzedaży danych. Możesz zrezygnować.</div>
               </div>
             </div>
-            <!-- integrated notify block as step 3 -->
-            <div style="margin-top:28px;">
-              <div class="email-block">
-                <div class="email-left">
-                  <div class="badge">Nie przegap</div>
-                  <div class="underline"><h2>Powiadom mnie</h2></div>
-                  <p>Zostaw email. Dostaniesz przypomnienie, małe refleksje i dostęp do szybkiego zapisu. RODO: tylko informujemy.</p>
-                </div>
-                <div class="email-right">
-                  <input type="email" id="notifyEmail" class="input" placeholder="Twój email" aria-label="Email powiadomień" />
-                  <button class="btn btn-primary" id="notifyBtn">Powiadom mnie</button>
-                  <div class="rodo">RODO: bez sprzedaży danych. Możesz zrezygnować.</div>
-                </div>
+          </div>
+        </div>
+        <!-- events below combined top -->
+        <div style="margin-top:24px;">
+          <div class="badge">Sesje</div>
+          <div class="underline"><h2>Nadchodzące wydarzenia</h2></div>
+          <p>Po oddechu, refleksji i ustawieniu rytmu — wybierz sesję dopasowaną do Ciebie. Sugerujemy na podstawie Twojego wyboru.</p>
+          <div class="event-grid" id="events">
+            <div class="event" data-reco="deep">
+              <div class="tag">5 sierpnia</div>
+              <div class="event-title">Prawdziwe rozmowy</div>
+              <div class="event-meta">Warszawa · limit 12</div>
+              <p>Małe grupy, uważne ćwiczenia, naturalne połączenia.</p>
+              <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+                <button class="btn btn-primary open-signup" data-event="Prawdziwe rozmowy">Zapisz się</button>
+                <div style="font-size:.7em;">Rekomendacja: głębia</div>
+              </div>
+            </div>
+            <div class="event" data-reco="balanced">
+              <div class="tag">12 sierpnia</div>
+              <div class="event-title">Głębia i tempo</div>
+              <div class="event-meta">Warszawa · limit 18</div>
+              <p>Balans między szybkim startem a relacją z sensem.</p>
+              <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+                <button class="btn btn-primary open-signup" data-event="Głębia i tempo">Zapisz się</button>
+                <div style="font-size:.7em;">Hybrydowo</div>
+              </div>
+            </div>
+            <div class="event" data-reco="tempo">
+              <div class="tag">19 sierpnia</div>
+              <div class="event-title">Mikro-spotkania</div>
+              <div class="event-meta">Warszawa · limit 20</div>
+              <p>Szybki start i kontynuacja — poznaj kilku nowych ludzi.</p>
+              <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+                <button class="btn btn-primary open-signup" data-event="Mikro-spotkania">Zapisz się</button>
+                <div style="font-size:.7em;">Tempo + jakość</div>
+              </div>
+            </div>
+            <div class="event" data-reco="deep">
+              <div class="tag">2 września</div>
+              <div class="event-title">Retreat: Autentyczna obecność</div>
+              <div class="event-meta">Warszawa · limit 10</div>
+              <p>Cały dzień offline: refleksja, relacje, obecność.</p>
+              <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+                <button class="btn btn-primary open-signup" data-event="Retreat">Zapisz się</button>
+                <div style="font-size:.7em;">Tempo przemyślane</div>
               </div>
             </div>
           </div>
@@ -450,11 +431,11 @@ Everything else remains as in the previous version.
     function setBackground(phase,progress){
       let gradient;
       if(phase==='inhale'){
-        gradient = `linear-gradient(135deg, ${interpolate('#dce9fb','#f0ebe2', Math.min(1,0.3+progress*0.4))} 0%, ${interpolate('#f0ebe2','#ffffff', Math.min(1,0.3+progress*0.4))} 85%)`;
+        gradient = `linear-gradient(135deg, ${interpolate('#dce9fb','#ffffff', progress)} 0%, ${interpolate('#f0ebe2','#ffffff', progress)} 85%)`;
       } else if(phase==='hold'){
-        gradient = `linear-gradient(135deg, ${interpolate('#ffffff','#f0ebe2', Math.min(1,0.2+progress*0.3))} 0%, ${interpolate('#f0ebe2','#e6ddcf', Math.min(1,0.2+progress*0.3))} 85%)`;
+        gradient = `linear-gradient(135deg, ${interpolate('#ffffff','#f0ebe2', progress)} 0%, ${interpolate('#ffffff','#dce9fb', progress)} 85%)`;
       } else {
-        gradient = `linear-gradient(135deg, ${interpolate('#e6ddcf','#dce9fb', Math.min(1,0.2+progress*0.3))} 0%, ${interpolate('#dce9fb','#f0ebe2', Math.min(1,0.2+progress*0.3))} 85%)`;
+        gradient = `linear-gradient(135deg, ${interpolate('#f0ebe2','#dce9fb', progress)} 0%, ${interpolate('#e6ddcf','#dce9fb', progress)} 85%)`;
       }
       document.body.style.background = gradient;
     }
@@ -554,7 +535,7 @@ Everything else remains as in the previous version.
       toggleSoundBtn.textContent = `Dźwięk: ${soundOn? 'ON':'OFF'}`;
     });
 
-    // Reflection buttons (unchanged)
+    // Reflection buttons
     document.querySelectorAll('.reflection-btn').forEach(btn=>{
       btn.addEventListener('click', ()=>{
         document.querySelectorAll('.reflection-btn').forEach(b=>b.classList.remove('active'));
@@ -574,9 +555,10 @@ Everything else remains as in the previous version.
       });
     });
 
-    // Depth slider affecting events highlight (unchanged)
+    // Depth slider affecting events highlight + gradiental slicer container
     const depthSlider = document.getElementById('depthSlider');
     const depthLabel = document.getElementById('depthLabel');
+    const slicerGradient = document.getElementById('slicerGradient');
     depthSlider?.addEventListener('input', ()=>{
       const v = Number(depthSlider.value)/100;
       if(v < 0.35) depthLabel.textContent='Tempo';
@@ -591,9 +573,17 @@ Everything else remains as in the previous version.
           if(reco==='tempo') ev.style.opacity='0.5';
         }
       });
+      // adjust gradient of slicer container: tempo=blueish, deep=earthy
+      if(v < 0.35){
+        slicerGradient.style.background = 'linear-gradient(135deg,var(--sky), #ffffff)';
+      } else if(v > 0.65){
+        slicerGradient.style.background = 'linear-gradient(135deg,#f0e7dc,var(--earth))';
+      } else {
+        slicerGradient.style.background = 'linear-gradient(135deg,var(--sky), var(--earth))';
+      }
     });
 
-    // Email/signup flows (unchanged)
+    // Email/signup flows
     document.getElementById('notifyBtn')?.addEventListener('click', ()=>{
       const e=document.getElementById('notifyEmail').value.trim();
       if(!e.includes('@')){ alert('Podaj poprawny email'); return;}
@@ -632,4 +622,3 @@ Everything else remains as in the previous version.
   </script>
 </body>
 </html>
-```

@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="pl">
 <head>
@@ -66,11 +67,11 @@
   .reflection-btn{padding:12px 16px;border-radius:14px;border:2px solid rgba(31,36,44,.15);background:#fff;cursor:pointer;transition:all .3s;font-weight:600;display:inline-flex;gap:8px;}
   .reflection-btn.active{border-color:var(--accent);background:rgba(194,94,50,.07);}
   .slicer-combined{display:flex;gap:20px;flex-wrap:wrap;margin-top:14px;}
-  .rhythm-box{flex:1;min-width:260px;background:rgba(255,255,255,.95);padding:20px;border-radius:18px;box-shadow:0 30px 120px -20px rgba(31,36,44,.12);position:relative;display:flex;flex-direction:column;gap:12px;}
-  .rhythm-slider{width:100%;height:14px;border-radius:8px;appearance:none;background:linear-gradient(90deg,#5b7a59 0%,#3f86c9 50%,#f5c158 100%);outline:none;position:relative;}
+  .rhythm-box{flex:1;min-width:260px;background:rgba(255,255,255,.95);padding:16px;border-radius:18px;box-shadow:0 30px 120px -20px rgba(31,36,44,.12);position:relative;display:flex;flex-direction:column;gap:12px;}
+  .rhythm-slider{width:100%;height:10px;border-radius:8px;appearance:none;background:linear-gradient(90deg,#5b7a59 0%,#3f86c9 50%,#f5c158 100%);outline:none;position:relative;}
   .rhythm-slider::-webkit-slider-thumb{appearance:none;width:24px;height:24px;border-radius:50%;background:var(--accent);border:3px solid #fff;box-shadow:0 0 25px rgba(194,94,50,.5);cursor:pointer;transition:transform .2s;}
   .rhythm-labels{display:flex;justify-content:space-between;margin-top:6px;font-weight:600;}
-  .event-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px;margin-top:20px;}
+  .event-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px;margin-top:12px;}
   .event{position:relative;background:rgba(255,253,248,.95);border-radius:16px;padding:18px;clip-path:polygon(3% 0,100% 4%,100% 96%,0 100%);box-shadow:0 38px 160px -15px rgba(31,36,44,.12);display:flex;flex-direction:column;gap:8px;transition:transform .35s,box-shadow .35s;}
   .event:hover{transform:translateY(-3px);box-shadow:0 50px 180px -5px rgba(31,36,44,.18);}
   .event .tag{font-size:.55em;background:rgba(194,94,50,.12);padding:4px 12px;border-radius:999px;display:inline-block;margin-bottom:6px;letter-spacing:0.5px;}
@@ -250,7 +251,7 @@
           </div>
         </div>
         <!-- bottom: events -->
-        <div style="margin-top:24px;">
+        <div style="margin-top:12px;">
           <div class="badge">Sesje</div>
           <div class="underline"><h2>Nadchodzące wydarzenia</h2></div>
           <p>Po oddechu, refleksji i ustawieniu rytmu — wybierz sesję dopasowaną do Ciebie. Sugerujemy na podstawie Twojego wyboru.</p>
@@ -435,7 +436,7 @@
         gradient = `linear-gradient(135deg, ${interpolate('#dce9fb','#ffffff', progress)} 0%, ${interpolate('#f0ebe2','#ffffff', progress)} 85%)`;
       } else if(phase==='hold'){
         gradient = `linear-gradient(135deg, ${interpolate('#ffffff','#f0ebe2', progress)} 0%, ${interpolate('#ffffff','#e6ddcf', progress)} 85%)`;
-      } else { // exhale
+      } else {
         gradient = `linear-gradient(135deg, ${interpolate('#f0ebe2','#e6ddcf', progress)} 0%, ${interpolate('#efe7dd','#e6ddcf', progress)} 85%)`;
       }
       document.body.style.background = gradient;
@@ -451,7 +452,6 @@
       progressDots.forEach(d=>d.classList.remove('active'));
       abortController.stop=false;
       for(; cycles<3; ){
-        // inhale 4s
         let remaining=4;
         phaseLabel.textContent='Wdech';
         verbalText.textContent='Wdech';
@@ -464,7 +464,6 @@
           await new Promise(r=>setTimeout(r,1000));
           remaining--;
         }
-        // hold 7s
         remaining=7;
         phaseLabel.textContent='Wstrzymaj';
         verbalText.textContent='Wstrzymaj';
@@ -477,7 +476,6 @@
           await new Promise(r=>setTimeout(r,1000));
           remaining--;
         }
-        // exhale 8s
         remaining=8;
         phaseLabel.textContent='Wydech';
         verbalText.textContent='Wydech';
@@ -614,3 +612,4 @@
   </script>
 </body>
 </html>
+```

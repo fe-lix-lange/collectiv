@@ -8,11 +8,11 @@
 <link href="https://fonts.googleapis.com/css2?family=Recursive:opsz,wght@500;700&family=Plus+Jakarta+Sans:wght@400;600&display=swap" rel="stylesheet">
 <style>
   :root {
-    --earth:#285942;
-    --tempo:#3f86c9;
+    --earth:#7f664f;
+    --green:#5b7a59;
+    --sky:#3f86c9;
     --accent:#c25e32;
-    --bg-start:#dce9fb;
-    --bg-end:#f0ebe2;
+    --bg-light:#f2ece3;
     --text:#1f242c;
     --radius:20px;
     --shadow:0 40px 140px -10px rgba(31,36,44,.18);
@@ -23,14 +23,14 @@
   *{box-sizing:border-box;}
   body{
     margin:0;
-    background: linear-gradient(135deg,var(--bg-start) 0%,var(--bg-end) 90%);
+    background: linear-gradient(135deg,#e6f7ff 0%,#f2ece3 90%);
     font-family: var(--font-body);
     color: var(--text);
     -webkit-font-smoothing:antialiased;
     overflow-x:hidden;
     min-height:100vh;
     scroll-behavior:smooth;
-    transition: background .5s;
+    transition: background 1s ease;
   }
   h1{margin:0;font-family:var(--font-head);font-size:2.4rem;line-height:1.05;}
   h2{margin:0 0 6px;font-family:var(--font-head);font-size:1.5rem;line-height:1.1;}
@@ -49,30 +49,31 @@
   .underline:after{content:'';position:absolute;left:0;bottom:0;height:8px;width:100%;background:rgba(194,94,50,.22);border-radius:4px;}
   .input{padding:14px 16px;border-radius:999px;border:2px solid rgba(31,36,44,.1);font-size:1rem;flex:1;min-width:140px;outline:none;transition:box-shadow .25s;}
   .btn{padding:14px 22px;border-radius:999px;cursor:pointer;font-weight:600;display:inline-flex;align-items:center;gap:10px;transition:all var(--transition);position:relative;font-family:var(--font-body);}
-  .btn-primary{background: linear-gradient(135deg,var(--accent),var(--tempo));color:#fff;box-shadow:0 18px 80px -10px rgba(194,94,50,.45);}
+  .btn-primary{background: linear-gradient(135deg,var(--accent),var(--sky));color:#fff;box-shadow:0 18px 80px -10px rgba(194,94,50,.45);}
   .btn-secondary{background:#fff;border:2px solid var(--accent);color:var(--accent);}
-  .breath-panel{position:relative;display:flex;flex-wrap:wrap;gap:24px;background:#fffefb;border-radius:24px;padding:32px;box-shadow:0 60px 160px -30px rgba(31,36,44,.18);min-height:70vh; /* ensure mid-center */ align-items:center;}
+  .breath-panel{position:relative;display:flex;flex-wrap:wrap;gap:24px;background:#fffefb;border-radius:24px;padding:32px;box-shadow:0 60px 160px -30px rgba(31,36,44,.18);width:100%;min-height:70vh;align-items:center;justify-content:center;}
   .breath-visual{flex:1;min-width:220px;display:flex;flex-direction:column;gap:14px;align-items:center;justify-content:center;position:relative;}
-  .circle{width:180px;height:180px;border-radius:50%;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;background:rgba(194,94,50,.08);transition:transform .3s;cursor:pointer;}
-  .circle-inner{width:130px;height:130px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1rem;font-weight:700;color:#fff;mix-blend-mode:normal;position:relative;z-index:2;transition:transform .4s;background:var(--accent);}
+  .circle{width:200px;height:200px;border-radius:50%;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;background:rgba(194,94,50,.08);transition:transform .3s;cursor:pointer;}
+  .circle-inner{width:150px;height:150px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1rem;font-weight:700;color:#fff;position:relative;z-index:2;transition:transform .2s;background:var(--accent);}
   .progress{margin-top:6px;display:flex;gap:6px;justify-content:center;}
   .dot{width:16px;height:16px;border-radius:50%;background:#e0d8ce;position:relative;box-shadow:inset 0 2px 6px rgba(31,36,44,.1);}
   .dot.active{background:var(--accent);box-shadow:0 0 16px rgba(194,94,50,.7);}
   .breath-info{flex:1;min-width:260px;display:flex;flex-direction:column;gap:14px;justify-content:center;position:relative;}
   .verbal{font-size:1.2rem;font-weight:600;}
+  .explore-hint{position:absolute;bottom:12px;left:50%;transform:translateX(-50%);background:rgba(255,255,255,.95);padding:10px 16px;border-radius:999px;display:flex;align-items:center;gap:6px;font-size:.85em;box-shadow:0 20px 80px -10px rgba(31,36,44,.1);animation:wiggle 3s infinite ease-in-out;z-index:2;}
+  @keyframes wiggle{0%{transform:translate(-50%,0) rotate(0deg);}30%{transform:translate(-50%,2px) rotate(-1deg);}60%{transform:translate(-50%,-1px) rotate(1deg);}100%{transform:translate(-50%,0) rotate(0deg);}}
   .reflection{display:flex;gap:20px;flex-wrap:wrap;}
   .reflection-options{display:flex;gap:14px;flex-wrap:wrap;margin-top:6px;}
   .reflection-btn{padding:12px 16px;border-radius:14px;border:2px solid rgba(31,36,44,.15);background:#fff;cursor:pointer;transition:all .3s;font-weight:600;display:inline-flex;gap:8px;}
   .reflection-btn.active{border-color:var(--accent);background:rgba(194,94,50,.07);}
   .slicer{display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-top:14px;background:rgba(255,255,255,.9);padding:16px;border-radius:18px;box-shadow:0 30px 120px -20px rgba(31,36,44,.12);}
   .slicer-icon{width:54px;height:54px;display:flex;align-items:center;justify-content:center;border-radius:50%;background:rgba(255,255,255,.95);box-shadow:0 14px 70px -10px rgba(31,36,44,.1);font-size:24px;flex:none;transition:transform .2s;}
-  .slider{flex:1;appearance:none;height:14px;border-radius:8px;outline:none;position:relative; background: linear-gradient(to right,var(--tempo),var(--earth));}
-  .slider::-webkit-slider-thumb{appearance:none;width:26px;height:26px;border-radius:50%;background:#fff;border:4px solid var(--accent);box-shadow:0 0 30px rgba(194,94,50,.6);cursor:pointer;transition:transform .2s;}
-  .slider::-moz-range-thumb{width:26px;height:26px;border-radius:50%;background:#fff;border:4px solid var(--accent);}
+  .slider{flex:1;appearance:none;height:12px;border-radius:6px;background:rgba(31,36,44,.08);outline:none;position:relative;}
+  .slider::-webkit-slider-thumb{appearance:none;width:24px;height:24px;border-radius:50%;background:var(--accent);border:3px solid #fff;box-shadow:0 0 25px rgba(194,94,50,.5);cursor:pointer;transition:transform .2s;}
   .event-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px;margin-top:12px;}
   .event{position:relative;background:rgba(255,253,248,.95);border-radius:16px;padding:18px;clip-path:polygon(3% 0,100% 4%,100% 96%,0 100%);box-shadow:0 38px 160px -15px rgba(31,36,44,.12);display:flex;flex-direction:column;gap:8px;transition:transform .35s,box-shadow .35s;}
   .event:hover{transform:translateY(-3px);box-shadow:0 50px 180px -5px rgba(31,36,44,.18);}
-  .event .tag{font-size:.55em;background:rgba(194,94,50,.12);padding:4px 12px;border-radius:999px;display:inline-block;margin-bottom:6px;letter-spacing:0.5px;}
+  .tag{font-size:.55em;background:rgba(194,94,50,.12);padding:4px 12px;border-radius:999px;display:inline-block;margin-bottom:6px;letter-spacing:0.5px;}
   .event-title{font-weight:700;font-size:1.1rem;margin:4px 0;}
   .event-meta{font-size:.65em;color:rgba(31,36,44,.65);}
   .email-block{background:rgba(255,255,255,.97);border-radius:20px;padding:20px;display:flex;flex-wrap:wrap;gap:18px;box-shadow:0 50px 160px -30px rgba(31,36,44,.12);}
@@ -82,8 +83,6 @@
   .final{display:flex;gap:24px;flex-wrap:wrap;margin-top:4px;}
   .cta-box{flex:1;min-width:220px;background:rgba(255,255,248,.95);border-radius:20px;padding:18px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:12px;}
   .hidden{display:none!important;}
-  .explore-hint{position:absolute;bottom:12px;left:50%;transform:translateX(-50%);background:rgba(255,255,255,.95);padding:10px 16px;border-radius:999px;display:flex;align-items:center;gap:6px;font-size:.85em;box-shadow:0 20px 80px -10px rgba(31,36,44,.1);animation:wiggle 3s infinite ease-in-out;}
-  @keyframes wiggle{0%{transform:translate(-50%,0) rotate(0deg);}30%{transform:translate(-50%,2px) rotate(-1deg);}60%{transform:translate(-50%,-1px) rotate(1deg);}100%{transform:translate(-50%,0) rotate(0deg);}}
   @media (max-width:960px){
     h1{font-size:2rem;}
     .breath-panel{flex-direction:column;}
@@ -96,7 +95,7 @@
 </head>
 <body>
 
-  <!-- pager + path (optional navigation) -->
+  <!-- pager + path -->
   <div class="pager" aria-label="Progress path">
     <div class="node" data-target="screen-breath">1</div>
     <div class="node" data-target="screen-about">2</div>
@@ -111,7 +110,7 @@
   </svg>
 
   <div class="wrap">
-    <!-- 1. Breathing Game full start -->
+    <!-- 1. Breathing Game full start (mid-center) -->
     <section id="screen-breath">
       <div class="card">
         <div class="breath-panel" style="width:100%;max-width:960px;position:relative;">
@@ -119,7 +118,12 @@
             <div class="badge">1. Oddech 4x7x8</div>
             <div class="underline"><h2>Rytuał obecności</h2></div>
             <div class="circle" id="breathCircle" aria-label="Visual breath">
-              <div class="circle-inner" id="circleInner">Start</div>
+              <div class="circle-inner" id="circleInner">
+                <div style="display:flex;flex-direction:column;align-items:center;gap:4px;">
+                  <div id="phaseLabel" style="font-size:.85em;">Gotowy</div>
+                  <div id="timerLabel" style="font-size:1.4rem;">—</div>
+                </div>
+              </div>
             </div>
             <div class="progress" aria-label="Cycle progress">
               <div class="dot" data-cycle="1"></div>
@@ -144,6 +148,7 @@
       </div>
     </section>
 
+    <!-- rest of content unchanged -->
     <!-- 2. About us -->
     <section id="screen-about">
       <div class="card">
@@ -375,7 +380,8 @@
     function updateActiveNode(){
       const scrollPos = window.scrollY + window.innerHeight/3;
       sections.forEach((sec,i)=>{
-        if(scrollPos >= sec.offsetTop){
+        const top = sec.offsetTop;
+        if(scrollPos >= top){
           nodes.forEach(n=>n.classList.remove('active'));
           if(nodes[i]) nodes[i].classList.add('active');
         }
@@ -389,152 +395,196 @@
     });
     updateActiveNode();
 
-    // Breathing 4x7x8 logic with start/stop toggle, timer, and background adaptation
+    // Swipe vertical navigation
+    let touchStartY=0, touchEndY=0;
+    window.addEventListener('touchstart', e=>{ touchStartY = e.touches[0].clientY; });
+    window.addEventListener('touchend', e=>{
+      touchEndY = e.changedTouches[0].clientY;
+      const delta = touchStartY - touchEndY;
+      if(Math.abs(delta) < 40) return;
+      const currentIndex = sections.findIndex(s => {
+        const rect = s.getBoundingClientRect();
+        return rect.top <= window.innerHeight*0.4 && rect.bottom >= window.innerHeight*0.3;
+      });
+      if(delta > 0){
+        if(currentIndex < sections.length -1) sections[currentIndex+1].scrollIntoView({behavior:'smooth', block:'start'});
+      } else {
+        if(currentIndex > 0) sections[currentIndex-1].scrollIntoView({behavior:'smooth', block:'start'});
+      }
+    });
+
+    // Breathing 4x7x8 logic with background gradient guidance and timer
     const startBtn = document.getElementById('startBreathBtn');
     const verbalText = document.getElementById('verbalText');
     const circleInner = document.getElementById('circleInner');
     const circle = document.getElementById('breathCircle');
+    const phaseLabelEl = document.getElementById('phaseLabel');
+    const timerLabel = document.getElementById('timerLabel');
     const progressDots = Array.from(document.querySelectorAll('.dot'));
     const cycleLabel = document.getElementById('cycleLabel');
     const exploreHint = document.getElementById('exploreHint');
     const toggleSoundBtn = document.getElementById('toggleSound');
     let soundOn = true;
-    let breathAbort = false;
     let breathingActive = false;
+    let breathAbort = false;
     const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-
     function playTone(freq,dur){
       if(!soundOn) return;
       const osc = audioCtx.createOscillator();
       const gain = audioCtx.createGain();
-      osc.type='sine';
-      osc.frequency.value = freq;
-      osc.connect(gain);
-      gain.connect(audioCtx.destination);
+      osc.type='sine'; osc.frequency.value=freq;
+      osc.connect(gain); gain.connect(audioCtx.destination);
       gain.gain.setValueAtTime(0, audioCtx.currentTime);
       gain.gain.linearRampToValueAtTime(0.08, audioCtx.currentTime + 0.02);
       osc.start();
       gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + dur);
       setTimeout(()=>osc.stop(), dur*1000 + 50);
     }
-
-    function setBreathBackground(phase, tRemaining, total){
-      // phase: 'inhale','hold','exhale'
-      let bg;
-      if(phase === 'inhale'){
-        // shift toward sky
-        bg = `linear-gradient(135deg, rgba(220,233,251,${0.75 + 0.1*(3 - total)}) 0%, rgba(230,247,255,${0.75 + 0.1*(3 - total)}) 85%)`;
-      } else if(phase === 'hold'){
-        bg = `linear-gradient(135deg, rgba(220,233,251,0.6) 0%, rgba(240,235,226,0.6) 85%)`;
-      } else if(phase === 'exhale'){
-        // shift toward earth
-        bg = `linear-gradient(135deg, rgba(218,237,225,${0.9 - 0.1*(3 - total)}) 0%, rgba(200,230,210,${0.9 - 0.1*(3 - total)}) 85%)`;
+    function setBackgroundPhase(phase, progressFraction=0){
+      // phase: 'inhale','hold','exhale','rest'
+      let start, end;
+      if(phase==='inhale'){
+        // move toward greener/sky synergy
+        start = blendColor('#e6f7ff','#b3e5ff', progressFraction);
+        end = blendColor('#f2ece3','#c7f0e0', progressFraction);
+      } else if(phase==='hold'){
+        start = '#b3e5ff';
+        end = '#c7f0e0';
+      } else if(phase==='exhale'){
+        start = blendColor('#c7f0e0','#f0e0d8', progressFraction);
+        end = blendColor('#e6f7ff','#f2ece3', progressFraction);
+      } else {
+        start = '#e6f7ff'; end='#f2ece3';
       }
-      document.body.style.background = bg;
+      document.body.style.background = `radial-gradient(circle at 30% 30%, ${lighten(start,10)} 0%, transparent 60%), linear-gradient(135deg, ${start} 10%, ${end} 90%)`;
     }
-
-    async function runBreathing(){
+    function blendColor(a,b,t){
+      const ah=a.replace('#',''), bh=b.replace('#','');
+      const ar=parseInt(ah.substring(0,2),16), ag=parseInt(ah.substring(2,4),16), ab=parseInt(ah.substring(4,6),16);
+      const br=parseInt(bh.substring(0,2),16), bg=parseInt(bh.substring(2,4),16), bb=parseInt(bh.substring(4,6),16);
+      const rr=Math.round(ar + (br-ar)*t).toString(16).padStart(2,'0');
+      const rg=Math.round(ag + (bg-ag)*t).toString(16).padStart(2,'0');
+      const rb=Math.round(ab + (bb-ab)*t).toString(16).padStart(2,'0');
+      return `#${rr}${rg}${rb}`;
+    }
+    function lighten(col, pct){
+      const c=col.replace('#','');
+      const r=parseInt(c.substring(0,2),16);
+      const g=parseInt(c.substring(2,4),16);
+      const b=parseInt(c.substring(4,6),16);
+      const nr=Math.min(255, Math.round(r + (255-r)*(pct/100)));
+      const ng=Math.min(255, Math.round(g + (255-g)*(pct/100)));
+      const nb=Math.min(255, Math.round(b + (255-b)*(pct/100)));
+      return `rgb(${nr},${ng},${nb})`;
+    }
+    async function runBreath(){
       breathingActive = true;
-      breathAbort = false;
-      startBtn.textContent = 'Stop';
-      circleInner.textContent = '...';
-      let cycles = 0;
-      cycleLabel.textContent = `0 / 3`;
+      startBtn.textContent='Stop';
+      circleInner.style.transform='scale(1)';
+      let cycles=0;
+      cycleLabel.textContent='0 / 3';
       progressDots.forEach(d=>d.classList.remove('active'));
-      while(cycles < 3){
-        if(breathAbort) break;
-
+      while(cycles < 3 && !breathAbort){
         // inhale 4s
-        verbalText.textContent = 'Wdech';
-        circleInner.textContent = '4s';
-        circleInner.style.transform='scale(1.3)';
-        setBreathBackground('inhale',4,3 - cycles);
-        if(soundOn) playTone(260,4);
-        for(let i=4;i>0;i--){
-          if(breathAbort) break;
-          circleInner.textContent = `${i}s`;
-          await new Promise(r=>setTimeout(r,1000));
-        }
+        phaseLabelEl.textContent='Wdech';
+        verbalText.textContent='Wdech';
+        setBackgroundPhase('inhale',0);
+        await phaseTimer(4, 'inhale');
         if(breathAbort) break;
-
         // hold 7s
-        verbalText.textContent = 'Wstrzymaj';
-        circleInner.textContent = '7s';
-        circleInner.style.transform='scale(1)';
-        setBreathBackground('hold',7,3 - cycles);
-        if(soundOn) playTone(320,0.2);
-        for(let i=7;i>0;i--){
-          if(breathAbort) break;
-          circleInner.textContent = `${i}s`;
-          await new Promise(r=>setTimeout(r,1000));
-        }
+        phaseLabelEl.textContent='Wstrzymaj';
+        verbalText.textContent='Wstrzymaj';
+        setBackgroundPhase('hold');
+        await phaseTimer(7, 'hold');
         if(breathAbort) break;
-
         // exhale 8s
-        verbalText.textContent = 'Wydech';
-        circleInner.textContent = '8s';
-        circleInner.style.transform='scale(.85)';
-        setBreathBackground('exhale',8,3 - cycles);
-        if(soundOn) playTone(180,8);
-        for(let i=8;i>0;i--){
-          if(breathAbort) break;
-          circleInner.textContent = `${i}s`;
-          await new Promise(r=>setTimeout(r,1000));
-        }
+        phaseLabelEl.textContent='Wydech';
+        verbalText.textContent='Wydech';
+        setBackgroundPhase('exhale',0);
+        await phaseTimer(8, 'exhale');
         if(breathAbort) break;
-
         cycles++;
-        cycleLabel.textContent = `${cycles} / 3`;
+        cycleLabel.textContent=`${cycles} / 3`;
         progressDots.forEach(d=>{
           const idx = Number(d.dataset.cycle);
           d.classList.toggle('active', idx <= cycles);
         });
-        // subtle ring effect
-        document.querySelector('.circle').style.boxShadow = `0 0 ${10 + cycles*5}px rgba(194,94,50,${0.3 + cycles*0.1})`;
-        if(cycles === 1){
-          exploreHint.textContent = 'Przewiń niżej — sesje i refleksja czekają';
+        // slight pulse scale to reflect progress
+        circle.style.transform = `scale(${1 + cycles*0.04})`;
+        if(cycles===1){
+          exploreHint.textContent='Przewiń niżej — sesje i refleksja czekają';
         }
       }
-
-      // finalize
-      if(!breathAbort){
-        verbalText.textContent='Gotowe';
-        circleInner.textContent='✓';
-        circleInner.style.transform='scale(1)';
-      } else {
-        verbalText.textContent='Zatrzymano';
-        circleInner.textContent='Start';
-        circleInner.style.transform='scale(1)';
-      }
+      finalizeBreath();
+    }
+    function finalizeBreath(){
+      breathingActive=false;
+      breathAbort=false;
       startBtn.textContent='Rozpocznij';
-      breathingActive = false;
+      phaseLabelEl.textContent='Gotowe';
+      verbalText.textContent='Gotowe';
+      timerLabel.textContent='✓';
+      circleInner.textContent='';
+      // show check mark
+      circleInner.innerHTML = '<div style="font-size:1.6rem;">✓</div>';
+      setBackgroundPhase('rest');
       setTimeout(()=>{ exploreHint.style.opacity='0'; }, 600);
+      circle.style.transform='scale(1)';
     }
-
-    function stopBreathing(){
-      breathAbort = true;
+    function cancelBreath(){
+      breathAbort=true;
+      breathingActive=false;
+      startBtn.textContent='Rozpocznij';
+      phaseLabelEl.textContent='Przerwano';
+      verbalText.textContent='Gotowy';
+      timerLabel.textContent='—';
+      circleInner.innerHTML = '<div style="display:flex;flex-direction:column;align-items:center;gap:4px;"><div id=\"phaseLabel\" style=\"font-size:.85em;\">Gotowy</div><div id=\"timerLabel\" style=\"font-size:1.4rem;\">—</div></div>';
+      setBackgroundPhase('rest');
+      progressDots.forEach(d=>d.classList.remove('active'));
+      cycleLabel.textContent='0 / 3';
+      circle.style.transform='scale(1)';
+      breathAbort=false;
     }
-
+    function sleep(ms){ return new Promise(r=>setTimeout(r,ms)); }
+    async function phaseTimer(seconds, phase){
+      let remaining = seconds;
+      const start = Date.now();
+      while(remaining > 0 && !breathAbort){
+        timerLabel.textContent = remaining;
+        circleInner.innerHTML = `<div style="display:flex;flex-direction:column;align-items:center;gap:4px;"><div style="font-size:.7em;">${phaseLabelEl.textContent}</div><div style="font-size:1.6rem;">${remaining}</div></div>`;
+        // smooth background transition progress within phase
+        const elapsed = (Date.now() - start)/1000;
+        const frac = Math.min(1, elapsed / seconds);
+        setBackgroundPhase(phase, frac);
+        // inner circle scaling subtle
+        if(phase==='inhale'){
+          circleInner.style.transform = `scale(${1 + 0.15 * frac})`;
+        } else if(phase==='hold'){
+          circleInner.style.transform = 'scale(1.15)';
+        } else if(phase==='exhale'){
+          circleInner.style.transform = `scale(${1.15 - 0.15 * frac})`;
+        }
+        await sleep(250);
+        remaining = Math.ceil(seconds - (Date.now() - start)/1000);
+      }
+    }
     startBtn.addEventListener('click', ()=>{
       if(breathingActive){
-        stopBreathing();
+        cancelBreath();
       } else {
-        runBreathing();
+        runBreath();
       }
     });
+    // circle acts as toggle
     circle.addEventListener('click', ()=>{
-      if(breathingActive){
-        stopBreathing();
-      } else {
-        runBreathing();
-      }
+      startBtn.click();
     });
-    document.getElementById('toggleSound').addEventListener('click', ()=>{
+    toggleSoundBtn.addEventListener('click', ()=>{
       soundOn = !soundOn;
-      document.getElementById('toggleSound').textContent = `Dźwięk: ${soundOn? 'ON':'OFF'}`;
+      toggleSoundBtn.textContent = `Dźwięk: ${soundOn? 'ON':'OFF'}`;
     });
 
-    // Reflection buttons
+    // rest unchanged: reflection, slider, signup flows
     document.querySelectorAll('.reflection-btn').forEach(btn=>{
       btn.addEventListener('click', ()=>{
         document.querySelectorAll('.reflection-btn').forEach(b=>b.classList.remove('active'));
@@ -553,8 +603,6 @@
         }
       });
     });
-
-    // Depth slider affecting events and background
     const depthSlider = document.getElementById('depthSlider');
     const depthLabel = document.getElementById('depthLabel');
     depthSlider.addEventListener('input', ()=>{
@@ -562,17 +610,6 @@
       if(v < 0.35) depthLabel.textContent='Tempo';
       else if(v > 0.65) depthLabel.textContent='Głębia';
       else depthLabel.textContent='Zrównoważone';
-      // background stronger
-      const tempoBg = `linear-gradient(135deg, rgba(62,134,201,0.85) 0%, rgba(160,211,255,0.6) 85%)`;
-      const deepBg = `linear-gradient(135deg, rgba(40,89,66,0.85) 0%, rgba(141,176,152,0.6) 85%)`;
-      if(v < 0.5){
-        const mix = v * 2;
-        document.body.style.background = `linear-gradient(135deg, rgba(62,134,201,${0.85 - 0.35*mix}) 0%, rgba(160,211,255,${0.6 - 0.2*mix}) 85%)`;
-      } else {
-        const mix = (v - 0.5) * 2;
-        document.body.style.background = `linear-gradient(135deg, rgba(40,89,66,${0.85 - 0.35*mix}) 0%, rgba(141,176,152,${0.6 - 0.2*mix}) 85%)`;
-      }
-      // event dimming
       document.querySelectorAll('.event').forEach(ev=>{
         const reco = ev.dataset.reco;
         ev.style.opacity = '1';
@@ -583,8 +620,6 @@
         }
       });
     });
-
-    // Email / signup flows
     document.getElementById('notifyBtn').addEventListener('click', ()=>{
       const e=document.getElementById('notifyEmail').value.trim();
       if(!e.includes('@')){ alert('Podaj poprawny email'); return;}
@@ -615,10 +650,54 @@
       feedback.textContent=`Zapisane na "${selectedEvent}". Sprawdzimy szczegóły w wiadomości.`; 
       document.getElementById('submitEvent').textContent='✔ Gotowe';
     });
-    document.getElementById('finalSign').addEventListener('click', ()=>{
+    document.getElementById('finalSign')?.addEventListener('click', ()=>{
       const e=document.getElementById('finalEmail').value.trim();
       if(!e.includes('@')||!e){ alert('Podaj email'); return; }
       document.getElementById('finalSign').textContent='Zapisane ✓';
+    });
+
+    // initialize active node on scroll
+    function updateActiveNode(){
+      const scrollPos = window.scrollY + window.innerHeight/3;
+      sections.forEach((sec,i)=>{
+        const top = sec.offsetTop;
+        if(scrollPos >= top){
+          nodes.forEach(n=>n.classList.remove('active'));
+          if(nodes[i]) nodes[i].classList.add('active');
+        }
+      });
+    }
+    const sections = [
+      document.getElementById('screen-breath'),
+      document.getElementById('screen-about'),
+      document.getElementById('screen-reflect'),
+      document.getElementById('screen-why'),
+      document.getElementById('screen-slicer-events'),
+      document.getElementById('screen-signup'),
+      document.getElementById('screen-final')
+    ];
+    window.addEventListener('scroll', updateActiveNode);
+    updateActiveNode();
+    nodes.forEach((n,idx)=>{
+      n.addEventListener('click', ()=> sections[idx].scrollIntoView({behavior:'smooth', block:'start'}));
+    });
+
+    // swipe nav
+    let touchStartY=0, touchEndY=0;
+    window.addEventListener('touchstart', e=>{ touchStartY = e.touches[0].clientY; });
+    window.addEventListener('touchend', e=>{
+      touchEndY = e.changedTouches[0].clientY;
+      const delta = touchStartY - touchEndY;
+      if(Math.abs(delta) < 40) return;
+      const currentIndex = sections.findIndex(s => {
+        const rect = s.getBoundingClientRect();
+        return rect.top <= window.innerHeight*0.4 && rect.bottom >= window.innerHeight*0.3;
+      });
+      if(delta > 0){
+        if(currentIndex < sections.length -1) sections[currentIndex+1].scrollIntoView({behavior:'smooth', block:'start'});
+      } else {
+        if(currentIndex > 0) sections[currentIndex-1].scrollIntoView({behavior:'smooth', block:'start'});
+      }
     });
   </script>
 </body>

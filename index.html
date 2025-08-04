@@ -2,285 +2,473 @@
 <html lang="pl">
 <head>
 <meta charset="UTF-8" />
-<title>InTouch Collective — Refined Journey</title>
+<title>InTouch Collective Journey</title>
 <meta name="viewport" content="width=device-width,initial-scale=1.0" />
-<link href="https://fonts.googleapis.com/css2?family=Recursive:opsz,wght@400;700&family=Plus+Jakarta+Sans:wght@400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Recursive:opsz,wght@500;700&family=Plus+Jakarta+Sans:wght@400;600&display=swap" rel="stylesheet">
 <style>
   :root {
-    --quick:#3568c1;
-    --deep:#285942;
-    --earth:#7a5130;
-    --neutral:#f7f3ed;
-    --text:#1f242c;
     --radius:18px;
     --transition:.45s cubic-bezier(.22,.12,.35,1);
-    --shadow:0 32px 140px -20px rgba(31,36,44,.2);
+    --shadow:0 40px 160px -20px rgba(31,36,44,.18);
+    --font-head:'Recursive', system-ui,-apple-system,BlinkMacSystemFont,sans-serif;
+    --font-body:'Plus Jakarta Sans', system-ui,-apple-system,BlinkMacSystemFont,sans-serif;
+    --earth:#80634f;
+    --green:#627d5a;
+    --sky:#7faedb;
     --accent:#c25e32;
-    --bg-quick:rgba(53,104,193,0.15);
-    --bg-deep:rgba(40,89,66,0.15);
-    --mix:0.5; /* 0=quick,1=deep */
-    font-family:'Plus Jakarta Sans',system-ui,-apple-system,BlinkMacSystemFont,sans-serif;
+    --muted-bg:#f2ece3;
+    --text:#1f242c;
+    --blend:0.5;
   }
+  /* utility */
   *{box-sizing:border-box;}
-  body{margin:0;background:linear-gradient(135deg,var(--dynamic-bg-start,#e6f1fc) 0%,var(--dynamic-bg-end,#f2ece3) 80%);transition:background .3s;color:var(--text);min-height:100%;-webkit-font-smoothing:antialiased;font-size:16px;}
-  h1{margin:0;font-family:'Recursive',system-ui;font-size:2.2rem;font-weight:700;line-height:1.1;}
-  h2{margin:0;font-family:'Recursive',system-ui;font-size:1.5rem;font-weight:700;line-height:1.15;}
-  p{margin:8px 0 16px;line-height:1.5;}
+  body{
+    margin:0;
+    background: linear-gradient(135deg,#e6f7ff 0%,#f2ece3 85%);
+    font-family: var(--font-body);
+    color: var(--text);
+    -webkit-font-smoothing:antialiased;
+    line-height:1.4;
+    transition:background .4s;
+  }
+  h1{font-family: var(--font-head);font-size:2.3rem;margin:0;line-height:1.05;}
+  h2{font-family: var(--font-head);font-size:1.6rem;margin:4px 0 12px;line-height:1.1;}
+  p{margin:8px 0 16px;font-size:1rem;}
   small{font-size:.65em;color:rgba(31,36,44,.6);}
-  .wrap{max-width:1000px;margin:0 auto;padding:16px 12px;}
-  .flow-step{display:flex;flex-wrap:wrap;gap:18px;margin-bottom:36px;align-items:start;}
-  .card{position:relative;background:#fff;border-radius:20px;padding:22px 24px;box-shadow:var(--shadow);overflow:hidden;}
-  /* varied shapes */
-  .notebook{background:#fff;position:relative;border-radius:24px;padding:36px 28px 26px;clip-path:polygon(0 0,100% 4%,100% 96%,0 100%);margin-bottom:18px;}
-  .scribble-underline{position:relative;display:inline-block;}
-  .scribble-underline svg{position:absolute;left:0;bottom:-6px;width:100%;height:20px;pointer-events:none;stroke:var(--accent);stroke-width:3;fill:none;stroke-dasharray:140;stroke-dashoffset:140;transition:stroke-dashoffset .4s;}
-  .scribble-underline:hover svg{stroke-dashoffset:0;}
-  .name-entry{display:flex;flex-wrap:wrap;gap:16px;}
-  .input-large{flex:1;min-width:140px;border:none;font-size:1.2rem;padding:14px 16px;border-radius:999px;box-shadow:inset 0 0 8px rgba(31,36,44,.07);} 
-  .btn{padding:12px 20px;border:none;border-radius:999px;cursor:pointer;font-weight:600;display:inline-flex;align-items:center;gap:8px;transition:all var(--transition);position:relative;font-family:'Plus Jakarta Sans';}
-  .btn-primary{background:linear-gradient(135deg,var(--deep),var(--accent));color:#fff;}
-  .btn-accent{background:var(--accent);color:#fff;}
-  .badge{display:inline-block;background:var(--accent);color:#fff;padding:6px 14px;border-radius:999px;font-size:.55em;margin-bottom:6px;}
-  .breath-box{background:rgba(255,255,255,.96);border-radius:22px;padding:18px;display:flex;flex-wrap:wrap;gap:16px;position:relative;overflow:hidden;}
-  .breath-visual{flex:none;position:relative;width:120px;height:120px;border-radius:999px;display:flex;align-items:center;justify-content:center;}
-  .breath-ring{position:absolute;inset:0;border-radius:999px;box-shadow:0 0 0 0 rgba(194,94,50,.5);transition:box-shadow .3s;}
-  .breath-inner{width:70px;height:70px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;transition:transform .4s;}
-  .slider-section{position:relative;margin-top:4px;}
-  .slider{width:100%;-webkit-appearance:none;height:14px;border-radius:8px;background:rgba(31,36,44,.1);outline:none;}
-  .slider::-webkit-slider-thumb{-webkit-appearance:none;width:28px;height:28px;border-radius:50%;background:var(--accent);border:4px solid #fff;box-shadow:0 0 30px rgba(194,94,50,.6);cursor:pointer;}
-  .split{display:flex;flex-wrap:wrap;gap:18px;}
-  .events{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;margin-top:12px;}
-  .event-card{background:#fff;border-radius:18px;padding:14px 16px;position:relative;clip-path:polygon(4% 0,100% 5%,100% 95%,0 100%);box-shadow:0 40px 120px -20px rgba(31,36,44,.08);display:flex;flex-direction:column;gap:6px;}
-  .event-tag{font-size:.55em;padding:4px 10px;border-radius:999px;background:rgba(194,94,50,.1);display:inline-block;margin-bottom:4px;}
-  .event-title{font-weight:700;}
-  .event-meta{font-size:.65em;color:rgba(31,36,44,.6);}
-  .email-invite{background:rgba(255,255,255,.95);border-radius:20px;padding:20px;display:flex;flex-wrap:wrap;gap:18px;margin-top:8px;box-shadow:0 50px 160px -30px rgba(31,36,44,.15);}
+  .container{max-width:1040px;margin:0 auto;padding:16px 12px;display:flex;flex-direction:column;gap:48px;}
+  /* walking path */
+  .path-wrapper{position:relative;margin:0 auto;padding:12px 0;}
+  .path{position:absolute;left:22px;top:0;bottom:0;width:4px;background:linear-gradient(180deg,var(--sky),var(--green));border-radius:2px;margin-right:12px;}
+  .step-marker{position:relative;padding-left:60px;margin-bottom:60px;}
+  .marker-badge{position:absolute;left:0;top:4px;width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.75em;font-weight:600;color:#fff;}
+  .breath-badge{background:var(--sky);}
+  .about-badge{background:var(--accent);}
+  .reflect-badge{background:var(--green);}
+  .why-badge{background:#90683e;}
+  .events-badge{background:var(--earth);}
+  .card{position:relative;background:#fff;border-radius:22px;padding:26px 28px;box-shadow:var(--shadow);overflow:hidden;display:flex;flex-wrap:wrap;gap:20px;transition:all var(--transition);}
+  .flex{display:flex;gap:18px;flex-wrap:wrap;align-items:flex-start;}
+  .btn{padding:14px 22px;border:none;border-radius:999px;cursor:pointer;font-weight:600;display:inline-flex;align-items:center;gap:10px;transition:all var(--transition);position:relative;font-family:var(--font-body);}
+  .btn-primary{background: linear-gradient(135deg,var(--accent),var(--sky));color:#fff;box-shadow:0 18px 80px -10px rgba(194,94,50,.4);}
+  .btn-secondary{background:#fff;border:2px solid var(--accent);color:var(--accent);}
+  .input{padding:14px 16px;border-radius:10px;border:2px solid rgba(31,36,44,.08);font-size:1rem;flex:1;min-width:140px;}
+  .pill{display:inline-block;background:rgba(31,36,44,.08);padding:6px 14px;border-radius:999px;font-size:.65em;margin-right:6px;}
+  .badge{display:inline-block;background:var(--accent);color:#fff;padding:6px 16px;border-radius:999px;font-size:.65em;margin-bottom:6px;font-weight:600;}
+  .underline{position:relative;display:inline-block;margin-bottom:6px;}
+  .underline:after{content:'';position:absolute;left:0;bottom:0;height:6px;width:100%;background:rgba(194,94,50,.25);border-radius:3px;}
+  .slicer{display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-top:8px;}
+  .slicer-icon{width:48px;height:48px;display:flex;align-items:center;justify-content:center;border-radius:50%;background:rgba(255,255,255,.9);box-shadow:0 10px 40px -10px rgba(31,36,44,.12);position:relative;font-size:1.2rem;}
+  .slider{flex:1;appearance:none;height:14px;border-radius:8px;background:rgba(31,36,44,.08);outline:none;position:relative;}
+  .slider::-webkit-slider-thumb{appearance:none;width:26px;height:26px;border-radius:50%;background:var(--accent);border:4px solid #fff;box-shadow:0 0 28px rgba(194,94,50,.6);cursor:pointer;transition:transform .2s;}
+  .event-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px;margin-top:12px;}
+  .event{position:relative;background:#fff;border-radius:16px;padding:16px;clip-path:polygon(3% 0,100% 5%,100% 95%,0 100%);box-shadow:0 36px 140px -20px rgba(31,36,44,.08);display:flex;flex-direction:column;gap:8px;}
+  .event .tag{font-size:.6em;background:rgba(194,94,50,.1);padding:4px 12px;border-radius:999px;display:inline-block;margin-bottom:6px;}
+  .event-title{font-weight:700;font-size:1.1rem;}
+  .event-meta{font-size:.65em;color:rgba(31,36,44,.65);}
+  .email-block{background:rgba(255,255,255,.97);border-radius:20px;padding:18px;display:flex;flex-wrap:wrap;gap:18px;box-shadow:0 50px 160px -30px rgba(31,36,44,.12);}
   .email-left{flex:2;min-width:200px;}
   .email-right{flex:1;min-width:160px;display:flex;flex-direction:column;gap:10px;}
-  .email-input{padding:12px 14px;border-radius:12px;border:2px solid rgba(31,36,44,.12);width:100%;}
-  .final-cta{margin-top:32px;display:flex;flex-wrap:wrap;gap:24px;}
-  .cta-box{flex:1;min-width:240px;background:#fff;border-radius:22px;padding:20px;box-shadow:var(--shadow);position:relative;}
-  .underline-small{position:relative;display:inline-block;margin-bottom:6px;}
-  .underline-small:after{content:'';position:absolute;left:0;bottom:1px;width:100%;height:6px;background:rgba(194,94,50,.25);border-radius:3px;}
-  .mobile-only{display:none;}
-  @media (max-width:900px){h1{font-size:1.8rem;} .flow-step{flex-direction:column;} .mobile-only{display:block;} }
+  .rodo{font-size:.55em;color:rgba(31,36,44,.6);margin-top:4px;}
+  .final-cta{display:flex;gap:24px;flex-wrap:wrap;margin-top:4px;}
+  .cta-box{flex:1;min-width:240px;background:#fff;border-radius:20px;padding:18px;box-shadow:var(--shadow);position:relative;}
+  .icon{width:18px;height:18px;display:inline-block;margin-right:6px;vertical-align:middle;}
+  @media (max-width:960px){
+    h1{font-size:2rem;}
+    .flex{flex-direction:column;}
+    .event-grid{grid-template-columns:1fr;}
+    .slicer{flex-direction:column;align-items:flex-start;}
+  }
 </style>
 </head>
 <body>
-  <div class="wrap">
-    <!-- Name entry hero, simple and visually appealing -->
-    <div class="flow-step" id="stepName">
-      <div style="flex:1;min-width:260px;">
-        <div class="notebook">
-          <div class="scribble-underline"><h1 id="greeting">Cześć, jak masz na imię?</h1><svg viewBox="0 0 160 24"><path d="M6 16 Q80 2 154 16" stroke-linecap="round" stroke-width="4"/></svg></div>
-          <p style="font-size:1rem;">Zacznij od wpisania imienia — nie pytamy więcej, to pierwszy drobny krok. Po nim przechodzimy do rytuału oddechu i dalej.</p>
-          <div class="name-entry">
-            <input type="text" id="nameField" class="input-large" placeholder="Twoje imię..." aria-label="Imię" />
-            <button class="btn btn-primary" id="continueName">Dalej</button>
+  <div class="container">
+
+    <!-- 1. Breathing Game -->
+    <div class="step-marker" id="step1">
+      <div class="marker-badge breath-badge">1</div>
+      <div class="card" aria-label="Breathing Game">
+        <div style="flex:1;min-width:250px;">
+          <div class="badge">Rytuał obecności</div>
+          <div class="underline"><h2>Oddech</h2></div>
+          <p>Weź 5 pełnych cykli wdech–wydech. To kotwica: uspokaja, ustawia intencję i pozwala wejść w teraz. Możesz dalej eksplorować w trakcie rytuału.</p>
+          <div style="display:flex;gap:16px;flex-wrap:wrap;align-items:center;">
+            <button class="btn btn-primary" id="startBreath">Zacznij</button>
+            <div id="breathStatus" style="font-weight:600;">Gotowy</div>
           </div>
-          <div style="margin-top:6px;"><small>Imię zostaje tylko w tej sesji, jeśli chcesz je zapisać później — doprecyzujemy.</small></div>
+          <small>Ruch koła i kolor reagują na Twój rytm. Po zakończeniu dostaniesz sugestię następnego kroku.</small>
         </div>
-      </div>
-      <div style="flex:none;min-width:120px;display:flex;align-items:center;justify-content:center;">
-        <div style="font-size:.75em;">Lekko, personalnie, bez zbędnych pól. Pamięć to początek relacji.</div>
+        <div style="flex:none;display:flex;align-items:center;justify-content:center;min-width:140px;">
+          <div class="slicer-icon" id="breathVisual" aria-label="Breathing visual">
+            <div id="breathInner" style="transition:transform .4s;">—</div>
+          </div>
+        </div>
       </div>
     </div>
 
-    <!-- Core: Breath + slider (varied layout with layered feel) -->
-    <div class="flow-step" id="stepCore" style="margin-top:24px;">
-      <div style="flex:1;min-width:260px;order:2;">
-        <div class="card" style="clip-path:polygon(0 0,100% 8%,100% 92%,0 100%);">
-          <div class="badge">Rytuał</div>
-          <div class="scribble-underline"><h2>Oddech</h2><svg viewBox="0 0 160 24"><path d="M6 16 Q80 2 154 16" stroke-linecap="round" stroke-width="4"/></svg></div>
-          <p>Wdech, wydech. Pięć pełnych cykli; to kotwica obecności. Możesz dalej scrollować — rytm to tło, nie blokada.</p>
-          <div class="breath-box">
-            <div style="flex:1;min-width:140px;">
-              <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;">
-                <button class="btn btn-primary" id="startBreath">Zacznij</button>
-                <div id="breathStatus" style="font-weight:600;">Gotowy</div>
+    <!-- 2. Elevator Pitch: About Us -->
+    <div class="step-marker" id="step2">
+      <div class="marker-badge about-badge">2</div>
+      <div class="card" aria-label="About us / Elevator Pitch">
+        <div class="flex" style="width:100%;">
+          <div style="flex:1;min-width:220px;">
+            <div class="badge">Kim jesteśmy</div>
+            <div class="underline"><h2>InTouch Collective</h2></div>
+            <p>InTouch Collective to inicjatywa dwóch przyjaciół z psychologicznym zacięciem. Organizujemy kameralne spotkania offline w Warszawie dla tych, którzy chcą zbudować relacje oparte na obecności zamiast powierzchowności.</p>
+          </div>
+          <div style="flex:1;min-width:220px;">
+            <div class="badge">Co robimy</div>
+            <div class="underline"><h2>Dlaczego to działa</h2></div>
+            <p>Łączymy autorskie gry, świadome ćwiczenia i facylitację w bezpiecznej przestrzeni. Uczestnicy dostają warunki do naturalnego budowania relacji — bez presji, w tempie dopasowanym do siebie.</p>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:6px;">
+              <div class="pill">Autentyczność</div>
+              <div class="pill">Uważność</div>
+              <div class="pill">Grupowa psychologia</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. Game 2: Reflective Question -->
+    <div class="step-marker" id="step3">
+      <div class="marker-badge reflect-badge">3</div>
+      <div class="card" aria-label="Self-reflection game">
+        <div style="flex:1;min-width:220px;">
+          <div class="badge">Mała refleksja</div>
+          <div class="underline"><h2>Co Cię zatrzymuje?</h2></div>
+          <p>Z perspektywy Ciebie: co w relacjach wydaje się puste, trudne, albo nieprzekuwalne w coś wartościowego? Wybierz jedną z trzech opcji i zobacz, co może być Twój kolejny krok.</p>
+          <div style="display:flex;gap:14px;flex-wrap:wrap;margin-top:4px;">
+            <button class="btn btn-secondary reflect-btn" data-key="superficial">Czuję, że wszystko jest płytkie</button>
+            <button class="btn btn-secondary reflect-btn" data-key="distance">Czuję dystans z drugim</button>
+            <button class="btn btn-secondary reflect-btn" data-key="fear">Boję się zacząć</button>
+          </div>
+          <div id="reflectionResult" style="margin-top:12px;font-weight:600;"></div>
+          <small>Nie zapisujemy tego. To chodzi o to, co zrobisz dalej.</small>
+        </div>
+        <div style="flex:none;min-width:140px;display:flex;align-items:center;justify-content:center;">
+          <div class="slicer-icon" aria-label="Reflection icon" id="reflectIcon">?</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4. Elevator Pitch: Why Us -->
+    <div class="step-marker" id="step4">
+      <div class="marker-badge why-badge">4</div>
+      <div class="card" aria-label="Why us">
+        <div class="flex" style="width:100%;">
+          <div style="flex:1;min-width:220px;">
+            <div class="badge">Dlaczego my?</div>
+            <div class="underline"><h2>Co nas wyróżnia</h2></div>
+            <p>Nie sprzedajemy powierzchownych rozmów. Projektujemy doświadczenia, które prowadzą do relacji z sensem. Facylitacja spotkań, zrozumienie dynamiki grupy i bezpieczeństwo emocjonalne to fundamenty.</p>
+            <ul style="padding-left:18px;margin:8px 0;">
+              <li>Małe, uważne grupy</li>
+              <li>Autorskie gry dopasowane do energii</li>
+              <li>Rytuały przejścia (np. oddech, refleksja)</li>
+            </ul>
+          </div>
+          <div style="flex:1;min-width:220px;">
+            <div class="underline"><h2>Dla kogo</h2></div>
+            <p>Dla zmęczonych szybkim światem online, którzy chcą połączyć się realnie. Dla tych, którzy chcą najpierw poczuć, potem zaangażować się.</p>
+            <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:6px;">
+              <div class="pill">Bez presji</div>
+              <div class="pill">Autentyczność</div>
+              <div class="pill">Wspólne doświadczenie</div>
+            </div>
+            <div style="margin-top:8px;"><strong>Efekt:</strong> Przełamanie izolacji, rozwój relacyjny, większa samoświadomość.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 5. Event List with sign-up/email -->
+    <div class="step-marker" id="step5">
+      <div class="marker-badge events-badge">5</div>
+      <div class="card" aria-label="Events & email">
+        <div class="flex" style="width:100%;">
+          <div style="flex:2;min-width:260px;">
+            <div class="badge">Wydarzenia</div>
+            <div class="underline"><h2>Nadchodzące sesje</h2></div>
+            <p>Po Twoim oddechu, wyborze i refleksji — tutaj znajdziesz dopasowane sesje. Zapisz się, zostaw email, albo wejdź od razu.</p>
+            <div class="slicer" style="margin-bottom:12px;">
+              <div class="slicer-icon" aria-label="Depth icon">🌳</div>
+              <div style="flex:1;">
+                <div style="display:flex;align-items:center;gap:10px;">
+                  <input type="range" id="depthReflect" class="slider" min="0" max="100" value="50" aria-label="Slicer" />
+                  <div id="depthText" style="min-width:100px;font-weight:600;">Zrównoważone</div>
+                </div>
+                <small>Głębia (🌳) vs tempo (⚡) — pokazuje, co może pasować do Ciebie teraz.</small>
               </div>
-              <div style="margin-top:6px;"><small>Podczas rytuału tło lekko się adaptuje, potem zobaczysz rekomendację.</small></div>
+              <div class="slicer-icon" aria-label="Tempo icon">⚡</div>
             </div>
-            <div style="flex:none;display:flex;align-items:center;justify-content:center;position:relative;">
-              <div class="breath-visual">
-                <div class="breath-ring" id="breathRing"></div>
-                <div class="breath-inner" id="breathInner">—</div>
+            <div class="event-grid">
+              <div class="event">
+                <div class="tag">5 sierpnia</div>
+                <div class="event-title">Prawdziwe rozmowy</div>
+                <div class="event-meta">Warszawa · limit 12</div>
+                <p>Małe grupy, uważne ćwiczenia, naturalne połączenia.</p>
+                <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+                  <button class="btn btn-primary open-signup" data-event="Prawdziwe rozmowy">Zapisz się</button>
+                  <div style="font-size:.7em;">Rekomendacja: głębia</div>
+                </div>
+              </div>
+              <div class="event">
+                <div class="tag">12 sierpnia</div>
+                <div class="event-title">Głębia i tempo</div>
+                <div class="event-meta">Warszawa · limit 18</div>
+                <p>Balans między szybkim startem a relacją z sensem.</p>
+                <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+                  <button class="btn btn-primary open-signup" data-event="Głębia i tempo">Zapisz się</button>
+                  <div style="font-size:.7em;">Rekomendacja: hybrydowa</div>
+                </div>
+              </div>
+              <div class="event">
+                <div class="tag">19 sierpnia</div>
+                <div class="event-title">Budowanie zaufania</div>
+                <div class="event-meta">Warszawa · limit 14</div>
+                <p>Parowe i grupowe ćwiczenia pogłębiające relacje.</p>
+                <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+                  <button class="btn btn-primary open-signup" data-event="Budowanie zaufania">Zapisz się</button>
+                  <div style="font-size:.7em;">Efekt: bezpieczeństwo</div>
+                </div>
+              </div>
+              <div class="event">
+                <div class="tag">26 sierpnia</div>
+                <div class="event-title">Mikro-spotkania</div>
+                <div class="event-meta">Warszawa · limit 20</div>
+                <p>Szybki start i głęboka kontynuacja — poznaj kilku nowych ludzi.</p>
+                <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+                  <button class="btn btn-primary open-signup" data-event="Mikro-spotkania">Zapisz się</button>
+                  <div style="font-size:.7em;">Tempo + jakość</div>
+                </div>
+              </div>
+              <div class="event">
+                <div class="tag">2 września</div>
+                <div class="event-title">Retreat: Autentyczna obecność</div>
+                <div class="event-meta">Warszawa · limit 10</div>
+                <p>Cały dzień offline: refleksja, relacje, obecność.</p>
+                <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+                  <button class="btn btn-primary open-signup" data-event="Retreat: Autentyczna obecność">Zapisz się</button>
+                  <div style="font-size:.7em;">Tempo przemyślane</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div style="flex:1;min-width:220px;">
+            <div class="email-block">
+              <div class="email-left">
+                <div class="badge">Powiadom mnie</div>
+                <div class="underline"><h2>Nie przegap</h2></div>
+                <p>Zostaw email — dostaniesz przypomnienie, małe refleksje i dostęp do szybkiego zapisu. RODO: nie sprzedajemy danych, tylko informujemy.</p>
+              </div>
+              <div class="email-right">
+                <input type="email" id="notifyEmail" class="input" placeholder="Twój email" aria-label="Email powiadomień" />
+                <button class="btn btn-primary" id="notifyBtn">Powiadom mnie</button>
+                <div class="rodo">Zgoda RODO: akceptuję przetwarzanie emaila w celu powiadomień o wydarzeniach.</div>
               </div>
             </div>
           </div>
         </div>
       </div>
-      <div style="flex:1;min-width:260px;order:1;">
-        <div class="card" style="background:rgba(255,255,255,.98);clip-path:polygon(2% 0,100% 4%,100% 96%,0 100%);">
-          <div class="badge">Personalizacja</div>
-          <div class="scribble-underline"><h2>Głębokość ↔ Tempo</h2><svg viewBox="0 0 160 24"><path d="M6 16 Q80 2 154 16" stroke-linecap="round" stroke-width="4"/></svg></div>
-          <p>Wybierz: szybki start czy głębokie zanurzenie. Przesunięcie suwaka zmienia rekomendacje i tło — bądź świadomy wyboru.</p>
-          <div class="slider-section">
-            <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;">
-              <input type="range" id="depthRange" class="slider" min="0" max="100" value="50" />
-              <div class="value-display" id="depthValue">Zrównoważone</div>
-            </div>
-            <div style="margin-top:4px;"><small>Im bardziej w głąb, tym ziemista, cięższa energia. Im szybciej — chłodniejsza, jasna.</small></div>
-          </div>
-        </div>
-      </div>
     </div>
 
-    <!-- Info + events (not block uniform, mixed layout) -->
-    <div class="flow-step" id="stepInfo" style="margin-top:12px;">
-      <div style="flex:1;min-width:260px;order:1;">
-        <div class="card" style="clip-path:polygon(0 2%,100% 5%,100% 93%,0 100%);">
-          <div class="badge">Kim jesteśmy</div>
-          <div class="scribble-underline"><h2>InTouch Collective</h2><svg viewBox="0 0 160 24"><path d="M6 16 Q80 2 154 16" stroke-linecap="round" stroke-width="4"/></svg></div>
-          <p>Dwóch przyjaciół z psychologiczną wrażliwością tworzy kameralne spotkania offline w Warszawie. W zamian za powierzchowność dajemy autentyczne połączenia.</p>
-        </div>
-      </div>
-      <div style="flex:1;min-width:260px;order:2;">
-        <div class="card" style="background:rgba(255,255,255,.95);clip-path:polygon(4% 0,100% 6%,100% 94%,0 100%);">
-          <div class="badge">Dlaczego my?</div>
-          <div class="scribble-underline"><h2>Co nas wyróżnia</h2><svg viewBox="0 0 160 24"><path d="M6 16 Q80 2 154 16" stroke-linecap="round" stroke-width="4"/></svg></div>
-          <p>Autorskie gry, facylitacja, uważna przestrzeń. Ludzie przestają czuć się samotni i zaczynają budować relacje w bezpiecznym tempie.</p>
-          <ul style="padding-left:18px;margin:6px 0;"><li>Małe grupy & bezpieczeństwo</li><li>Ćwiczenia dopasowane ręcznie</li><li>Refleksja i autentyczność</li></ul>
-        </div>
-      </div>
-    </div>
-
-    <!-- Events and email invite, layered, varied shapes -->
-    <div class="flow-step" id="stepEvents">
-      <div style="flex:2;min-width:300px;order:2;">
-        <div class="card" style="clip-path:polygon(0 4%,100% 6%,100% 94%,0 100%);">
-          <div class="badge">Wydarzenia</div>
-          <div class="scribble-underline"><h2>Nadchodzące sesje</h2><svg viewBox="0 0 160 24"><path d="M6 16 Q80 2 154 16" stroke-linecap="round" stroke-width="4"/></svg></div>
-          <p>Wybierz to, co rezonuje. Możesz też zostać na liście powiadomień — przypomnimy.</p>
-          <div class="events" id="eventsList">
-            <div class="event-card">
-              <div class="event-tag">5 sierpnia</div>
-              <div class="event-meta">Warszawa • limit 12</div>
-              <div class="event-title">Prawdziwe rozmowy</div>
-              <p>Małe grupy, uważne ćwiczenia, naturalne połączenia.</p>
-              <div style="margin-top:6px;"><button class="btn btn-primary" data-event="1">Zapisz się</button></div>
-              <div style="font-size:.55em;margin-top:4px;">Rekomendacja: głębia</div>
-            </div>
-            <div class="event-card">
-              <div class="event-tag">12 sierpnia</div>
-              <div class="event-meta">Warszawa • limit 18</div>
-              <div class="event-title">Głębia i tempo</div>
-              <p>Balans między szybkim startem a relacją z sensem.</p>
-              <div style="margin-top:6px;"><button class="btn btn-primary" data-event="2">Zapisz się</button></div>
-              <div style="font-size:.55em;margin-top:4px;">Rekomendacja: hybrydowa</div>
-            </div>
-            <div class="event-card">
-              <div class="event-tag">19 sierpnia</div>
-              <div class="event-meta">Warszawa • limit 14</div>
-              <div class="event-title">Budowanie zaufania</div>
-              <p>Parowe i grupowe ćwiczenia pogłębiające relacje.</p>
-              <div style="margin-top:6px;"><button class="btn btn-primary" data-event="3">Zapisz się</button></div>
-              <div style="font-size:.55em;margin-top:4px;">Efekt: bezpieczeństwo</div>
-            </div>
-            <div class="event-card">
-              <div class="event-tag">26 sierpnia</div>
-              <div class="event-meta">Warszawa • limit 20</div>
-              <div class="event-title">Mikro-spotkania</div>
-              <p>Szybki start, głęboka kontynuacja — poznaj kilka osób.</p>
-              <div style="margin-top:6px;"><button class="btn btn-primary" data-event="4">Zapisz się</button></div>
-              <div style="font-size:.55em;margin-top:4px;">Szybko + jakościowo</div>
-            </div>
-            <div class="event-card">
-              <div class="event-tag">2 września</div>
-              <div class="event-meta">Warszawa • limit 10</div>
-              <div class="event-title">Retreat: Autentyczna obecność</div>
-              <p>Cały dzień offline, refleksja i głęboki kontakt z grupą.</p>
-              <div style="margin-top:6px;"><button class="btn btn-primary" data-event="5">Zapisz się</button></div>
-              <div style="font-size:.55em;margin-top:4px;">Tempo: przemyślane</div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div style="flex:1;min-width:220px;order:1;">
-        <div class="email-invite">
-          <div class="email-left">
-            <div class="badge">Nie przegap</div>
-            <h2 style="margin:4px 0;">Chcesz powiadomienia?</h2>
-            <p>Zostaw email, a przypomnimy o nowościach i damy szybki dostęp do zapisu.</p>
-          </div>
-          <div class="email-right">
-            <input type="email" id="notifyEmail" placeholder="Twój email" class="email-input" />
-            <button class="btn btn-primary" id="notifyBtn">Powiadom mnie</button>
-            <div style="font-size:.55em;">RODO: tylko przypomnienia, zero spam.</div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Final engagement CTA -->
-    <div class="flow-step" id="stepFinal">
-      <div class="final-cta">
-        <div class="cta-box">
-          <div class="scribble-underline"><h2>Zostań w kontakcie</h2><svg viewBox="0 0 160 24"><path d="M6 16 Q80 2 154 16" stroke-linecap="round" stroke-width="4"/></svg></div>
-          <p>Otrzymuj przypomnienia, małe refleksje, zaproszenia. Wybierz swój rytm.</p>
+    <!-- 5.1 Email capture (can be separate visual block) -->
+    <div class="step-marker" id="step5a">
+      <div class="marker-badge events-badge">5a</div>
+      <div class="card" aria-label="Email capture">
+        <div style="flex:1;">
+          <div class="underline"><h2>Zapisz email</h2></div>
+          <p>Chcesz być na bieżąco? Zostaw email i mamy dla Ciebie przypomnienia, personalized follow-upy i priorytetowy dostęp.</p>
           <div style="display:flex;gap:14px;flex-wrap:wrap;align-items:center;">
-            <input type="email" id="finalEmail" placeholder="Twój email" class="email-input" />
-            <button class="btn btn-primary" id="finalSignup">Zapisz się</button>
+            <input type="email" id="captureEmail" class="input" placeholder="Twój email" aria-label="Email" />
+            <button class="btn btn-primary" id="captureBtn">Zapisz</button>
           </div>
-          <div style="font-size:.55em;">RODO: tylko powiadomienia.</div>
-        </div>
-        <div class="cta-box">
-          <div><strong>Dlaczego warto</strong></div>
-          <ul style="padding-left:18px;margin:6px 0;">
-            <li>Kameralne spotkania w Warszawie</li>
-            <li>Autorskie gry + facylitacja</li>
-            <li>Osobiste przypomnienia</li>
-          </ul>
+          <div class="rodo">RODO: Tylko powiadomienia. Możesz zrezygnować w każdej chwili.</div>
         </div>
       </div>
     </div>
+
+    <!-- 5.2 Event signup modal-ish panel -->
+    <div class="step-marker" id="step5b">
+      <div class="marker-badge events-badge">5b</div>
+      <div class="card" aria-label="Event signup">
+        <div style="flex:1;min-width:260px;">
+          <div class="badge" id="selectedEventTag">Zapisz się</div>
+          <div class="underline"><h2 id="selectedEventTitle">Wybierz wydarzenie</h2></div>
+          <p id="selectedEventDesc">Podaj email i telefon, potwierdź zgodę RODO, a my wyślemy szczegóły i przypomnienie.</p>
+          <div style="display:flex;gap:14px;flex-wrap:wrap;align-items:center;">
+            <input type="email" id="eventEmail" class="input" placeholder="Email" aria-label="Email wydarzenia" />
+            <input type="tel" id="eventPhone" class="input" placeholder="Telefon" aria-label="Telefon" style="max-width:160px;" />
+          </div>
+          <div style="margin-top:10px;">
+            <label style="display:flex;gap:8px;align-items:center;"><input type="checkbox" id="consentEvent" /> Akceptuję przetwarzanie danych zgodnie z RODO.</label>
+          </div>
+          <div style="margin-top:14px;">
+            <button class="btn btn-primary" id="submitEvent">Dołącz</button>
+          </div>
+          <div id="signupFeedback" style="margin-top:8px;font-weight:600;"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Final summary/engagement -->
+    <div class="step-marker" id="final">
+      <div class="card" aria-label="Final call to action">
+        <div class="final-cta">
+          <div class="cta-box">
+            <div class="underline"><h2>Zostań w kontakcie</h2></div>
+            <p>Otrzymuj przypomnienia, refleksje i zaproszenia. Dostosujemy rytm do Ciebie.</p>
+            <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:center;">
+              <input type="email" id="finalEmail" class="input" placeholder="Twój email" aria-label="Email kontaktowy" />
+              <button class="btn btn-primary" id="finalSign">Zapisz się</button>
+            </div>
+            <div class="rodo">RODO: tylko to, na co się zgadzasz.</div>
+          </div>
+          <div class="cta-box">
+            <div class="badge">W skrócie</div>
+            <div class="underline"><h2>Dlaczego warto</h2></div>
+            <ul style="padding-left:18px;margin:6px 0;">
+              <li>Kameralne spotkania w Warszawie</li>
+              <li>Autorskie gry + facylitacja</li>
+              <li>Refleksja i obecność</li>
+              <li>Personalizowane przypomnienia</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
 
   <script>
-    // name flow
-    const nameField=document.getElementById('nameField');
-    const continueName=document.getElementById('continueName');
-    const greeting=document.getElementById('greeting');
-    continueName.addEventListener('click',()=>{
-      const v=nameField.value.trim(); if(!v) return; greeting.textContent=`Cześć, ${v}!`;
-      // reveal next sections
-      document.getElementById('stepCore').scrollIntoView({behavior:'smooth'});
-    });
-    // breathing
-    let breathState=false; let inhale=true; let cycle=0; const startBreath=document.getElementById('startBreath'); const breathInner=document.getElementById('breathInner'); const breathRing=document.getElementById('breathRing'); const breathStatus=document.getElementById('breathStatus');
-    startBreath.addEventListener('click',()=>{
-      if(breathState) return; breathState=true; cycle=0; inhale=true; breathStatus.textContent='Wdech';
-      const interval=setInterval(()=>{
-        if(inhale){ breathInner.style.transform='scale(1.2)'; breathInner.textContent='Wdech'; breathRing.style.boxShadow='0 0 40px 12px rgba(194,94,50,.6)'; }
-        else{ breathInner.style.transform='scale(.9)'; breathInner.textContent='Wydech'; breathRing.style.boxShadow='0 0 10px 4px rgba(194,94,50,.3)'; }
-        inhale=!inhale; cycle++;
-        if(cycle>=8){ clearInterval(interval); breathStatus.textContent='Gotowe'; updateDepth(); }
-      },1200);
-    });
-    // depth slider influences background aggressively
-    const depthRange=document.getElementById('depthRange');
-    const depthValue=document.getElementById('depthValue');
-    function updateDepth(){
-      const v=Number(depthRange.value)/100; // 0 quick,1 deep
-      if(v<0.35){ depthValue.textContent='Tempo'; }
-      else if(v>0.65){ depthValue.textContent='Głębia'; }
-      else{ depthValue.textContent='Zrównoważone'; }
-      // dynamic background interpolation
-      const quickStart='#dce9fb';
-      const deepStart='#f0ebe2';
-      // more aggressive mix: use easing
-      const mix=v;
-      function blend(a,b,t){ const ah=a.replace('#',''); const bh=b.replace('#',''); const ar=parseInt(ah.substring(0,2),16), ag=parseInt(ah.substring(2,4),16), ab=parseInt(ah.substring(4,6),16); const br=parseInt(bh.substring(0,2),16), bg=parseInt(bh.substring(2,4),16), bb=parseInt(bh.substring(4,6),16); const rr=Math.round(ar + (br-ar)*t).toString(16).padStart(2,'0'); const rg=Math.round(ag + (bg-ag)*t).toString(16).padStart(2,'0'); const rb=Math.round(ab + (bb-ab)*t).toString(16).padStart(2,'0'); return `#${rr}${rg}${rb}`; }
-      const start = blend(quickStart, deepStart, mix);
-      const end = mix < 0.5 ? '#ffffff' : blend('#faf5f0', '#e6efe4', (mix-0.5)*2);
+    // Blend helper
+    function blend(a,b,t){
+      const ah=a.replace('#',''), bh=b.replace('#','');
+      const ar=parseInt(ah.substring(0,2),16), ag=parseInt(ah.substring(2,4),16), ab=parseInt(ah.substring(4,6),16);
+      const br=parseInt(bh.substring(0,2),16), bg=parseInt(bh.substring(2,4),16), bb=parseInt(bh.substring(4,6),16);
+      const rr=Math.round(ar + (br - ar)*t).toString(16).padStart(2,'0');
+      const rg=Math.round(ag + (bg - ag)*t).toString(16).padStart(2,'0');
+      const rb=Math.round(ab + (bb - ab)*t).toString(16).padStart(2,'0');
+      return `#${rr}${rg}${rb}`;
+    }
+
+    // Depth/tempo slicer affecting background
+    const depthReflect = document.getElementById('depthReflect');
+    const depthText = document.getElementById('depthText');
+    function updateBlend(){
+      const val = Number(depthReflect.value)/100; // 0 tempo, 1 depth
+      if(val < 0.35) depthText.textContent = 'Tempo';
+      else if(val > 0.65) depthText.textContent = 'Głębia';
+      else depthText.textContent = 'Zrównoważone';
+      // background gradient more aggressive
+      const start = blend('#e6f7ff', '#f2ece3', val * 0.9);
+      const end = val < 0.5 ? blend('#ffffff', '#f7f3ed', val) : blend('#f2ece3', '#e9efe7', (val-0.5)*2);
       document.body.style.background = `linear-gradient(135deg, ${start} 0%, ${end} 85%)`;
     }
-    depthRange.addEventListener('input',updateDepth); updateDepth();
-    // notify and final signups
-    document.getElementById('notifyBtn').addEventListener('click',()=>{ const e=document.getElementById('notifyEmail').value.trim(); if(!e||!e.includes('@')){ alert('Poprawny email'); return;} document.getElementById('notifyBtn').textContent='Dziękujemy ✓'; });
-    document.getElementById('finalSignup').addEventListener('click',()=>{ const e=document.getElementById('finalEmail').value.trim(); if(!e||!e.includes('@')){ alert('Poprawny email'); return;} document.getElementById('finalSignup').textContent='Zapisano ✓'; });
-    // event signup scroll
-    document.querySelectorAll('[data-event]').forEach(b=>{ b.addEventListener('click',()=>{ document.getElementById('stepFinal').scrollIntoView({behavior:'smooth'}); }); });
+    depthReflect.addEventListener('input', updateBlend);
+    updateBlend();
+
+    // Breathing logic
+    const startBreath = document.getElementById('startBreath');
+    const breathStatus = document.getElementById('breathStatus');
+    const breathInner = document.getElementById('breathInner');
+    let inhale = true;
+    startBreath.addEventListener('click', () => {
+      breathStatus.textContent = 'Wdech';
+      let count = 0;
+      const interval = setInterval(() => {
+        if (inhale) {
+          breathInner.style.transform = 'scale(1.2)';
+          breathInner.textContent = 'Wdech';
+          breathStatus.textContent = 'Wdech';
+        } else {
+          breathInner.style.transform = 'scale(.9)';
+          breathInner.textContent = 'Wydech';
+          breathStatus.textContent = 'Wydech';
+        }
+        inhale = !inhale;
+        count++;
+        if (count >= 8) {
+          clearInterval(interval);
+          breathStatus.textContent = 'Gotowe';
+          breathInner.textContent = '✓';
+        }
+      }, 1200);
+    });
+
+    // Reflective question
+    document.querySelectorAll('.reflect-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const key = btn.dataset.key;
+        const output = document.getElementById('reflectionResult');
+        let msg = '';
+        if (key === 'superficial') {
+          msg = 'Rozpoznajesz brak głębi — zacznij od jednej szczerej rozmowy zamiast wielu powierzchownych.';
+        } else if (key === 'distance') {
+          msg = 'Czujesz dystans — spróbuj zaprosić jedną osobę na krótkie spotkanie bez oczekiwań.';
+        } else if (key === 'fear') {
+          msg = 'Strach blokuje pierwszy krok — zacznij od milczącego towarzystwa, potem pytania: "Co u Ciebie?"';
+        }
+        output.textContent = msg;
+        document.getElementById('reflectIcon').textContent = key === 'superficial' ? '🤏' : key === 'distance' ? '↔️' : '🛡️';
+      });
+    });
+
+    // Notify email
+    document.getElementById('notifyBtn').addEventListener('click', () => {
+      const inEl = document.getElementById('notifyEmail');
+      if (!inEl.value.includes('@')) {
+        alert('Podaj poprawny email');
+        return;
+      }
+      document.getElementById('notifyBtn').textContent = '✅ Dziękujemy';
+    });
+
+    // Final contact
+    document.getElementById('finalSign').addEventListener('click', () => {
+      const e = document.getElementById('finalEmail');
+      if (!e.value.includes('@')) { alert('Podaj poprawny email'); return; }
+      document.getElementById('finalSign').textContent = 'Zapisane ✓';
+    });
+
+    // Event signup panel logic
+    let selectedEvent = null;
+    document.querySelectorAll('.open-signup').forEach(b => {
+      b.addEventListener('click', () => {
+        selectedEvent = b.dataset.event;
+        document.getElementById('selectedEventTitle').textContent = selectedEvent;
+        document.getElementById('selectedEventDesc').textContent = 'Podaj email i telefon, potwierdź zgodę RODO, a my potwierdzimy miejsce i przypomnimy.';
+        document.getElementById('selectedEventTag').textContent = selectedEvent;
+        // scroll into view of signup block
+        document.getElementById('step5b').scrollIntoView({behavior:'smooth'});
+      });
+    });
+
+    document.getElementById('submitEvent').addEventListener('click', () => {
+      const email = document.getElementById('eventEmail').value.trim();
+      const phone = document.getElementById('eventPhone').value.trim();
+      const consent = document.getElementById('consentEvent').checked;
+      const feedback = document.getElementById('signupFeedback');
+      if (!email.includes('@') || !phone) {
+        feedback.textContent = 'Wypełnij email i telefon poprawnie.';
+        return;
+      }
+      if (!consent) {
+        feedback.textContent = 'Musisz zaakceptować RODO.';
+        return;
+      }
+      feedback.textContent = `Dziękujemy! Zapisano na "${selectedEvent}". Sprawdzimy szczegóły w wiadomości.`;
+      document.getElementById('submitEvent').textContent = 'Gotowe ✓';
+    });
+
+    // Name entry personal touch
+    document.getElementById('nameContinue')?.addEventListener('click', () => {
+      const name = document.getElementById('nameInput').value.trim();
+      if (name) {
+        // Could personalize further; for now minimal
+        alert(`Cześć ${name}, zaczynamy.`);
+      }
+    });
+
   </script>
 </body>
 </html>

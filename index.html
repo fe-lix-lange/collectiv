@@ -314,7 +314,7 @@
       collectiv
     </div>
     <div class="actions">
-      <button class="btn-top" onclick="document.getElementById('menu').style.display='flex'">Menu</button>
+      <button class="btn-top" onclick="openModal('menu', this)">Menu</button>
       <button class="btn-top" onclick="document.getElementById('events').scrollIntoView({behavior:'smooth'})">Events</button>
       <button class="icon-btn" aria-label="Instagram" onclick="window.open('https://instagram.com/','_blank')">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="3" width="18" height="18" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
@@ -445,23 +445,23 @@
       </div>
 
       <!-- full-card clickable with shimmer hint -->
-      <div class="event-card" data-name="Połączenia" data-id="ev1" onclick="openEvent('ev1')">
+      <div class="event-card" data-name="Połączenia" data-id="ev1" onclick="openEvent('ev1', this)">
         <div class="shimmer" aria-hidden="true"></div>
         <div style="font-weight:700">Spotkanie regularne: Połączenia</div>
         <div class="meta">3 września • Warszawa | Pole Mokokotowskie • 19:00–21:00</div>
         <div class="event-actions">
-          <button class="btn" onclick="event.stopPropagation(); openSignup('ev1')">Zapisz się</button>
-          <button class="btn ghost" onclick="event.stopPropagation(); openEvent('ev1')">Szczegóły</button>
+          <button class="btn" onclick="event.stopPropagation(); openSignup('ev1', this)">Zapisz się</button>
+          <button class="btn ghost" onclick="event.stopPropagation(); openEvent('ev1', this)">Szczegóły</button>
         </div>
       </div>
 
-      <div class="event-card" data-name="Połączenia" data-id="ev2" onclick="openEvent('ev2')">
+      <div class="event-card" data-name="Połączenia" data-id="ev2" onclick="openEvent('ev2', this)">
         <div class="shimmer" aria-hidden="true"></div>
         <div style="font-weight:700">Spotkanie regularne: Połączenia</div>
         <div class="meta">10 września • Warszawa | Cafe in Środmiescie • 19:00–21:00</div>
         <div class="event-actions">
-          <button class="btn" onclick="event.stopPropagation(); openSignup('ev2')">Zapisz się</button>
-          <button class="btn ghost" onclick="event.stopPropagation(); openEvent('ev2')">Szczegóły</button>
+          <button class="btn" onclick="event.stopPropagation(); openSignup('ev2', this)">Zapisz się</button>
+          <button class="btn ghost" onclick="event.stopPropagation(); openEvent('ev2', this)">Szczegóły</button>
         </div>
       </div>
     </section>
@@ -469,7 +469,7 @@
     <!-- SUBTLE INVITE -->
     <section class="block invite" id="invite">
       <div style="margin:10px 0 8px">Chcesz delikatne przypomnienia o kolejnych spotkaniach?</div>
-      <div class="linklike" onclick="openEmail()">Zostaw email (subtelna lista)</div>
+      <div class="linklike" onclick="openEmail(this)">Zostaw email (subtelna lista)</div>
     </section>
 
     <!-- FOOTER -->
@@ -487,26 +487,26 @@
   </main>
 
   <!-- MENU OVERLAY -->
-  <div class="overlay" id="menu" role="dialog" aria-modal="true">
+  <div class="overlay" id="menu" role="dialog" aria-modal="true" aria-labelledby="menuHeading">
     <div class="panel">
-      <button class="close" onclick="document.getElementById('menu').style.display='none'">×</button>
-      <h3>Nawigacja</h3>
+      <button class="close" onclick="closeModal('menu')">×</button>
+      <h3 id="menuHeading">Nawigacja</h3>
       <ul style="margin:8px 0 0 18px">
-        <li><a href="#hero" onclick="document.getElementById('menu').style.display='none'">Początek</a></li>
-        <li><a href="#part1" onclick="document.getElementById('menu').style.display='none'">O co chodzi</a></li>
-        <li><a href="#part2" onclick="document.getElementById('menu').style.display='none'">Kim jesteśmy</a></li>
-        <li><a href="#events" onclick="document.getElementById('menu').style.display='none'">Wydarzenia</a></li>
-        <li><a href="#invite" onclick="document.getElementById('menu').style.display='none'">Zapis do listy</a></li>
+        <li><a href="#hero" onclick="closeModal('menu')">Początek</a></li>
+        <li><a href="#part1" onclick="closeModal('menu')">O co chodzi</a></li>
+        <li><a href="#part2" onclick="closeModal('menu')">Kim jesteśmy</a></li>
+        <li><a href="#events" onclick="closeModal('menu')">Wydarzenia</a></li>
+        <li><a href="#invite" onclick="closeModal('menu')">Zapis do listy</a></li>
       </ul>
     </div>
   </div>
 
   <!-- EMAIL OVERLAY -->
-  <div class="overlay" id="emailOverlay" role="dialog" aria-modal="true">
+  <div class="overlay" id="emailOverlay" role="dialog" aria-modal="true" aria-labelledby="emailHeading" aria-describedby="emailDesc">
     <div class="panel">
-      <button class="close" onclick="document.getElementById('emailOverlay').style.display='none'">×</button>
-      <h3>Zostaw email</h3>
-      <p>Wyślemy subtelne przypomnienia o kolejnych spotkaniach.</p>
+      <button class="close" onclick="closeModal('emailOverlay')">×</button>
+      <h3 id="emailHeading">Zostaw email</h3>
+      <p id="emailDesc">Wyślemy subtelne przypomnienia o kolejnych spotkaniach.</p>
       <form onsubmit="submitEmail(event)">
         <input id="notifyEmail" type="email" placeholder="Twój email" required>
         <label class="consent">
@@ -520,7 +520,7 @@
   </div>
 
   <!-- EVENT DETAILS OVERLAY -->
-  <div class="overlay" id="eventOverlay" role="dialog" aria-modal="true">
+  <div class="overlay" id="eventOverlay" role="dialog" aria-modal="true" aria-labelledby="eventTitle" aria-describedby="eventDesc">
     <div class="panel">
       <button class="close" onclick="closeEvent()">×</button>
       <h3 id="eventTitle">Wydarzenie</h3>
@@ -533,10 +533,10 @@
   </div>
 
   <!-- EVENT SIGNUP OVERLAY -->
-  <div class="overlay" id="signupOverlay" role="dialog" aria-modal="true">
+  <div class="overlay" id="signupOverlay" role="dialog" aria-modal="true" aria-labelledby="signupHeading" aria-describedby="signupEventLabel">
     <div class="panel">
       <button class="close" onclick="closeSignup()">×</button>
-      <h3>Zapisz się na wydarzenie</h3>
+      <h3 id="signupHeading">Zapisz się na wydarzenie</h3>
       <div id="signupEventLabel" style="font-weight:700; margin-top:2px"></div>
       <form onsubmit="submitSignup(event)">
         <input id="evEmail" type="email" placeholder="Email" required>
@@ -555,6 +555,35 @@
   </div>
 
 <script>
+  const focusableSel='button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])';
+  let lastFocused=null;
+  function openModal(id, trigger){
+    const overlay=document.getElementById(id);
+    lastFocused=trigger||document.activeElement;
+    overlay.style.display='flex';
+    const focusables=overlay.querySelectorAll(focusableSel);
+    if(focusables.length) focusables[0].focus();
+    const trap=e=>{
+      if(e.key==='Tab'){
+        const fs=overlay.querySelectorAll(focusableSel);
+        if(!fs.length) return;
+        const first=fs[0];
+        const last=fs[fs.length-1];
+        if(e.shiftKey && document.activeElement===first){e.preventDefault();last.focus();}
+        else if(!e.shiftKey && document.activeElement===last){e.preventDefault();first.focus();}
+      } else if(e.key==='Escape'){ closeModal(id); }
+    };
+    overlay.addEventListener('keydown', trap);
+    overlay._trap=trap;
+  }
+  function closeModal(id){
+    const overlay=document.getElementById(id);
+    overlay.style.display='none';
+    if(overlay._trap) overlay.removeEventListener('keydown', overlay._trap);
+    if(lastFocused && typeof lastFocused.focus==='function') lastFocused.focus();
+    lastFocused=null;
+  }
+
   /* ===== Scroll-driven hero dissolve & bg dark/blur ===== */
   const root=document.documentElement;
   function setProgress(){
@@ -613,37 +642,37 @@
   }
 
   /* ===== Event details modal ===== */
-  function openEvent(id){
+  function openEvent(id, trigger){
     currentId=id;
     document.getElementById('eventTitle').textContent=EVENTS[id].title;
-    document.getElementById('eventOverlay').style.display='flex';
+    openModal('eventOverlay', trigger);
     const btn=document.getElementById('signupFromDetails');
-    btn.onclick=()=>{ document.getElementById('eventOverlay').style.display='none'; openSignup(id); };
+    btn.onclick=()=>{ closeModal('eventOverlay'); openSignup(id, btn); };
   }
-  function closeEvent(){ document.getElementById('eventOverlay').style.display='none'; }
+  function closeEvent(){ closeModal('eventOverlay'); }
 
   /* ===== Email overlay ===== */
-  function openEmail(){ document.getElementById('emailOverlay').style.display='flex'; }
+  function openEmail(trigger){ openModal('emailOverlay', trigger); }
   function submitEmail(e){
     e.preventDefault();
     const mail=document.getElementById('notifyEmail').value.trim();
     if(!mail || !document.getElementById('notifyConsent').checked) return;
     sessionStorage.setItem('collectiv_email', mail);
     document.getElementById('notifySuccess').style.display='block';
-    setTimeout(()=>document.getElementById('emailOverlay').style.display='none', 1100);
+    setTimeout(()=>closeModal('emailOverlay'), 1100);
   }
 
   /* ===== Signup flow + ICS gating ===== */
-  function openSignup(id){
+  function openSignup(id, trigger){
     currentId=id;
     document.getElementById('signupEventLabel').textContent=EVENTS[id].title;
     const stored=sessionStorage.getItem('collectiv_email');
     if(stored) document.getElementById('evEmail').value=stored;
     document.getElementById('evSuccess').style.display='none';
     document.getElementById('icsArea').style.display='none';
-    document.getElementById('signupOverlay').style.display='flex';
+    openModal('signupOverlay', trigger);
   }
-  function closeSignup(){ document.getElementById('signupOverlay').style.display='none'; }
+  function closeSignup(){ closeModal('signupOverlay'); }
 
   function submitSignup(e){
     e.preventDefault();
@@ -685,7 +714,7 @@ END:VCALENDAR`.replace(/\n/g,"\r\n");
     if(e.key==='Escape'){
       ['menu','emailOverlay','eventOverlay','signupOverlay'].forEach(id=>{
         const el=document.getElementById(id);
-        if(el && el.style.display==='flex') el.style.display='none';
+        if(el && el.style.display==='flex') closeModal(id);
       });
     }
   });

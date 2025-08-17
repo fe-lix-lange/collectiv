@@ -1,615 +1,694 @@
-
 <!DOCTYPE html>
 <html lang="pl">
 <head>
-<meta charset="UTF-8" />
-<title>InTouch Collective — Journey</title>
-<meta name="viewport" content="width=device-width,initial-scale=1.0" />
-<meta name="description" content="Kameralne spotkania offline w Warszawie. Zacznij od oddechu 4x7x8, refleksji i buduj autentyczne relacje.">
-<link href="https://fonts.googleapis.com/css2?family=Recursive:opsz,wght@500;700&family=Plus+Jakarta+Sans:wght@400;600&display=swap" rel="stylesheet">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>InTouch Collective — autentyczne relacje offline</title>
+
+<!-- Type: elegant display + clean grotesk (Berlin-ish) -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;700&family=Space+Grotesk:wght@300;400;600;700&display=swap" rel="stylesheet">
+
 <style>
-  :root {
-    --earth:#f0e7dc;
-    --sky:#dce9fb;
-    --accent:#c25e32;
-    --bg-start:#dce9fb;
-    --bg-end:#f0ebe2;
-    --text:#1f242c;
-    --transition:.38s cubic-bezier(.23,.13,.35,1);
-    --shadow:0 40px 140px -10px rgba(31,36,44,.18);
-    --font-head:'Recursive', system-ui,-apple-system,BlinkMacSystemFont,sans-serif;
-    --font-body:'Plus Jakarta Sans', system-ui,-apple-system,BlinkMacSystemFont,sans-serif;
+  :root{
+    /* palette: dark intro → bright content, earthy urban */
+    --ink:#0f1115;
+    --paper:#fbfaf7;
+    --card:#ffffff;
+    --coal:#0b0e10;
+    --moss:#1f3e33;
+    --rust:#c25e32;
+    --sage:#7fa08d;
+    --gold:#b88f58;
+    --teal:#2c6a5b;
+
+    --radius:22px;
+    --shadow:0 26px 80px -24px rgba(0,0,0,.45);
+    --t:.28s cubic-bezier(.25,.1,.18,1);
   }
-  *{box-sizing:border-box;}
+  *{box-sizing:border-box}
+  html,body{height:100%}
   body{
-    margin:0;
-    background: linear-gradient(135deg,var(--bg-start) 0%,var(--bg-end) 90%);
-    font-family: var(--font-body);
-    color: var(--text);
+    margin:0; color:var(--ink);
+    font-family:"Space Grotesk",system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
     -webkit-font-smoothing:antialiased;
+    background:var(--coal);
     overflow-x:hidden;
-    min-height:100vh;
-    scroll-behavior:smooth;
-    transition: background 0.8s ease-out;
   }
-  h1{margin:0;font-family:var(--font-head);font-size:2.4rem;line-height:1.05;}
-  h2{margin:0 0 6px;font-family:var(--font-head);font-size:1.5rem;line-height:1.1;}
-  p{margin:8px 0 16px;font-size:1rem;}
-  small{font-size:.65em;color:rgba(31,36,44,.6);}
-  button{cursor:pointer;border:none;}
-  .wrap{width:100%;max-width:960px;margin:0 auto;display:flex;flex-direction:column;gap:48px;padding:0 14px;}
-  .pager{position:fixed;left:0;right:0;bottom:8px;display:flex;justify-content:center;gap:16px;z-index:50;pointer-events:auto;padding:0 8px;}
-  .node{position:relative;width:16px;height:16px;border-radius:50%;background:rgba(255,255,255,.85);border:2px solid rgba(31,36,44,.15);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600;transition:all .3s;cursor:pointer;}
-  .node.active{background:var(--accent);border-color:var(--accent);box-shadow:0 0 16px rgba(194,94,50,.6);color:#fff;}
-  .path-svg{position:fixed;left:10%;right:10%;bottom:42px;height:60px;pointer-events:none;z-index:10;}
-  .card{background:rgba(255,253,248,.95);border-radius:24px;padding:28px 26px;box-shadow:var(--shadow);position:relative;display:flex;flex-wrap:wrap;gap:24px;overflow:hidden;transition:transform .25s;}
-  .card:hover{transform:translateY(-2px);}
-  .badge{display:inline-block;background:var(--accent);color:#fff;padding:6px 14px;border-radius:999px;font-size:.65em;font-weight:600;margin-bottom:6px;letter-spacing:0.5px;}
-  .underline{position:relative;display:inline-block;margin-bottom:6px;}
-  .underline:after{content:'';position:absolute;left:0;bottom:0;height:8px;width:100%;background:rgba(194,94,50,.22);border-radius:4px;}
-  .input{padding:14px 16px;border-radius:999px;border:2px solid rgba(31,36,44,.1);font-size:1rem;flex:1;min-width:140px;outline:none;transition:box-shadow .25s;}
-  .btn{padding:14px 22px;border-radius:999px;cursor:pointer;font-weight:600;display:inline-flex;align-items:center;gap:10px;transition:all var(--transition);position:relative;font-family:var(--font-body);}
-  .btn-primary{background: linear-gradient(135deg,var(--accent),#3f86c9);color:#fff;box-shadow:0 18px 80px -10px rgba(194,94,50,.45);}
-  .btn-secondary{background:#fff;border:2px solid var(--accent);color:var(--accent);}
-  .breath-panel{position:relative;display:flex;flex-wrap:wrap;gap:24px;background:#fffefb;border-radius:24px;padding:32px;box-shadow:0 60px 160px -30px rgba(31,36,44,.18);}
-  .breath-visual{flex:1;min-width:220px;display:flex;flex-direction:column;gap:14px;align-items:center;justify-content:center;position:relative;}
-  .circle{width:180px;height:180px;border-radius:50%;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;background:rgba(194,94,50,.08);transition:transform .3s;cursor:pointer;}
-  .circle-inner{width:130px;height:130px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1rem;font-weight:700;color:#fff;position:relative;transition:transform .4s;background:var(--accent);flex-direction:column;display:flex;gap:4px;}
-  .progress{margin-top:6px;display:flex;gap:6px;justify-content:center;}
-  .dot{width:16px;height:16px;border-radius:50%;background:#e0d8ce;position:relative;box-shadow:inset 0 2px 6px rgba(31,36,44,.1);}
-  .dot.active{background:var(--accent);box-shadow:0 0 16px rgba(194,94,50,.7);}
-  .breath-info{flex:1;min-width:260px;display:flex;flex-direction:column;gap:14px;justify-content:center;position:relative;}
-  .verbal{font-size:1.2rem;font-weight:600;}
-  .explore-hint{position:absolute;bottom:12px;left:50%;transform:translateX(-50%);background:rgba(255,255,255,.95);padding:10px 16px;border-radius:999px;display:flex;align-items:center;gap:6px;font-size:.85em;box-shadow:0 20px 80px -10px rgba(31,36,44,.1);animation:wiggle 3s infinite ease-in-out;z-index:2;}
-  @keyframes wiggle{0%{transform:translate(-50%,0) rotate(0deg);}30%{transform:translate(-50%,2px) rotate(-1deg);}60%{transform:translate(-50%,-1px) rotate(1deg);}100%{transform:translate(-50%,0) rotate(0deg);}}
-  .reflection{display:flex;gap:20px;flex-wrap:wrap;}
-  .reflection-options{display:flex;gap:14px;flex-wrap:wrap;margin-top:6px;}
-  .reflection-btn{padding:12px 16px;border-radius:14px;border:2px solid rgba(31,36,44,.15);background:#fff;cursor:pointer;transition:all .3s;font-weight:600;display:inline-flex;gap:8px;}
-  .reflection-btn.active{border-color:var(--accent);background:rgba(194,94,50,.07);}
-  .slicer-combined{display:flex;gap:20px;flex-wrap:wrap;margin-top:14px;}
-  .rhythm-box{flex:1;min-width:260px;background:rgba(255,255,255,.95);padding:16px;border-radius:18px;box-shadow:0 30px 120px -20px rgba(31,36,44,.12);position:relative;display:flex;flex-direction:column;gap:12px;}
-  .rhythm-slider{width:100%;height:10px;border-radius:8px;appearance:none;background:linear-gradient(90deg,#5b7a59 0%,#3f86c9 50%,#f5c158 100%);outline:none;position:relative;}
-  .rhythm-slider::-webkit-slider-thumb{appearance:none;width:24px;height:24px;border-radius:50%;background:var(--accent);border:3px solid #fff;box-shadow:0 0 25px rgba(194,94,50,.5);cursor:pointer;transition:transform .2s;}
-  .rhythm-labels{display:flex;justify-content:space-between;margin-top:6px;font-weight:600;}
-  .event-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px;margin-top:12px;}
-  .event{position:relative;background:rgba(255,253,248,.95);border-radius:16px;padding:18px;clip-path:polygon(3% 0,100% 4%,100% 96%,0 100%);box-shadow:0 38px 160px -15px rgba(31,36,44,.12);display:flex;flex-direction:column;gap:8px;transition:transform .35s,box-shadow .35s;}
-  .event:hover{transform:translateY(-3px);box-shadow:0 50px 180px -5px rgba(31,36,44,.18);}
-  .event .tag{font-size:.55em;background:rgba(194,94,50,.12);padding:4px 12px;border-radius:999px;display:inline-block;margin-bottom:6px;letter-spacing:0.5px;}
-  .event-title{font-weight:700;font-size:1.1rem;margin:4px 0;}
-  .event-meta{font-size:.65em;color:rgba(31,36,44,.65);}
-  .email-block{background:rgba(255,255,255,.97);border-radius:20px;padding:20px;display:flex;flex-wrap:wrap;gap:18px;box-shadow:0 50px 160px -30px rgba(31,36,44,.12);}
-  .email-left{flex:2;min-width:200px;}
-  .email-right{flex:1;min-width:160px;display:flex;flex-direction:column;gap:12px;}
-  .rodo{font-size:.65em;color:rgba(31,36,44,.6);margin-top:4px;font-style:italic;}
-  .final{display:flex;gap:24px;flex-wrap:wrap;margin-top:4px;}
-  .cta-box{flex:1;min-width:220px;background:rgba(255,255,248,.95);border-radius:20px;padding:18px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:12px;}
-  .hidden{display:none!important;}
-  @media (max-width:960px){
-    h1{font-size:2rem;}
-    .breath-panel{flex-direction:column;}
-    .reflection{flex-direction:column;}
-    .final{flex-direction:column;}
-    .slicer-combined{flex-direction:column;}
-    .pager{gap:8px;}
+
+  /* ===== FULLSCREEN DYNAMIC BACKGROUND ===== */
+  .bg{
+    position:fixed; inset:0; z-index:-2;
+    background:url("https://i.imgur.com/45jYI70.png") center/cover no-repeat fixed;
+    transform:scale(1.02);
   }
+  .bg::after{
+    /* darken + blur grows with scroll via CSS var --p (0..1) */
+    content:""; position:absolute; inset:0;
+    background:rgba(0,0,0,calc(.25 + .45*var(--p,0)));
+    backdrop-filter:blur(calc(0px + 10px*var(--p,0)));
+    transition:backdrop-filter .2s linear;
+  }
+
+  /* ===== CENTERED APP FRAME (≈40% width) ===== */
+  .app{
+    width:clamp(360px,40vw,620px);
+    margin:0 auto;
+    padding-bottom:18vh;
+  }
+
+  /* ===== TOPBAR ===== */
+  .topbar{
+    position:fixed; inset:12px auto auto 50%;
+    transform:translateX(-50%);
+    width:clamp(360px,40vw,620px);
+    display:flex; align-items:center; justify-content:space-between;
+    padding:10px 12px;
+    border-radius:16px;
+    background:rgba(20,22,26,.52);
+    color:#fff; backdrop-filter:saturate(140%) blur(10px);
+    box-shadow:0 8px 30px -10px rgba(0,0,0,.45);
+    z-index:9;
+  }
+  .logo{
+    display:flex; align-items:center; gap:10px; cursor:pointer; font-weight:700; letter-spacing:.2px;
+  }
+  .logo .mark{
+    width:36px;height:24px;border-radius:999px;
+    background:radial-gradient(75% 75% at 30% 30%, #F6A57F 0%, #E07A4D 55%, #C25E32 100%);
+    box-shadow:0 8px 24px -10px rgba(194,94,50,.6);
+  }
+  .actions{display:flex; align-items:center; gap:8px}
+  .btn-top{
+    border:1px solid rgba(255,255,255,.18);
+    background:rgba(255,255,255,.06); color:#fff;
+    padding:8px 12px; border-radius:999px; font-weight:600;
+    display:inline-flex; align-items:center; gap:8px;
+    transition:transform var(--t), background var(--t);
+  }
+  .btn-top:hover{transform:translateY(-1px); background:rgba(255,255,255,.12)}
+  .icon-btn{
+    width:38px;height:38px;border-radius:12px;display:grid;place-items:center;
+    background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.18);
+    cursor:pointer; transition:transform var(--t);
+  }
+  .icon-btn:hover{transform:translateY(-1px) scale(1.02)}
+
+  /* ===== HERO QUESTION (giant; dissolves) ===== */
+  .hero{
+    height:100svh; display:grid; place-items:center;
+    text-align:center; padding:18vh 16px 8vh; /* smaller gap to next block */
+  }
+  .question{
+    font-family:"Fraunces",serif;
+    font-weight:700;
+    font-size:clamp(1.6rem,4.8vw,3.35rem);
+    line-height:1.03;
+    color:#fff; text-transform:uppercase; letter-spacing:.02em;
+    text-shadow:0 6px 32px rgba(0,0,0,.6);
+    filter:drop-shadow(0 8px 30px rgba(0,0,0,.4));
+    transform:translateY(calc(10px * var(--p,0)));
+    opacity:calc(1 - var(--p,0));
+    transition:opacity .15s linear, transform .15s linear;
+  }
+  .peek{position:absolute; bottom:18px; left:50%; transform:translateX(-50%);
+    color:#fff; opacity:.85; font-size:.85rem}
+
+  /* ===== STANDALONE BLOCKS (no giant wrapper) ===== */
+  section.block{ margin: clamp(-14px,-2vh,-6px) 0 14px; } /* (1) tighter to hero */
+
+  /* === PART 1 — Glass card + gallery === */
+  .glass{
+    background:rgba(255,255,255,.9);
+    border:1px solid rgba(255,255,255,.6);
+    border-radius:22px;
+    backdrop-filter:blur(8px) saturate(120%);
+    box-shadow:0 22px 70px -24px rgba(0,0,0,.45);
+    padding:14px 14px 16px;
+    position:relative; overflow:hidden;
+  }
+  /* drifting ink stripe (moving #1) */
+  .glass::before{
+    content:""; position:absolute; left:-20%; right:-20%; top:-18px; height:10px;
+    background:linear-gradient(90deg, transparent, rgba(15,17,19,.35), transparent);
+    filter:blur(6px); animation:drift 4.6s infinite linear;
+  }
+  @keyframes drift{0%{transform:translateX(-20%)}100%{transform:translateX(20%)}}
+  .glass h2{margin:0 0 8px; font-size:1rem; color:var(--teal); text-transform:uppercase; letter-spacing:.1em}
+  .glass p{margin:0 0 10px; font-size:1rem}
+
+  /* Gallery strip */
+  .gallery{display:flex; gap:8px; overflow-x:auto; padding-bottom:4px; scroll-snap-type:x proximity}
+  .thumb{flex:none; width:98px; height:70px; border-radius:12px; overflow:hidden; position:relative; cursor:pointer; scroll-snap-align:center}
+  .thumb img{width:100%; height:100%; object-fit:cover; display:block; transition:transform .3s ease}
+  .thumb:hover img{transform:scale(1.05)}
+  .thumb::after{content:""; position:absolute; inset:0; border:1px solid rgba(15,17,19,.12); border-radius:12px; pointer-events:none}
+
+  /* Lightbox */
+  .lightbox{position:fixed; inset:0; display:none; place-items:center; background:rgba(7,9,11,.9); z-index:60}
+  .lb-wrap{position:relative; width:min(92vw,720px); height:min(78vh,520px); display:grid; grid-template-rows:1fr auto; gap:8px}
+  .lb-main{position:relative; border-radius:18px; overflow:hidden; background:#000}
+  .lb-main img{position:absolute; inset:0; margin:auto; max-width:100%; max-height:100%}
+  .lb-thumbs{display:flex; gap:8px; overflow-x:auto}
+  .lb-thumbs img{width:80px; height:56px; object-fit:cover; border-radius:8px; opacity:.65; cursor:pointer}
+  .lb-thumbs img.active{opacity:1; outline:2px solid #fff}
+  .lb-close{position:absolute; right:-6px; top:-10px; color:#fff; background:rgba(255,255,255,.12); border:1px solid rgba(255,255,255,.35); border-radius:999px; width:38px; height:38px; display:grid; place-items:center; cursor:pointer}
+
+  /* === PART 2 — Contours + irregular blocks === */
+  .titlechip{display:inline-flex;align-items:center;gap:8px;background:#fff;border:1px dashed rgba(15,17,19,.18);padding:6px 12px;border-radius:999px;margin-bottom:8px;color:var(--teal);text-transform:uppercase;letter-spacing:.08em;font-size:.9rem}
+
+  .contours{
+    position:relative; margin-bottom:10px;
+    background:radial-gradient(60% 40% at 10% 0%, rgba(184,143,88,.12), transparent 60%), #fff;
+    border:1px dashed rgba(15,17,19,.16); border-radius:26px; padding:12px;
+    box-shadow:0 20px 60px -26px rgba(0,0,0,.25);
+  }
+  .contours svg{width:100%; height:auto; display:block; opacity:.9}
+
+  .emerge{
+    position:absolute; left:12px; bottom:12px; right:12px;
+    backdrop-filter:blur(6px);
+    background:linear-gradient(180deg, rgba(255,255,255,.95), rgba(255,255,255,.92));
+    border:1px solid rgba(15,17,19,.08);
+    border-radius:18px;
+    padding:12px;
+    box-shadow:0 18px 56px -22px rgba(0,0,0,.2);
+  }
+  .faces{display:flex; gap:8px; margin:2px 0 8px}
+  .face{
+    width:58px;height:58px;border-radius:50%;
+    background:radial-gradient(100% 100% at 50% 60%, #ffe9d6 0,#f1c7a7 70%, #e8b18a 100%);
+    box-shadow:0 0 0 3px #fff, 0 0 42px rgba(194,94,50,.35);
+    display:grid; place-items:center; font-weight:700; color:#6a4a3c; user-select:none;
+  }
+  .links{display:flex; gap:10px; margin-top:4px}
+  .chip{
+    display:inline-flex; align-items:center; gap:6px; padding:6px 10px; border-radius:999px; font-size:.85rem;
+    background:#fff; border:1px dashed rgba(15,17,19,.2); cursor:pointer; text-decoration:none; color:inherit
+  }
+
+  /* only-arrow expander (subtle) */
+  .expander{display:inline-grid; place-items:center; width:28px; height:28px; border-radius:999px; cursor:pointer; margin-top:6px; background:#fff; border:1px solid rgba(15,17,19,.15)}
+  .expander svg{animation:bob 1s infinite alternate ease-in-out}
+  @keyframes bob{from{transform:translateY(0)}to{transform:translateY(3px)}}
+  .expand{max-height:0; overflow:hidden; transition:max-height .38s ease; margin-top:6px; border-left:3px solid rgba(31,62,51,.12); padding-left:10px}
+  .expand.open{max-height:420px}
+
+  /* attached pair below (deprioritized) */
+  .pair{display:grid; gap:10px; grid-template-columns:1fr 1fr}
+  @media (max-width:560px){.pair{grid-template-columns:1fr}}
+  .ticket{
+    position:relative; padding:14px; border-radius:22px;
+    background:rgba(255,255,255,.96); border:1px solid rgba(15,17,19,.1);
+    box-shadow:0 18px 56px -26px rgba(0,0,0,.22); overflow:hidden;
+  }
+  .ticket::after{
+    content:""; position:absolute; width:160px; height:160px; right:-40px; top:-40px;
+    border-radius:50%;
+    background:radial-gradient(circle at 30% 30%, rgba(127,160,141,.28), transparent 60%);
+    animation:floaty 10s ease-in-out infinite alternate; /* moving #2 */
+  }
+  @keyframes floaty{from{transform:translateY(-6px)}to{transform:translateY(6px)}}
+
+  .cut{
+    padding:14px; border-radius:18px 18px 32px 18px;
+    background:#fff;
+    box-shadow:0 18px 56px -26px rgba(0,0,0,.22);
+    position:relative; overflow:hidden;
+  }
+  .cut::before{
+    content:""; position:absolute; inset:-1px;
+    border-radius:inherit; padding:1px; background:
+      linear-gradient(135deg, rgba(44,106,91,.5), rgba(184,143,88,.4));
+    -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+    -webkit-mask-composite:xor; mask-composite:exclude;
+  }
+
+  .flow-note{
+    margin:10px 0 0; padding:12px 14px; border-radius:16px;
+    background:linear-gradient(90deg,#fff, #fff7f3);
+    border:1px dashed rgba(15,17,19,.18);
+    box-shadow:0 14px 40px -20px rgba(0,0,0,.18);
+  }
+
+  /* === EVENTS — full-card clickable with shimmer hint === */
+  .events{ }
+  .events-head{display:flex; align-items:flex-end; justify-content:space-between; gap:10px}
+  .events-search{border:1px solid rgba(15,17,19,.18); border-radius:12px; padding:10px 12px; background:#fff; width:160px}
+  .event-card{
+    position:relative; cursor:pointer; user-select:none;
+    margin-top:10px; padding:12px; border-radius:18px; background:#fff;
+    border:1px solid rgba(15,17,19,.12); box-shadow:0 18px 56px -22px rgba(0,0,0,.2);
+    transition:transform var(--t);
+  }
+  .event-card:hover{transform:translateY(-2px)}
+  .event-card .meta{font-size:.9rem; color:rgba(15,17,19,.65)}
+  .event-card .shimmer{
+    position:absolute; inset:0; border-radius:inherit; overflow:hidden; pointer-events:none;
+  }
+  .event-card .shimmer::before{
+    content:""; position:absolute; top:0; left:-120%;
+    width:60%; height:100%;
+    background:linear-gradient(100deg, transparent, rgba(184,143,88,.18), transparent);
+    animation:hint 3.6s infinite;
+  }
+  @keyframes hint{0%{left:-120%}55%{left:140%}100%{left:140%}}
+
+  .event-actions{display:flex; gap:8px; margin-top:8px}
+  .btn{
+    padding:10px 14px; border-radius:999px; font-weight:700; border:none; cursor:pointer;
+    background:linear-gradient(135deg,#2c6a5b,#b88f58); color:#fff;
+    box-shadow:0 12px 28px -12px rgba(31,62,51,.55), 0 0 0 0 rgba(184,143,88,.0);
+    transition:transform var(--t), box-shadow var(--t), filter var(--t);
+  }
+  .btn:hover{transform:translateY(-1px); box-shadow:0 12px 28px -10px rgba(31,62,51,.65), 0 0 18px 0 rgba(184,143,88,.35)}
+  .ghost{
+    background:linear-gradient(135deg,#ffffff,#f5efe6);
+    color:var(--ink); border:1px solid rgba(15,17,19,.15);
+    box-shadow:none;
+  }
+
+  /* === SUBTLE INVITE === */
+  .invite{
+    background:#fff; border-radius:18px; padding:14px;
+    border:1px dashed rgba(15,17,19,.2);
+    position:relative; overflow:hidden;
+    box-shadow:0 18px 56px -26px rgba(0,0,0,.25);
+    text-align:center;
+  }
+  .invite::before{
+    content:""; position:absolute; top:-28px; left:50%; transform:translateX(-50%) rotate(-2deg);
+    width:140%; height:56px; background:linear-gradient(90deg,#fff7f3,#fff); border:1px solid rgba(15,17,19,.08);
+    box-shadow:0 8px 30px -20px rgba(0,0,0,.25); border-radius:12px;
+    opacity:.75;
+  }
+  .invite .linklike{display:inline-flex; gap:8px; align-items:center; padding:8px 14px; border:1px dashed rgba(15,17,19,.24); border-radius:999px; background:#fff; cursor:pointer}
+
+  /* OVERLAYS */
+  .overlay{position:fixed; inset:0; display:none; align-items:center; justify-content:center; background:rgba(7,9,11,.62); z-index:80; padding:18px}
+  .panel{width:min(520px,92vw); background:#fff; border-radius:22px; padding:18px 16px 16px; box-shadow:0 40px 120px -16px rgba(0,0,0,.5); position:relative}
+  .close{position:absolute; right:10px; top:8px; border:none; background:transparent; font-size:1.6rem; cursor:pointer}
+  .panel h3{margin:2px 0 6px}
+  .panel form{display:grid; gap:8px}
+  .panel input[type="email"], .panel input[type="tel"]{border:1px solid rgba(15,17,19,.18); border-radius:12px; padding:12px}
+  .consent{display:flex; gap:8px; align-items:center; font-size:.85rem}
+  .success{display:none; margin-top:8px; padding:10px; border-radius:12px; background:rgba(31,62,51,.08); color:var(--moss); font-weight:700}
+  .ics-area{display:none; margin-top:10px}
+
+  /* FOOTER */
+  footer{padding:12px 0 18px; display:grid; place-items:center; gap:6px; color:rgba(15,17,19,.6); font-size:.8rem}
+  .tiny{display:flex; gap:10px}
+  .tiny a{opacity:.85} .tiny a:hover{opacity:1}
 </style>
 </head>
 <body>
 
-  <!-- pager + path (preserved) -->
-  <div class="pager" aria-label="Progress path">
-    <div class="node" data-target="screen-breath">1</div>
-    <div class="node" data-target="screen-about">2</div>
-    <div class="node" data-target="screen-reflect">3</div>
-    <div class="node" data-target="screen-why">4</div>
-    <div class="node" data-target="screen-slicer-events">5</div>
-    <div class="node" data-target="screen-signup">6</div>
-    <div class="node" data-target="screen-final">7</div>
+  <!-- DYNAMIC BACKGROUND -->
+  <div class="bg" id="bg"></div>
+
+  <!-- FIXED APP TOPBAR -->
+  <div class="topbar">
+    <div class="logo" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Logo">
+      <div class="mark" title="Logo"></div>
+      collectiv
+    </div>
+    <div class="actions">
+      <button class="btn-top" onclick="document.getElementById('menu').style.display='flex'">Menu</button>
+      <button class="btn-top" onclick="document.getElementById('events').scrollIntoView({behavior:'smooth'})">Events</button>
+      <button class="icon-btn" aria-label="Instagram" onclick="window.open('https://instagram.com/','_blank')">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="3" width="18" height="18" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+      </button>
+    </div>
   </div>
-  <svg class="path-svg" aria-hidden="true">
-    <path d="M10 40 C30 0,70 80,90 40 S170 40,190 40" stroke="rgba(31,36,44,.1)" stroke-width="6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-  </svg>
 
-  <div class="wrap">
-    <!-- 1. Breathing Game full start -->
-    <section id="screen-breath">
-      <div class="card">
-        <div class="breath-panel" style="width:100%;max-width:960px;position:relative;">
-          <div class="breath-visual">
-            <div class="badge">1. Oddech 4x7x8</div>
-            <div class="underline"><h2>Rytuał obecności</h2></div>
-            <div class="circle" id="circleControl" aria-label="Visual breath">
-              <div class="circle-inner" id="circleInner">
-                <div id="phaseLabel" style="font-size:.8em;">Start</div>
-                <div id="timerLabel" style="font-size:1.3rem;">—</div>
-                <div style="font-size:.55em;">Cykle: <span id="cycleCount">0/3</span></div>
-              </div>
-            </div>
-            <div class="progress" aria-label="Cycle progress">
-              <div class="dot" data-cycle="1"></div>
-              <div class="dot" data-cycle="2"></div>
-              <div class="dot" data-cycle="3"></div>
-            </div>
-            <div style="margin-top:6px;">
-              <div class="verbal" id="verbalText">Gotowy</div>
-              <div><small id="cycleLabel">0 / 3</small></div>
-            </div>
-          </div>
-          <div class="breath-info">
-            <p>Weź 3 cykle: wdech 4s, wstrzymanie 7s, wydech 8s. Ustaw intencję, uspokój umysł. Nawet jeśli przewiniesz dalej, rytm zostaje, a rekomendacje dostaniesz poniżej.</p>
-            <div style="display:flex;gap:16px;flex-wrap:wrap;align-items:center;">
-              <button class="btn btn-primary" id="startBreathBtn">Rozpocznij</button>
-              <button class="btn btn-secondary" id="toggleSound">Dźwięk: ON</button>
-            </div>
-            <div><small>Po zakończeniu zobaczysz dopasowanie sesji i sugestię głębi/tempa.</small></div>
-          </div>
-          <div class="explore-hint" id="exploreHint"><span style="display:inline-block;transform:rotate(45deg);border-left:3px solid var(--accent);border-bottom:3px solid var(--accent);width:12px;height:12px;margin-right:6px;"></span>Przewiń, żeby zobaczyć resztę drogi</div>
-        </div>
+  <main class="app">
+
+    <!-- HERO -->
+    <section class="hero" id="hero">
+      <h1 class="question">KIEDY OSTATNIO ROZMAWIAŁAŚ/EŚ Z KIMŚ PO RAZ PIERWSZY?</h1>
+      <div class="peek">przewiń ↓</div>
+    </section>
+
+    <!-- PART 1 (Glass + Gallery) -->
+    <section class="block glass" id="part1">
+      <h2>O co chodzi?</h2>
+      <p>Organizujemy kameralne spotkania offline w Warszawie, stworzone dla osób, które chcą poznać nowych ludzi, przeżyć ciekawe doświadczenie i porozmawiać na głębszym poziomie, którego brakuje w codziennych kontaktach.</p>
+
+      <div class="gallery" id="gallery">
+        <div class="thumb"><img alt="gallery 1" src="https://images.stockcake.com/public/b/7/7/b77e43e0-c890-4e4d-9185-537e0118bc39_large/outdoor-student-meeting-stockcake.jpg"></div>
+        <div class="thumb"><img alt="gallery 2" src="https://media.istockphoto.com/id/1405414028/photo/group-of-college-student-is-meeting-and-working-on-thesis-and-project-outside-in-the.jpg?s=612x612&w=0&k=20&c=1sRX1jo5dox3lyxZfhkU8dtLC80OyliAkKhrkrgJweI="></div>
+        <div class="thumb"><img alt="gallery 3" src="https://images.stockcake.com/public/a/5/2/a5279a9f-b206-49e9-af69-a32a9c8dd5e2_large/outdoor-group-meeting-stockcake.jpg"></div>
+        <div class="thumb"><img alt="gallery 4" src="https://cdn7.dissolve.com/p/D187_195_015/D187_195_015_1200.jpg"></div>
+        <div class="thumb"><img alt="gallery 5" src="https://images.stockcake.com/public/8/b/6/8b6b7f6a-8dd8-4711-b866-9b331d93d52c_large/friendly-group-meeting-stockcake.jpg"></div>
       </div>
     </section>
 
-    <!-- 2. About us -->
-    <section id="screen-about">
-      <div class="card">
-        <div style="flex:1;min-width:260px;">
-          <div class="badge">2. Kim jesteśmy</div>
-          <div class="underline"><h1>InTouch Collective</h1></div>
-          <p>Dwóch przyjaciół z psychologicznym zacięciem organizuje kameralne spotkania offline w Warszawie. Tworzymy struktury — gry, rytuały i facylitację — które pozwalają ludziom łączyć się autentycznie zamiast przypadkowo. Nasze sesje dają przestrzeń do refleksji i relacji bez presji.</p>
-        </div>
-        <div style="flex:1;min-width:260px;">
-          <div class="badge">Co robimy</div>
-          <div class="underline"><h1>Dlaczego to działa</h1></div>
-          <p>Łączymy autorskie gry, świadome rozmowy i facylitację w bezpiecznej, uważnej przestrzeni. Uczestnicy nie tylko poznają ludzi — przechodzą przez system doświadczeń prowadzących do prawdziwego połączenia.</p>
-          <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:8px;">
-            <div class="badge" style="background:rgba(59,44,36,.15);color:var(--text);">Autentyczność</div>
-            <div class="badge" style="background:rgba(59,44,36,.15);color:var(--text);">Uważność</div>
-            <div class="badge" style="background:rgba(59,44,36,.15);color:var(--text);">Psychologia grupowa</div>
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox" role="dialog" aria-modal="true">
+      <div class="lb-wrap">
+        <button class="lb-close" aria-label="Zamknij" onclick="closeLB()">✕</button>
+        <div class="lb-main"><img id="lbImage" alt="podgląd"></div>
+        <div class="lb-thumbs" id="lbThumbs"></div>
+      </div>
+    </div>
+
+    <!-- PART 2 (Contours composition + attached pair) -->
+    <section class="block" id="part2" aria-label="Kim jesteśmy?">
+      <div class="titlechip">Kim jesteśmy?</div>
+
+      <div class="contours">
+        <!-- minimalist contours of two people at a table (illustrative SVG) -->
+        <svg viewBox="0 0 1200 520" aria-hidden="true">
+          <path d="M110 410 Q300 360 420 410" fill="none" stroke="rgba(31,62,51,.35)" stroke-width="10" stroke-linecap="round"/>
+          <path d="M780 410 Q900 360 1090 410" fill="none" stroke="rgba(31,62,51,.35)" stroke-width="10" stroke-linecap="round"/>
+          <path d="M420 410 L780 410" stroke="rgba(44,106,91,.5)" stroke-width="10" stroke-linecap="round"/>
+          <!-- left silhouette -->
+          <path d="M300 240 c40 -60 120 -60 160 0 c-10 30 -20 60 -30 90 -40 10 -60 10 -100 0 -10 -30 -20 -60 -30 -90z"
+                fill="none" stroke="rgba(184,143,88,.7)" stroke-width="6"/>
+          <!-- right silhouette -->
+          <path d="M860 240 c-40 -60 -120 -60 -160 0 c10 30 20 60 30 90 40 10 60 10 100 0 10 -30 20 -60 30 -90z"
+                fill="none" stroke="rgba(184,143,88,.7)" stroke-width="6"/>
+        </svg>
+
+        <!-- Emerge text from contour -->
+        <div class="emerge">
+          <div class="faces">
+            <div class="face">K</div>
+            <div class="face">M</div>
+          </div>
+          <div style="font-weight:700; margin-bottom:6px">Klaudia &amp; Miłosz&nbsp;|</div>
+          <p>Jesteśmy dwójką przyjaciół ze studiów, który budują InTouch Collective — inicjatywę kameralnych spotkań oraz doświadczeń offline  odbywających się w Warszawie.</p>
+
+          <div class="expander" onclick="toggleExpand(this)" aria-label="Pokaż więcej">
+            <svg width="16" height="16" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2"/></svg>
+          </div>
+          <div class="expand">
+            <p>Poznaliśmy się na studiach psychologicznych, naszą pasją są ludzie oraz tworzenie doświadczeń dla grup pozwalając uczestnikom poznawać siebie i innych na głębszym poziomie — bez presji i sztuczności. Pasjonaci potencjału grup i facylitacji autentycznych spotkań.</p>
+          </div>
+
+          <div class="links" style="margin-top:6px">
+            <a class="chip" href="#" target="_blank" aria-label="LinkedIn Miłosz">
+              <!-- LinkedIn icon -->
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5A2.5 2.5 0 1 0 5 8.5 2.5 2.5 0 0 0 4.98 3.5zM3 9h4v12H3zM9 9h3.8v1.7h.1A4.17 4.17 0 0 1 17 8.93c3.1 0 3.7 2.04 3.7 4.7V21h-4v-6.3c0-1.5 0-3.4-2.1-3.4s-2.4 1.6-2.4 3.3V21H9z"/></svg>
+              Miłosz
+            </a>
+            <a class="chip" href="#" target="_blank" aria-label="ZnanyLekarz Klaudia">
+              <!-- stethoscope icon -->
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 3v7a4 4 0 0 0 8 0V3"/><path d="M10 15a5 5 0 0 0 10 0v-1"/><circle cx="20" cy="7" r="2"/></svg>
+              Klaudia
+            </a>
           </div>
         </div>
       </div>
-    </section>
 
-    <!-- 3. Reflection question -->
-    <section id="screen-reflect">
-      <div class="card">
-        <div style="flex:1;min-width:260px;">
-          <div class="badge">3. Mała refleksja</div>
-          <div class="underline"><h2>Co Cię zatrzymuje?</h2></div>
-          <p>Patrząc na relacje z własnej perspektywy: co podcina głębię? Wybierz jedną i zobacz sugestię następnego kroku.</p>
-          <div class="reflection-options">
-            <button class="reflection-btn" data-key="superficial">Wszystko wydaje się płytkie</button>
-            <button class="reflection-btn" data-key="distance">Czuję dystans</button>
-            <button class="reflection-btn" data-key="fear">Boję się zacząć</button>
-          </div>
-          <div id="reflectionResult" style="margin-top:14px;font-weight:600;"></div>
-          <small>To Twoja mapa ruchu. Nie zapisujemy tego.</small>
-        </div>
-        <div style="flex:none;min-width:120px;display:flex;align-items:center;justify-content:center;">
-          <div class="slicer-icon" id="reflectIcon">🤔</div>
-        </div>
-      </div>
-    </section>
+      <!-- two attached blocks, softer -->
+      <div class="pair">
+        <article class="ticket">
+          <p>Łączymy autorskie i starannie dopasowane gry oraz ćwiczenia z psychologicznymi metodami pracy grupowej, tworząc bezpieczne i uważne środowisko. Dzięki temu uczestnicy budują wspólne doświadczenia z innymi osobami w grupie, naturalnie budując relacje i rozwijają samoświadomość — zawsze dostosowując się do własnej gotowości i potrzeb.</p>
 
-    <!-- 4. Why us -->
-    <section id="screen-why">
-      <div class="card">
-        <div style="flex:1;min-width:260px;">
-          <div class="badge">4. Dlaczego my?</div>
-          <div class="underline"><h2>Co nas wyróżnia</h2></div>
-          <p>Nie robimy kolejnej „integracji”. Projektujemy doświadczenia z rytuałami wejścia, autorskimi ćwiczeniami i adaptacyjną facylitacją, by relacje rozwijały się naturalnie. Każda sesja jest dopasowana do energii grupy i tempa uczestników.</p>
-          <ul style="padding-left:18px;margin:8px 0;">
-            <li>Małe, uważne grupy</li>
-            <li>Autorskie, starannie dopasowane gry</li>
-            <li>Rytuały obecności i refleksji</li>
-            <li>Adaptacyjne prowadzenie</li>
-          </ul>
-        </div>
-        <div style="flex:1;min-width:260px;">
-          <div class="underline"><h2>Dla kogo</h2></div>
-          <p>Dla tych, którzy są zmęczeni szybkim online i chcą zbudować relacje z sensem — bez presji, krok po kroku.</p>
-          <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:6px;">
-            <div class="badge" style="background:rgba(59,44,36,.15);color:var(--text);">Autentyczność</div>
-            <div class="badge" style="background:rgba(59,44,36,.15);color:var(--text);">Bezpieczeństwo</div>
-            <div class="badge" style="background:rgba(59,44,36,.15);color:var(--text);">Wspólne doświadczenie</div>
+          <div class="expander" onclick="toggleExpand(this)" aria-label="Pokaż więcej">
+            <svg width="16" height="16" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2"/></svg>
           </div>
-          <div style="margin-top:8px;"><strong>Efekt:</strong> Przełamanie izolacji, relacje, większa samoświadomość.</div>
-        </div>
-      </div>
-    </section>
+          <div class="expand">
+            <p>Więcej informacji udostępniamy uczestnikom zapisanym na wydarzenie.</p>
+          </div>
+        </article>
 
-    <!-- 5. Combined rhythm + notify + events -->
-    <section id="screen-slicer-events">
-      <div class="card">
-        <div style="display:flex;flex-wrap:wrap;gap:28px;">
-          <!-- top row: rhythm (speed×depth) and notify -->
-          <div style="flex:2;min-width:300px;display:flex;gap:20px;flex-wrap:wrap;">
-            <div class="rhythm-box" style="flex:1;">
-              <div class="badge">5. Twój rytm</div>
-              <div class="underline"><h2>Wybierz swój rytm (speed × depth)</h2></div>
-              <p>Twoje ustawienie łączy tempo i głębię. Im bliżej skrajów, tym bardziej dopasowana sesja — zobacz rekomendacje poniżej.</p>
-              <div>
-                <input type="range" id="rhythmSlider" class="rhythm-slider" min="0" max="100" value="50" aria-label="Rytm"/>
-                <div class="rhythm-labels">
-                  <div>Tempo ⚡</div>
-                  <div>Zrównoważone</div>
-                  <div>Głębia 🌳</div>
-                </div>
-                <div style="margin-top:6px;font-weight:600;">Aktualnie: <span id="rhythmLabel">Zrównoważone</span></div>
-              </div>
-              <div style="margin-top:8px;font-size:.85em;">Wybór wpływa na to, które wydarzenia są podkreślone.</div>
-            </div>
-            <div class="rhythm-box" style="flex:1;min-width:260px;">
-              <div class="badge">Nie przegap</div>
-              <div class="underline"><h2>Powiadom mnie</h2></div>
-              <p>Zostaw email — przypomnimy o nowych sesjach, dasz sobie priorytetowy dostęp i dostaniesz krótkie refleksje.</p>
-              <div style="display:flex;gap:14px;flex-wrap:wrap;align-items:center;">
-                <input type="email" id="notifyEmail" class="input" placeholder="Twój email" aria-label="Email powiadomień" />
-                <button class="btn btn-primary" id="notifyBtn">Powiadom mnie</button>
-              </div>
-              <div class="rodo">RODO: bez sprzedaży danych. Możesz zrezygnować.</div>
-            </div>
-          </div>
-        </div>
-        <!-- bottom: events -->
-        <div style="margin-top:12px;">
-          <div class="badge">Sesje</div>
-          <div class="underline"><h2>Nadchodzące wydarzenia</h2></div>
-          <p>Po oddechu, refleksji i ustawieniu rytmu — wybierz sesję dopasowaną do Ciebie. Sugerujemy na podstawie Twojego wyboru.</p>
-          <div class="event-grid" id="events">
-            <div class="event" data-reco="deep">
-              <div class="tag">5 sierpnia</div>
-              <div class="event-title">Prawdziwe rozmowy</div>
-              <div class="event-meta">Warszawa · limit 12</div>
-              <p>Małe grupy, uważne ćwiczenia, naturalne połączenia.</p>
-              <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
-                <button class="btn btn-primary open-signup" data-event="Prawdziwe rozmowy">Zapisz się</button>
-                <div style="font-size:.7em;">Rekomendacja: głębia</div>
-              </div>
-            </div>
-            <div class="event" data-reco="balanced">
-              <div class="tag">12 sierpnia</div>
-              <div class="event-title">Głębia i tempo</div>
-              <div class="event-meta">Warszawa · limit 18</div>
-              <p>Balans między szybkim startem a relacją z sensem.</p>
-              <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
-                <button class="btn btn-primary open-signup" data-event="Głębia i tempo">Zapisz się</button>
-                <div style="font-size:.7em;">Hybrydowo</div>
-              </div>
-            </div>
-            <div class="event" data-reco="tempo">
-              <div class="tag">19 sierpnia</div>
-              <div class="event-title">Mikro-spotkania</div>
-              <div class="event-meta">Warszawa · limit 20</div>
-              <p>Szybki start i kontynuacja — poznaj kilku nowych ludzi.</p>
-              <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
-                <button class="btn btn-primary open-signup" data-event="Mikro-spotkania">Zapisz się</button>
-                <div style="font-size:.7em;">Tempo + jakość</div>
-              </div>
-            </div>
-            <div class="event" data-reco="deep">
-              <div class="tag">2 września</div>
-              <div class="event-title">Retreat: Autentyczna obecność</div>
-              <div class="event-meta">Warszawa · limit 10</div>
-              <p>Cały dzień offline: refleksja, relacje, obecność.</p>
-              <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
-                <button class="btn btn-primary open-signup" data-event="Retreat">Zapisz się</button>
-                <div style="font-size:.7em;">Tempo przemyślane</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
+        <article class="cut">
+          <p>Organizujemy regularne i okazjonalne sesje, które łączą przemyślane gry oraz ćwiczenia z elementami pracy grupowej, pozwalając uczestnikom poznawać siebie i innych na głębszym poziomie — bez presji i sztuczności. Mamy pomysły na nowe, ciekawe formy spotkań – warszaty, zajęcia z dramy oraz doświadczenia wyjazdowe.</p>
 
-    <!-- 6. Email + Event signup -->
-    <section id="screen-signup">
-      <div class="card">
-        <div style="display:flex;gap:32px;flex-wrap:wrap;">
-          <div style="flex:1;min-width:260px;">
-            <div class="underline"><h2>Zostaw email</h2></div>
-            <p>Chcesz być informowany? Daj znać — dostaniesz przypomnienia, priorytetowy dostęp i krótkie follow-upy.</p>
-            <div style="display:flex;gap:14px;flex-wrap:wrap;align-items:center;">
-              <input type="email" id="captureEmail" class="input" placeholder="Twój email" aria-label="Email" />
-              <button class="btn btn-primary" id="captureBtn">Zapisz się</button>
-            </div>
-            <div class="rodo">RODO: tylko powiadomienia, bez sprzedaży danych.</div>
+          <div class="expander" onclick="toggleExpand(this)" aria-label="Pokaż więcej">
+            <svg width="16" height="16" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2"/></svg>
           </div>
-          <div style="flex:1;min-width:260px;" id="eventSignup">
-            <div class="badge" id="selectedEventTag">Zapisz się</div>
-            <div class="underline"><h2 id="selectedEventTitle">Wybierz wydarzenie</h2></div>
-            <p id="selectedEventDesc">Podaj email i telefon, potwierdź zgodę RODO — potwierdzimy miejsce i przypomnimy.</p>
-            <div style="display:flex;gap:14px;flex-wrap:wrap;align-items:center;">
-              <input type="email" id="eventEmail" class="input" placeholder="Email" aria-label="Email wydarzenia" />
-              <input type="tel" id="eventPhone" class="input" placeholder="Telefon" aria-label="Telefon" style="max-width:160px;" />
-            </div>
-            <div style="margin-top:10px;">
-              <label style="display:flex;gap:8px;align-items:center;"><input type="checkbox" id="consentEvent" /> Akceptuję przetwarzanie danych zgodnie z RODO.</label>
-            </div>
-            <div style="margin-top:14px;">
-              <button class="btn btn-primary" id="submitEvent">Dołącz</button>
-            </div>
-            <div id="signupFeedback" style="margin-top:8px;font-weight:600;"></div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Final summary -->
-    <section id="screen-final">
-      <div class="card">
-        <div class="final">
-          <div class="cta-box">
-            <div class="underline"><h2>Zostań w kontakcie</h2></div>
-            <p>Otrzymuj przypomnienia, refleksje i zaproszenia. Dostosujemy rytm do Ciebie.</p>
-            <div style="display:flex;gap:14px;flex-wrap:wrap;align-items:center;">
-              <input type="email" id="finalEmail" class="input" placeholder="Twój email" aria-label="Email końcowy" />
-              <button class="btn btn-primary" id="finalSign">Zapisz</button>
-            </div>
-            <div class="rodo">RODO: tylko to, na co się zgadzasz.</div>
-          </div>
-          <div class="cta-box">
-            <div class="badge">W skrócie</div>
-            <div class="underline"><h2>Dlaczego warto</h2></div>
-            <ul style="padding-left:18px;margin:6px 0;">
-              <li>Kameralne sesje w Warszawie</li>
-              <li>Facylitacja oparta na psychologii</li>
-              <li>Rytuały obecności + refleksja</li>
-              <li>Autentyczne relacje</li>
+          <div class="expand">
+            <p>Dzięki InTouch Collective uczestnicy budują prawdziwe relacje, rozwijają świadomość siebie i znajdują wartościową alternatywę dla cyfrowej samotności. Wyróżnia nas:</p>
+            <ul style="margin:6px 0 0 18px">
+              <li>Autorskie, starannie dopasowane gry i ćwiczenia oparte na współczesnej wiedzy psychologicznej, ale bez nadęcia</li>
+              <li>Bezpieczne, uważne środowisko. Koncentracja na facylitacji prawdziwego kontaktu w świecie zdominowanym przez powierzchowne interakcje.</li>
             </ul>
           </div>
+        </article>
+      </div>
+
+      <div class="flow-note">Zapraszamy na nasze bezpłatne spotkania casualowe odbywające się regularne w Warszawie. Zapisz się w kalendarzu poniżej.</div>
+    </section>
+
+    <!-- EVENTS -->
+    <section class="block events" id="events">
+      <div class="events-head">
+        <div>
+          <div style="font-size:.9rem; color:var(--teal); text-transform:uppercase; letter-spacing:.08em">Kalendarz</div>
+          <div style="font-weight:700; margin-top:6px">Najbliższe wydarzenia</div>
+        </div>
+        <input id="search" class="events-search" placeholder="Szukaj..." oninput="filterEvents()">
+      </div>
+
+      <!-- full-card clickable with shimmer hint -->
+      <div class="event-card" data-name="Połączenia" data-id="ev1" onclick="openEvent('ev1')">
+        <div class="shimmer" aria-hidden="true"></div>
+        <div style="font-weight:700">Spotkanie regularne: Połączenia</div>
+        <div class="meta">3 września • Warszawa | Pole Mokokotowskie • 19:00–21:00</div>
+        <div class="event-actions">
+          <button class="btn" onclick="event.stopPropagation(); openSignup('ev1')">Zapisz się</button>
+          <button class="btn ghost" onclick="event.stopPropagation(); openEvent('ev1')">Szczegóły</button>
+        </div>
+      </div>
+
+      <div class="event-card" data-name="Połączenia" data-id="ev2" onclick="openEvent('ev2')">
+        <div class="shimmer" aria-hidden="true"></div>
+        <div style="font-weight:700">Spotkanie regularne: Połączenia</div>
+        <div class="meta">10 września • Warszawa | Cafe in Środmiescie • 19:00–21:00</div>
+        <div class="event-actions">
+          <button class="btn" onclick="event.stopPropagation(); openSignup('ev2')">Zapisz się</button>
+          <button class="btn ghost" onclick="event.stopPropagation(); openEvent('ev2')">Szczegóły</button>
         </div>
       </div>
     </section>
 
+    <!-- SUBTLE INVITE -->
+    <section class="block invite" id="invite">
+      <div style="margin:10px 0 8px">Chcesz delikatne przypomnienia o kolejnych spotkaniach?</div>
+      <div class="linklike" onclick="openEmail()">Zostaw email (subtelna lista)</div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+      <div class="tiny">
+        <a href="https://instagram.com/" target="_blank" aria-label="Instagram">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+        </a>
+        <a href="mailto:milosz@intouchcollective.pl" aria-label="Email">
+          <svg width="16" height="16" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="1.6"><path d="M4 4h16v16H4z"/><path d="M22 6l-10 7L2 6"/></svg>
+        </a>
+      </div>
+      <a id="rodo" href="#rodo" style="text-decoration:none;color:inherit">RODO</a>
+    </footer>
+  </main>
+
+  <!-- MENU OVERLAY -->
+  <div class="overlay" id="menu" role="dialog" aria-modal="true">
+    <div class="panel">
+      <button class="close" onclick="document.getElementById('menu').style.display='none'">×</button>
+      <h3>Nawigacja</h3>
+      <ul style="margin:8px 0 0 18px">
+        <li><a href="#hero" onclick="document.getElementById('menu').style.display='none'">Początek</a></li>
+        <li><a href="#part1" onclick="document.getElementById('menu').style.display='none'">O co chodzi</a></li>
+        <li><a href="#part2" onclick="document.getElementById('menu').style.display='none'">Kim jesteśmy</a></li>
+        <li><a href="#events" onclick="document.getElementById('menu').style.display='none'">Wydarzenia</a></li>
+        <li><a href="#invite" onclick="document.getElementById('menu').style.display='none'">Zapis do listy</a></li>
+      </ul>
+    </div>
   </div>
 
-  <script>
-    // Scroll-linked pager (unchanged)
-    const nodes = Array.from(document.querySelectorAll('.node'));
-    const sections = [
-      document.getElementById('screen-breath'),
-      document.getElementById('screen-about'),
-      document.getElementById('screen-reflect'),
-      document.getElementById('screen-why'),
-      document.getElementById('screen-slicer-events'),
-      document.getElementById('screen-signup'),
-      document.getElementById('screen-final')
-    ];
-    function updateActiveNode(){
-      const scrollPos = window.scrollY + window.innerHeight/3;
-      sections.forEach((sec,i)=>{
-        const top = sec.offsetTop;
-        if(scrollPos >= top){
-          nodes.forEach(n=>n.classList.remove('active'));
-          if(nodes[i]) nodes[i].classList.add('active');
-        }
-      });
-    }
-    window.addEventListener('scroll', updateActiveNode);
-    nodes.forEach((n,idx)=>{
-      n.addEventListener('click', ()=>{
-        sections[idx].scrollIntoView({behavior:'smooth', block:'start'});
-      });
-    });
-    updateActiveNode();
+  <!-- EMAIL OVERLAY -->
+  <div class="overlay" id="emailOverlay" role="dialog" aria-modal="true">
+    <div class="panel">
+      <button class="close" onclick="document.getElementById('emailOverlay').style.display='none'">×</button>
+      <h3>Zostaw email</h3>
+      <p>Wyślemy subtelne przypomnienia o kolejnych spotkaniach.</p>
+      <form onsubmit="submitEmail(event)">
+        <input id="notifyEmail" type="email" placeholder="Twój email" required>
+        <label class="consent">
+          <input type="checkbox" id="notifyConsent" required>
+          <span>Zgoda na przetwarzanie danych (RODO).</span>
+        </label>
+        <button class="btn" type="submit">Zapisz mnie</button>
+      </form>
+      <div class="success" id="notifySuccess">Dzięki! Będziemy przypominać.</div>
+    </div>
+  </div>
 
-    // Breathing 4x7x8 logic with start/stop toggle, timer inside circle, dynamic background
-    const startBtn = document.getElementById('startBreathBtn');
-    const verbalText = document.getElementById('verbalText');
-    const circle = document.getElementById('circleControl');
-    const circleInner = document.getElementById('circleInner');
-    const phaseLabel = document.getElementById('phaseLabel');
-    const timerLabel = document.getElementById('timerLabel');
-    const cycleCount = document.getElementById('cycleCount');
-    const progressDots = Array.from(document.querySelectorAll('.dot'));
-    const cycleLabelText = document.getElementById('cycleLabel');
-    const exploreHint = document.getElementById('exploreHint');
-    const toggleSoundBtn = document.getElementById('toggleSound');
-    let soundOn = true;
-    let breathingActive = false;
-    let abortController = {stop:false};
-    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    function playTone(freq,dur){
-      if(!soundOn) return;
-      const osc = audioCtx.createOscillator();
-      const gain = audioCtx.createGain();
-      osc.type='sine'; osc.frequency.value=freq;
-      osc.connect(gain); gain.connect(audioCtx.destination);
-      gain.gain.setValueAtTime(0, audioCtx.currentTime);
-      gain.gain.linearRampToValueAtTime(0.08, audioCtx.currentTime + 0.02);
-      osc.start();
-      gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + dur);
-      setTimeout(()=>osc.stop(), dur*1000 + 50);
-    }
-    function interpolate(a,b,t){
-      const ah=parseInt(a.slice(1),16), bh=parseInt(b.slice(1),16);
-      const ar=ah>>16, ag=(ah>>8)&255, ab=ah&255;
-      const br=bh>>16, bg=(bh>>8)&255, bb=bh&255;
-      const rr=Math.round(ar + (br-ar)*t).toString(16).padStart(2,'0');
-      const rg=Math.round(ag + (bg-ag)*t).toString(16).padStart(2,'0');
-      const rb=Math.round(ab + (bb-ab)*t).toString(16).padStart(2,'0');
-      return `#${rr}${rg}${rb}`;
-    }
-    function setBackground(phase,progress){
-      let gradient;
-      if(phase==='inhale'){
-        gradient = `linear-gradient(135deg, ${interpolate('#dce9fb','#ffffff', progress)} 0%, ${interpolate('#f0ebe2','#ffffff', progress)} 85%)`;
-      } else if(phase==='hold'){
-        gradient = `linear-gradient(135deg, ${interpolate('#ffffff','#f0ebe2', progress)} 0%, ${interpolate('#ffffff','#e6ddcf', progress)} 85%)`;
-      } else {
-        gradient = `linear-gradient(135deg, ${interpolate('#f0ebe2','#e6ddcf', progress)} 0%, ${interpolate('#efe7dd','#e6ddcf', progress)} 85%)`;
-      }
-      document.body.style.background = gradient;
-    }
-    async function runBreathing(){
-      breathingActive = true;
-      startBtn.textContent='Stop';
-      phaseLabel.textContent='Wdech';
-      verbalText.textContent='Wdech';
-      let cycles=0;
-      cycleLabelText.textContent = `0 / 3`;
-      cycleCount.textContent = `0/3`;
-      progressDots.forEach(d=>d.classList.remove('active'));
-      abortController.stop=false;
-      for(; cycles<3; ){
-        let remaining=4;
-        phaseLabel.textContent='Wdech';
-        verbalText.textContent='Wdech';
-        circleInner.style.transform='scale(1.2)';
-        if(soundOn) playTone(260,4);
-        while(remaining>0){
-          if(abortController.stop) return resetBreathing();
-          timerLabel.textContent=remaining;
-          setBackground('inhale', (4-remaining)/4);
-          await new Promise(r=>setTimeout(r,1000));
-          remaining--;
-        }
-        remaining=7;
-        phaseLabel.textContent='Wstrzymaj';
-        verbalText.textContent='Wstrzymaj';
-        circleInner.style.transform='scale(1)';
-        if(soundOn) playTone(320,0.2);
-        while(remaining>0){
-          if(abortController.stop) return resetBreathing();
-          timerLabel.textContent=remaining;
-          setBackground('hold', (7-remaining)/7);
-          await new Promise(r=>setTimeout(r,1000));
-          remaining--;
-        }
-        remaining=8;
-        phaseLabel.textContent='Wydech';
-        verbalText.textContent='Wydech';
-        circleInner.style.transform='scale(.85)';
-        if(soundOn) playTone(180,8);
-        while(remaining>0){
-          if(abortController.stop) return resetBreathing();
-          timerLabel.textContent=remaining;
-          setBackground('exhale', (8-remaining)/8);
-          await new Promise(r=>setTimeout(r,1000));
-          remaining--;
-        }
-        cycles++;
-        cycleLabelText.textContent = `${cycles} / 3`;
-        cycleCount.textContent = `${cycles}/3`;
-        progressDots.forEach(d=>{
-          const idx = Number(d.dataset.cycle);
-          d.classList.toggle('active', idx <= cycles);
-        });
-      }
-      phaseLabel.textContent='Gotowe';
-      verbalText.textContent='✓';
-      timerLabel.textContent='✓';
-      circleInner.style.transform='scale(1)';
-      startBtn.textContent='Rozpocznij';
-      breathingActive=false;
-      setTimeout(()=>{ exploreHint.style.opacity='0'; }, 600);
-    }
-    function resetBreathing(){
-      breathingActive=false;
-      startBtn.textContent='Rozpocznij';
-      phaseLabel.textContent='Start';
-      verbalText.textContent='Gotowy';
-      timerLabel.textContent='—';
-      cycleLabelText.textContent='0 / 3';
-      cycleCount.textContent='0/3';
-      progressDots.forEach(d=>d.classList.remove('active'));
-      document.body.style.background = `linear-gradient(135deg,var(--bg-start) 0%,var(--bg-end) 90%)`;
-    }
-    startBtn.addEventListener('click', ()=>{
-      if(breathingActive){
-        abortController.stop=true;
-      } else {
-        runBreathing();
-      }
-    });
-    circle.addEventListener('click',(e)=>{
-      if(breathingActive){
-        abortController.stop=true;
-      } else {
-        runBreathing();
-      }
-    });
-    toggleSoundBtn.addEventListener('click', ()=>{
-      soundOn=!soundOn;
-      toggleSoundBtn.textContent = `Dźwięk: ${soundOn? 'ON':'OFF'}`;
-    });
+  <!-- EVENT DETAILS OVERLAY -->
+  <div class="overlay" id="eventOverlay" role="dialog" aria-modal="true">
+    <div class="panel">
+      <button class="close" onclick="closeEvent()">×</button>
+      <h3 id="eventTitle">Wydarzenie</h3>
+      <p id="eventDesc" style="margin:.4rem 0 0">Krótki opis i przebieg spotkania: wstępne gry, rozmowy w parach, runda integracyjna, część pogłębiona — wszystko w kameralnej, bezpiecznej formie. Adres wysyłamy po zapisie.</p>
+      <div style="display:flex; gap:8px; margin-top:12px">
+        <button class="btn ghost" onclick="closeEvent()">Wróć</button>
+        <button class="btn" id="signupFromDetails">Zapisz się</button>
+      </div>
+    </div>
+  </div>
 
-    // Reflection buttons (unchanged)
-    document.querySelectorAll('.reflection-btn').forEach(btn=>{
-      btn.addEventListener('click', ()=>{
-        document.querySelectorAll('.reflection-btn').forEach(b=>b.classList.remove('active'));
-        btn.classList.add('active');
-        const key=btn.dataset.key;
-        const output=document.getElementById('reflectionResult');
-        if(key==='superficial'){
-          output.textContent='Czujesz, że relacje zostają na powierzchni — spróbuj jednej szczerej rozmowy zamiast wielu przypadkowych.';
-          document.getElementById('reflectIcon').textContent='🤏';
-        } else if(key==='distance'){
-          output.textContent='Dystans? Zaproś jedną osobę na krótki kontakt bez oczekiwań.';
-          document.getElementById('reflectIcon').textContent='↔️';
-        } else if(key==='fear'){
-          output.textContent='Strach? Zacznij od obecności: bądź obok, potem zapytaj „Co u Ciebie?”.';
-          document.getElementById('reflectIcon').textContent='🛡️';
-        }
-      });
-    });
+  <!-- EVENT SIGNUP OVERLAY -->
+  <div class="overlay" id="signupOverlay" role="dialog" aria-modal="true">
+    <div class="panel">
+      <button class="close" onclick="closeSignup()">×</button>
+      <h3>Zapisz się na wydarzenie</h3>
+      <div id="signupEventLabel" style="font-weight:700; margin-top:2px"></div>
+      <form onsubmit="submitSignup(event)">
+        <input id="evEmail" type="email" placeholder="Email" required>
+        <input id="evPhone" type="tel" placeholder="Telefon" required>
+        <label class="consent">
+          <input type="checkbox" id="evConsent" required>
+          <span>Zgoda na przetwarzanie danych (RODO).</span>
+        </label>
+        <button class="btn" type="submit">Dołącz</button>
+      </form>
+      <div class="success" id="evSuccess">Jesteś zapisany. Teraz możesz dodać wydarzenie do kalendarza.</div>
+      <div class="ics-area" id="icsArea">
+        <button class="btn ghost" id="dlIcs">Pobierz plik .ics</button>
+      </div>
+    </div>
+  </div>
 
-    // Rhythm slider logic + event highlighting
-    const rhythmSlider = document.getElementById('rhythmSlider');
-    const rhythmLabel = document.getElementById('rhythmLabel');
-    rhythmSlider.addEventListener('input', ()=>{
-      const v = Number(rhythmSlider.value)/100;
-      if(v < 0.35) rhythmLabel.textContent='Tempo';
-      else if(v > 0.65) rhythmLabel.textContent='Głębia';
-      else rhythmLabel.textContent='Zrównoważone';
-      document.querySelectorAll('.event').forEach(ev=>{
-        const reco = ev.dataset.reco;
-        ev.style.opacity='1';
-        if(v < 0.35){
-          if(reco==='deep') ev.style.opacity='0.5';
-        } else if(v > 0.65){
-          if(reco==='tempo') ev.style.opacity='0.5';
-        }
-      });
-    });
+<script>
+  /* ===== Scroll-driven hero dissolve & bg dark/blur ===== */
+  const root=document.documentElement;
+  function setProgress(){
+    const vh=window.innerHeight;
+    const y=Math.min(Math.max(window.scrollY,0), vh);
+    const p=y/vh;               // 0..1
+    root.style.setProperty('--p', p.toFixed(3));
+  }
+  setProgress();
+  addEventListener('scroll', setProgress, {passive:true});
+  addEventListener('resize', setProgress);
 
-    // Email/signup flows
-    document.getElementById('notifyBtn')?.addEventListener('click', ()=>{
-      const e=document.getElementById('notifyEmail').value.trim();
-      if(!e.includes('@')){ alert('Podaj poprawny email'); return;}
-      document.getElementById('notifyBtn').textContent='✅ Dziękujemy';
+  /* ===== Lightbox for Part 1 gallery ===== */
+  const thumbs=[...document.querySelectorAll('.gallery .thumb img')];
+  const lb=document.getElementById('lightbox');
+  const lbImg=document.getElementById('lbImage');
+  const lbThumbs=document.getElementById('lbThumbs');
+  let lbIndex=0;
+
+  function openLB(idx){
+    lbIndex=idx;
+    lbImg.src=thumbs[lbIndex].src;
+    lbThumbs.innerHTML="";
+    thumbs.forEach((t,i)=>{
+      const im=document.createElement('img'); im.src=t.src;
+      if(i===lbIndex) im.classList.add('active');
+      im.onclick=()=>{lbIndex=i; lbImg.src=thumbs[i].src; [...lbThumbs.children].forEach(c=>c.classList.remove('active')); im.classList.add('active');};
+      lbThumbs.appendChild(im);
     });
-    document.getElementById('captureBtn')?.addEventListener('click', ()=>{
-      const e=document.getElementById('captureEmail').value.trim();
-      if(!e.includes('@')){ alert('Podaj poprawny email'); return;}
-      document.getElementById('captureBtn').textContent='OK ✓';
+    lb.style.display='grid';
+  }
+  function closeLB(){ lb.style.display='none'; }
+  thumbs.forEach((t,i)=> t.parentElement.addEventListener('click',()=>openLB(i)));
+  lb.addEventListener('click',(e)=>{ if(e.target===lb) closeLB(); });
+  addEventListener('keydown',(e)=>{ if(lb.style.display==='grid'){ if(e.key==='Escape') closeLB(); if(e.key==='ArrowRight'){lbIndex=(lbIndex+1)%thumbs.length; lbImg.src=thumbs[lbIndex].src; lbThumbs.children[lbIndex].classList.add('active'); [...lbThumbs.children].forEach((c,j)=>{if(j!==lbIndex)c.classList.remove('active');}); } if(e.key==='ArrowLeft'){lbIndex=(lbIndex-1+thumbs.length)%thumbs.length; lbImg.src=thumbs[lbIndex].src; lbThumbs.children[lbIndex].classList.add('active'); [...lbThumbs.children].forEach((c,j)=>{if(j!==lbIndex)c.classList.remove('active');}); } }});
+
+  /* ===== Subtle expanders (arrow only) ===== */
+  function toggleExpand(btn){
+    const body=btn.nextElementSibling;
+    body.classList.toggle('open');
+  }
+
+  /* ===== Events Data (updated) ===== */
+  const EVENTS={
+    ev1:{title:'Spotkanie regularne: Połączenia', start:'2025-09-03T19:00:00', end:'2025-09-03T21:00:00', location:'Warszawa | Pole Mokokotowskie'},
+    ev2:{title:'Spotkanie regularne: Połączenia', start:'2025-09-10T19:00:00', end:'2025-09-10T21:00:00', location:'Warszawa | Cafe in Środmiescie'}
+  };
+  let currentId=null;
+
+  /* ===== Search filter ===== */
+  function filterEvents(){
+    const q=document.getElementById('search').value.toLowerCase();
+    document.querySelectorAll('.event-card').forEach(c=>{
+      c.style.display=c.dataset.name.toLowerCase().includes(q)?'block':'none';
     });
-    let selectedEvent='';
-    document.querySelectorAll('.open-signup').forEach(b=>{
-      b.addEventListener('click', ()=>{
-        selectedEvent = b.dataset.event;
-        document.getElementById('selectedEventTitle').textContent=selectedEvent;
-        document.getElementById('selectedEventTag').textContent='Zapisz się: ' + selectedEvent;
-        document.getElementById('selectedEventDesc').textContent='Podaj email i telefon, potwierdź RODO – potwierdzimy miejsce.';
-        document.getElementById('screen-signup')?.scrollIntoView({behavior:'smooth'});
+  }
+
+  /* ===== Event details modal ===== */
+  function openEvent(id){
+    currentId=id;
+    document.getElementById('eventTitle').textContent=EVENTS[id].title;
+    document.getElementById('eventOverlay').style.display='flex';
+    const btn=document.getElementById('signupFromDetails');
+    btn.onclick=()=>{ document.getElementById('eventOverlay').style.display='none'; openSignup(id); };
+  }
+  function closeEvent(){ document.getElementById('eventOverlay').style.display='none'; }
+
+  /* ===== Email overlay ===== */
+  function openEmail(){ document.getElementById('emailOverlay').style.display='flex'; }
+  function submitEmail(e){
+    e.preventDefault();
+    const mail=document.getElementById('notifyEmail').value.trim();
+    if(!mail || !document.getElementById('notifyConsent').checked) return;
+    sessionStorage.setItem('collectiv_email', mail);
+    document.getElementById('notifySuccess').style.display='block';
+    setTimeout(()=>document.getElementById('emailOverlay').style.display='none', 1100);
+  }
+
+  /* ===== Signup flow + ICS gating ===== */
+  function openSignup(id){
+    currentId=id;
+    document.getElementById('signupEventLabel').textContent=EVENTS[id].title;
+    const stored=sessionStorage.getItem('collectiv_email');
+    if(stored) document.getElementById('evEmail').value=stored;
+    document.getElementById('evSuccess').style.display='none';
+    document.getElementById('icsArea').style.display='none';
+    document.getElementById('signupOverlay').style.display='flex';
+  }
+  function closeSignup(){ document.getElementById('signupOverlay').style.display='none'; }
+
+  function submitSignup(e){
+    e.preventDefault();
+    const email=document.getElementById('evEmail').value.trim();
+    const phone=document.getElementById('evPhone').value.trim();
+    if(!email || !phone || !document.getElementById('evConsent').checked) return;
+    sessionStorage.setItem('collectiv_email', email);
+    document.getElementById('evSuccess').style.display='block';
+    const dl=document.getElementById('dlIcs');
+    dl.onclick=()=>downloadICS(currentId);
+    document.getElementById('icsArea').style.display='block';
+  }
+
+  function downloadICS(id){
+    const e=EVENTS[id];
+    function fmt(s){ const d=new Date(s); return d.toISOString().replace(/[-:]/g,'').replace(/\.\d{3}Z$/,'Z'); }
+    const ics=`BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//InTouch Collective//Meetup//PL
+BEGIN:VEVENT
+UID:${id}@intouchcollective
+DTSTAMP:${fmt(new Date().toISOString())}
+DTSTART:${fmt(e.start)}
+DTEND:${fmt(e.end)}
+SUMMARY:${e.title}
+LOCATION:${e.location}
+DESCRIPTION:InTouch Collective — autentyczne relacje offline
+END:VEVENT
+END:VCALENDAR`.replace(/\n/g,"\r\n");
+    const blob=new Blob([ics],{type:'text/calendar;charset=utf-8'});
+    const url=URL.createObjectURL(blob);
+    const a=document.createElement('a');
+    a.href=url; a.download=`${e.title}.ics`;
+    document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
+  }
+
+  /* ===== ESC closes overlays ===== */
+  addEventListener('keydown',e=>{
+    if(e.key==='Escape'){
+      ['menu','emailOverlay','eventOverlay','signupOverlay'].forEach(id=>{
+        const el=document.getElementById(id);
+        if(el && el.style.display==='flex') el.style.display='none';
       });
-    });
-    document.getElementById('submitEvent')?.addEventListener('click', ()=>{
-      const email=document.getElementById('eventEmail').value.trim();
-      const phone=document.getElementById('eventPhone').value.trim();
-      const consent=document.getElementById('consentEvent').checked;
-      const feedback=document.getElementById('signupFeedback');
-      if(!email.includes('@')||!phone){ feedback.textContent='Uzupełnij email i telefon.'; return; }
-      if(!consent){ feedback.textContent='Zaznacz zgodę RODO.'; return; }
-      feedback.textContent=`Zapisane na "${selectedEvent}". Sprawdzimy szczegóły w wiadomości.`; 
-      document.getElementById('submitEvent').textContent='✔ Gotowe';
-    });
-    document.getElementById('finalSign')?.addEventListener('click', ()=>{
-      const e=document.getElementById('finalEmail').value.trim();
-      if(!e.includes('@')||!e){ alert('Podaj email'); return; }
-      document.getElementById('finalSign').textContent='Zapisane ✓';
-    });
-  </script>
+    }
+  });
+</script>
 </body>
 </html>
-```

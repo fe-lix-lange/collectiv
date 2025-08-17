@@ -1,0 +1,37 @@
+name: Deploy to home.pl (FTPS)
+
+on:
+  push:
+    branches: [ "main" ]   # zmień jeśli używasz innej gałęzi
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # Jeśli budujesz (np. Vite/React), odkomentuj:
+      # - name: Setup Node
+      #   uses: actions/setup-node@v4
+      #   with: { node-version: '20' }
+      # - run: npm ci && npm run build
+      # i ustaw local-dir na ./dist lub ./build
+
+      - name: Deploy via FTPS
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          protocol: ftps
+          port: 21
+          local-dir: ./            # zmień na ./dist lub ./build jeśli budujesz
+          server-dir: ${{ secrets.FTP_REMOTE_DIR }}
+          dangerous-clean-slate: false
+          exclude: |
+            **/.git*
+            **/.github*
+            **/node_modules/**
+            **/.env*
+            **/*.map
